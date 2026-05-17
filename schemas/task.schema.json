@@ -1,0 +1,29 @@
+{
+  "type": "array",
+  "required_item_fields": [
+    "id",
+    "sprint",
+    "lane",
+    "priority",
+    "title",
+    "problem",
+    "cause",
+    "why_from_answers",
+    "minimum_version",
+    "full_version",
+    "best_model",
+    "fallback_model",
+    "asset_id",
+    "prompt_file",
+    "human_first_action",
+    "output",
+    "success_test",
+    "kill_rule",
+    "friday_review_question",
+    "privacy_warning",
+    "time",
+    "energy",
+    "complexity",
+    "best_time"
+  ]
+}

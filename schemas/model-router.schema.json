@@ -1,0 +1,16 @@
+{
+  "type": "array",
+  "required_item_fields": [
+    "id",
+    "tool",
+    "category",
+    "best_for",
+    "use_when",
+    "avoid",
+    "fallback",
+    "confidence",
+    "last_verified",
+    "review_interval_days",
+    "source_urls"
+  ]
+}

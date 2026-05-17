@@ -1,0 +1,10 @@
+{
+  "type": "array",
+  "required_item_fields": [
+    "id",
+    "name",
+    "weeks",
+    "focus",
+    "rule"
+  ]
+}
