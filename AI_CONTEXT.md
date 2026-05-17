@@ -80,3 +80,15 @@ Then:
 5. Claude Code, Cursor or developer support only when requirements are stable.
 
 No workflow earns automation until it is useful manually.
+
+## Reusable output rule
+
+Do not treat roadmap tasks as isolated notes. If a task produces a reusable artifact, route it into the next relevant system:
+
+- scheduled task if recurring and time-based
+- Claude Cowork if file, folder, document or Microsoft 365 context is needed
+- live artifact if an interactive tracker, checklist, scorecard or prompt runner is useful
+- automation only after the manual workflow has worked at least twice
+- future roadmap task if it needs human judgement before automation
+
+The Reclaim Leadership Time at NEXT.io task is the source layer for future delegation, accountability, scheduled task, live artifact and automation builds.

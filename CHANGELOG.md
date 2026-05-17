@@ -15,3 +15,10 @@ Files touched:
 - `AI_CONTEXT.md`
 
 Rollback note: restore the previous upgraded repo if tabbed browsing is required again.
+
+## Leadership time reclaim linkage
+
+- Reframed the Stop Doing task as Reclaim Leadership Time at NEXT.io.
+- Added downstream outputs so the task feeds scheduled tasks, Claude Cowork workflows, live artifacts, automations and future roadmap tasks.
+- Added a reusable Leadership Time Reclaim Register template.
+- Added future-build routing rules to prevent dead-end notes and premature automation.
