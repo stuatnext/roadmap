@@ -2,17 +2,34 @@
 
 A private, GitHub-ready roadmap app for Stuart Crowley.
 
-This is a single-task execution system. It is not a dashboard, prompt library, or generic personal productivity tool.
+This is a single-task execution system. It is not a dashboard, prompt dump, or generic personal productivity tool.
 
 ## How to use
 
 1. Open `index.html` through GitHub Pages or a local server.
 2. Leave scope as `All sprints`, or choose one sprint if you need focus.
 3. Complete the task shown on screen.
-4. Follow the steps in order: human-first action, asset, model, prompt, output, success test.
-5. Mark the task complete, park it, or kill it.
-6. The next task appears automatically.
-7. Use the review export when you want to check progress or choose what to repeat.
+4. Follow the steps in order: human-first action, asset, model, prompt sequence, output, success test.
+5. Run the prompt sequence one prompt at a time. Do not paste the full prompt file into an LLM.
+6. Save useful outputs in the task notes.
+7. Mark the task complete, park it, or kill it.
+8. The next task appears automatically.
+9. Use the review export when you want to check progress or choose what to repeat.
+
+## Prompt sequence rule
+
+Each task prompt file is now a sequence.
+
+Run:
+
+1. capture
+2. diagnose
+3. build the output
+4. extract reusable outputs
+5. take action
+6. review and feed forward
+
+Some tasks include extra prompts for scheduled tasks, Claude Cowork workflows, live artifacts, or automation specs.
 
 ## Local preview
 
@@ -31,7 +48,7 @@ Then open `http://localhost:8000`.
 
 ## Core rule
 
-One roadmap. One current task. No orphan systems.
+One roadmap. One current task. One prompt step at a time.
 
 ## Privacy
 

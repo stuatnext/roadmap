@@ -1,6 +1,6 @@
 # AI Context for Stuart One Roadmap
 
-This repo is Stuart Crowley’s single-task execution roadmap. It exists to remove ambiguity and stop the roadmap becoming another set of fragmented tabs.
+This repo is Stuart Crowley’s single-task execution roadmap. It exists to remove ambiguity and stop the roadmap becoming another set of fragmented tabs, dashboards, or prompt dumps.
 
 ## What this is
 
@@ -33,12 +33,29 @@ Each task must guide Stuart through:
 3. the human-first action
 4. the asset to open
 5. the model or tool to use
-6. the prompt to run
+6. the prompt sequence to run
 7. the expected output
 8. the success test
 9. the complete, park, or kill decision
 
 When one task is marked complete, parked, or killed, the next task should appear automatically.
+
+## Prompt file rule
+
+Every prompt file should be a sequence, not one giant prompt.
+
+Preferred structure:
+
+1. Prompt 1: Capture the raw situation
+2. Prompt 2: Diagnose and prioritise
+3. Prompt 3: Build the task output
+4. Prompt 4: Extract reusable outputs
+5. Prompt 5: Create the action script or implementation steps
+6. Prompt 6: Review and feed forward
+
+Use task-specific extra prompts only when needed, for example scheduled task prompts, live artifact specs, Claude Cowork workflow specs, or automation specs.
+
+Do not paste an entire prompt file into an LLM unless the user specifically wants a full task brief.
 
 ## Rules for any AI editing this repo
 
@@ -52,6 +69,8 @@ When one task is marked complete, parked, or killed, the next task should appear
 8. Do not suggest a website, dashboard, agent, prompt library or app without checking existing assets first.
 9. Use simple language.
 10. Respect privacy rules for NEXT.io, CRM data, staff data, client data and compensation.
+11. Keep prompts small enough to run one at a time.
+12. Every useful output should feed a next action, scheduled task, artifact, automation spec, roadmap task, or kill decision.
 
 ## How tasks work
 
@@ -62,10 +81,11 @@ Each task should answer:
 - what to do first as a human
 - which model or tool to use
 - which asset pack to open
-- which prompt file to run
+- which prompt sequence to run
 - what output to produce
 - what proves it worked
 - when to kill it
+- what reusable outputs should feed later builds
 
 ## Build ladder
 
