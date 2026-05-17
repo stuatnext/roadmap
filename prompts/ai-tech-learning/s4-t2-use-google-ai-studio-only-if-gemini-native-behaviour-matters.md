@@ -1,55 +1,152 @@
 # Use Google AI Studio only if Gemini-native behaviour matters
 
-**Sprint:** Sprint 4: Manual AI Workflows
+This is a prompt sequence, not one giant prompt. Run one prompt at a time. Do not paste this whole file into an LLM unless you want a task brief.
 
-**Lane:** AI Prototyping
+**Best model:** Google AI Studio  
+**Fallback:** Claude Artifacts  
+**Asset to use:** LLM Control Hub
 
-**Use this model or tool:** Google AI Studio for Gemini prototype. ChatGPT Project for build or kill decision. Claude Artifacts if simple HTML is enough.
+**Task goal:** One tiny prototype concept, test result or kill decision.
 
-**Use this asset:** LLM Control Hub: ai-tool-evaluation, golden tests. Any workflow notes from Follow-Up System.
+**Success test:** One prototype tested or one clear kill decision.
 
-## Starter prompt
+**Privacy rule:** Use anonymised examples. Do not paste confidential personal data, client data, employee performance details, compensation data, emails, CRM exports or sensitive commercial information into any external tool unless approved and safe.
+
+---
+
+## Prompt 1: Capture the raw situation
 
 ```text
-I want to test whether Google AI Studio is useful for this workflow before building anything permanent.
+Use Google AI Studio. If this needs document tone, long writing, or Microsoft 365 context, use Claude Artifacts.
 
-Workflow: [describe workflow]
-Goal: [what this should help me do]
-Users: [me, NEXT.io team, SUG prospect, client, public audience]
-Inputs: [files, forms, CRM data, notes, text, voice, image, video]
-Outputs: [dashboard, summary, scorecard, recommendation, message, agent response]
+I am working on this roadmap task: Use Google AI Studio only if Gemini-native behaviour matters.
 
-Constraints: must be simple, useful within 7 days, and not become a build rabbit hole.
+Why it exists from my questionnaire answers:
+You said you use Google AI Studio and wanted it checked before treating it like Lovable. This prevents tool misuse.
 
-Build me a small Gemini-powered prototype concept. Include:
-1. what it does
-2. why Google AI Studio is or is not the right tool
-3. interaction flow
-4. prompt or system instruction
-5. data needed
-6. risks
-7. success test
-8. build, test manually or kill decision
+The live facts are below. They may be messy:
+[paste notes, examples, links, data, meeting notes, screenshots, or rough thoughts]
 
-Do not generate a complex app unless the workflow is clear.
+First, do not solve anything. Create a clean capture of the situation.
+
+Output:
+1. facts
+2. assumptions
+3. missing information
+4. risks
+5. decisions needed
+6. what not to overbuild
+
+Keep it sharp. Do not give generic advice.
 ```
 
-## Human starter action
+## Prompt 2: Diagnose and prioritise
 
-Only open Google AI Studio after writing the workflow, inputs and output. If the workflow is unclear, stay manual.
+```text
+Using the captured situation below:
+[paste output from Prompt 1]
 
-## Expected output
+Diagnose the root problem for this task:
+Problem: Tool choice could become procrastination.
+Cause: Google AI Studio, Claude Artifacts and Lovable solve different jobs.
 
-One tiny prototype concept, test result or kill decision.
+Give me:
+1. the real problem in one sentence
+2. the smallest useful version
+3. the full version only if needed
+4. top 3 risks
+5. one recommended next action within 48 hours
+6. one thing I should not do
 
-## Success test
+Use this asset if useful: LLM Control Hub.
+Do not invent facts. Mark assumptions clearly.
+```
 
+## Prompt 3: Build the task output
+
+```text
+Build the output for this roadmap task.
+
+Task: Use Google AI Studio only if Gemini-native behaviour matters
+Required output: One tiny prototype concept, test result or kill decision.
+Minimum version: Complete the smallest version that creates a real-world action within 48 hours.
+Full version: One tiny prototype concept, test result or kill decision.
+
+Use the diagnosis below:
+[paste output from Prompt 2]
+
+Create the output in a format I can use immediately.
+
+Rules:
+1. Be specific to NEXT.io, Strait Up Growth, Singapore, AI leverage, Chinese, or my career where relevant.
+2. Reduce action, do not expand it.
+3. Include only what I need to act.
+4. Add a clear success test.
+5. Add a kill rule if the output gets bloated.
+```
+
+## Prompt 4: Extract reusable outputs
+
+```text
+Using the task output below:
+[paste output from Prompt 3]
+
+Extract reusable outputs so this task feeds the wider roadmap.
+
+Create sections:
+1. immediate action
+2. reusable asset created
+3. future scheduled task candidate
+4. Claude Cowork candidate
+5. live artifact candidate
+6. automation candidate
+7. future roadmap task
+8. park or kill recommendation
+
+Capture separate reusable blocks: tool test card, manual workflow, prompt instructions, tool choice gate, risk log, privacy notes, and build/kill decision.
+
+Only mark something automation-ready if the manual workflow is repeatable, has a trigger, input, owner, output, and success test.
+```
+
+## Prompt 5: Create the action script or implementation steps
+
+```text
+Using the reusable outputs below:
+[paste output from Prompt 4]
+
+Create the immediate implementation plan.
+
+Give me:
+1. one action to take in the next 48 hours
+2. exact script, message, checklist, or first build step
+3. where to save the output
+4. what to track
+5. what to tell Friday Review
+
+Keep it short. Do not create another plan.
+```
+
+## Prompt 6: Review and feed forward
+
+```text
+Here is what happened after I attempted this task:
+[paste what you did, what worked, what failed, any replies, any blockers]
+
+Review against this success test:
 One prototype tested or one clear kill decision.
 
-## Friday review question
+Answer:
+1. complete, repeat, park, or kill?
+2. what changed in the real world?
+3. what output should feed the next roadmap task?
+4. what should become a scheduled task, live artifact, Cowork workflow, automation spec, or future prompt?
+5. what is my next action?
 
-Did AI Studio teach me something useful, or was it procrastination?
+Keep the final answer under 150 words.
+```
 
-## Kill rule
+---
 
-If the goal is not Gemini-specific, use Claude Artifacts or stay manual.
+## How to use the sequence
+
+Run the prompts in order. Skip a later prompt only if the previous output proves the task should be parked or killed. Save useful outputs in the task notes before marking complete.

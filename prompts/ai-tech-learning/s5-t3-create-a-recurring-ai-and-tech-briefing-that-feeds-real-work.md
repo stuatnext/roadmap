@@ -1,50 +1,152 @@
 # Create a recurring AI and tech briefing that feeds real work
 
-**Sprint:** Sprint 5: Authority and Network
+This is a prompt sequence, not one giant prompt. Run one prompt at a time. Do not paste this whole file into an LLM unless you want a task brief.
 
-**Lane:** AI and Tech Learning
+**Best model:** ChatGPT Deep Research  
+**Fallback:** Gemini Deep Research  
+**Asset to use:** LLM Control Hub
 
-**Use this model or tool:** ChatGPT Tasks or Claude scheduled task. Gemini Deep Research for current research. NotebookLM for fixed source packs.
+**Task goal:** A weekly briefing prompt or scheduled task tied to NEXT.io, SUG, personal brand and Chinese.
 
-**Use this asset:** LLM Control Hub: source hierarchy, model setup, evaluation rules. Industry Authority Engine for content extraction.
+**Success test:** One briefing leads to one test, post, or process improvement.
 
-## Starter prompt
+**Privacy rule:** Use anonymised examples. Do not paste confidential personal data, client data, employee performance details, compensation data, emails, CRM exports or sensitive commercial information into any external tool unless approved and safe.
+
+---
+
+## Prompt 1: Capture the raw situation
 
 ```text
-Create my weekly AI and tech briefing.
+Use ChatGPT Deep Research. If this needs document tone, long writing, or Microsoft 365 context, use Gemini Deep Research.
 
-It must include:
-1. one current AI or tech development relevant to commercial directors, B2B SMEs, CRM, sales, operations, media or events
-2. one tool worth testing or ignoring
-3. one workflow idea for NEXT.io
-4. one workflow idea for Strait Up Growth
-5. one LinkedIn angle
-6. one risk or hype warning
-7. one Chinese or Singapore application if relevant
+I am working on this roadmap task: Create a recurring AI and tech briefing that feeds real work.
 
-Rules:
-Use official sources where possible.
-Mark source quality.
-Give a test, not just a summary.
-Keep it under 500 words.
+Why it exists from my questionnaire answers:
+You said you want weekly AI and tech learning, but only if it is relevant to NEXT.io, Strait Up Growth, commercial leadership, and real workflows.
+
+The live facts are below. They may be messy:
+[paste notes, examples, links, data, meeting notes, screenshots, or rough thoughts]
+
+First, do not solve anything. Create a clean capture of the situation.
+
+Output:
+1. facts
+2. assumptions
+3. missing information
+4. risks
+5. decisions needed
+6. what not to overbuild
+
+Keep it sharp. Do not give generic advice.
 ```
 
-## Human starter action
+## Prompt 2: Diagnose and prioritise
 
-Set this as a weekly recurring task only after the first manual run is useful.
+```text
+Using the captured situation below:
+[paste output from Prompt 1]
 
-## Expected output
+Diagnose the root problem for this task:
+Problem: AI learning can turn into noise.
+Cause: Briefings need to feed real tasks and reject hype.
 
-A weekly briefing prompt or scheduled task tied to NEXT.io, SUG, personal brand and Chinese.
+Give me:
+1. the real problem in one sentence
+2. the smallest useful version
+3. the full version only if needed
+4. top 3 risks
+5. one recommended next action within 48 hours
+6. one thing I should not do
 
-## Success test
+Use this asset if useful: LLM Control Hub.
+Do not invent facts. Mark assumptions clearly.
+```
 
+## Prompt 3: Build the task output
+
+```text
+Build the output for this roadmap task.
+
+Task: Create a recurring AI and tech briefing that feeds real work
+Required output: A weekly briefing prompt or scheduled task tied to NEXT.io, SUG, personal brand and Chinese.
+Minimum version: Find one practical tool or trend and decide test, monitor or ignore.
+Full version: A weekly briefing prompt or scheduled task tied to NEXT.io, SUG, personal brand and Chinese.
+
+Use the diagnosis below:
+[paste output from Prompt 2]
+
+Create the output in a format I can use immediately.
+
+Rules:
+1. Be specific to NEXT.io, Strait Up Growth, Singapore, AI leverage, Chinese, or my career where relevant.
+2. Reduce action, do not expand it.
+3. Include only what I need to act.
+4. Add a clear success test.
+5. Add a kill rule if the output gets bloated.
+```
+
+## Prompt 4: Extract reusable outputs
+
+```text
+Using the task output below:
+[paste output from Prompt 3]
+
+Extract reusable outputs so this task feeds the wider roadmap.
+
+Create sections:
+1. immediate action
+2. reusable asset created
+3. future scheduled task candidate
+4. Claude Cowork candidate
+5. live artifact candidate
+6. automation candidate
+7. future roadmap task
+8. park or kill recommendation
+
+Capture separate reusable blocks: tool test card, manual workflow, prompt instructions, tool choice gate, risk log, privacy notes, and build/kill decision.
+
+Only mark something automation-ready if the manual workflow is repeatable, has a trigger, input, owner, output, and success test.
+```
+
+## Prompt 5: Create the action script or implementation steps
+
+```text
+Using the reusable outputs below:
+[paste output from Prompt 4]
+
+Create the immediate implementation plan.
+
+Give me:
+1. one action to take in the next 48 hours
+2. exact script, message, checklist, or first build step
+3. where to save the output
+4. what to track
+5. what to tell Friday Review
+
+Keep it short. Do not create another plan.
+```
+
+## Prompt 6: Review and feed forward
+
+```text
+Here is what happened after I attempted this task:
+[paste what you did, what worked, what failed, any replies, any blockers]
+
+Review against this success test:
 One briefing leads to one test, post, or process improvement.
 
-## Friday review question
+Answer:
+1. complete, repeat, park, or kill?
+2. what changed in the real world?
+3. what output should feed the next roadmap task?
+4. what should become a scheduled task, live artifact, Cowork workflow, automation spec, or future prompt?
+5. what is my next action?
 
-Did learning become action?
+Keep the final answer under 150 words.
+```
 
-## Kill rule
+---
 
-If it only creates interesting reading, cut it.
+## How to use the sequence
+
+Run the prompts in order. Skip a later prompt only if the previous output proves the task should be parked or killed. Save useful outputs in the task notes before marking complete.
