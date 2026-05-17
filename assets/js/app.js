@@ -96,6 +96,22 @@ function qualityGateHtml(){
   return `<ol class="tight-list">${qs.map(q=>`<li>${esc(q)}</li>`).join('')}</ol>`;
 }
 
+function futureBuildHtml(t){
+  if(!t.downstream_outputs && !t.feeds_into && !t.future_build_rules && !t.capture_template) return '';
+  const outputs = (t.downstream_outputs || []).map(x=>`<li><strong>${esc(x.name)}</strong><span>${esc(x.use)}</span></li>`).join('');
+  const feeds = (t.feeds_into || []).map(x=>`<li><strong>${esc(x.label || x.task)}</strong><span>${esc(x.reason || '')}</span></li>`).join('');
+  const rules = (t.future_build_rules || []).map(x=>`<li>${esc(x)}</li>`).join('');
+  return `<section class="focus-section future-build-section">
+      <h3>This output feeds later builds</h3>
+      <p>This task is not a dead-end note. Save the output so it can power future scheduled tasks, Claude Cowork workflows, live artifacts and automations.</p>
+      ${t.capture_template ? `<p class="tiny">Capture template: <span class="file-link">${esc(t.capture_template)}</span></p>` : ''}
+      ${outputs ? `<h4>Reusable outputs to capture</h4><ul class="feed-list">${outputs}</ul>` : ''}
+      ${feeds ? `<h4>Roadmap tasks this feeds</h4><ul class="feed-list">${feeds}</ul>` : ''}
+      ${rules ? `<h4>Future build rules</h4><ol class="tight-list">${rules}</ol>` : ''}
+      <div class="action-row"><button class="btn" onclick="copyFutureBuildBrief('${esc(t.id)}')">Copy future-build brief</button></div>
+    </section>`;
+}
+
 function inlineRecoveryHtml(){
   const parked = orderedTasks().filter(t=>state.parked[t.id]);
   if(!parked.length) return '';
@@ -112,16 +128,22 @@ function inlineRecoveryHtml(){
 }
 
 function taskSteps(t){
-  return [
+  const steps = [
     {title:'Step 1. Read the real problem', body:t.problem},
     {title:'Step 2. Write the human-first version', body:t.human_first_action},
     {title:'Step 3. Open only the named asset', body:`Use ${assetName(t.asset_id)}. ${t.use_asset_reason || ''}`},
     {title:'Step 4. Use the recommended model', body:`Primary: ${modelName(t.best_model)}. Fallback: ${modelName(t.fallback_model)}.`},
     {title:'Step 5. Run the prompt', body:`Copy the prompt below into the primary model. Keep confidential data out unless approved and safe.`},
-    {title:'Step 6. Create the output', body:t.output},
-    {title:'Step 7. Check the success test', body:t.success_test},
-    {title:'Step 8. Mark complete, park, or kill', body:`If it passes, mark complete. If not useful now, park it. If it is wrong or bloated, kill it. Kill rule: ${t.kill_rule}`}
+    {title:'Step 6. Create the output', body:t.output}
   ];
+  if(t.downstream_outputs || t.feeds_into || t.future_build_rules){
+    steps.push({title:'Step 7. Capture future-build inputs', body:'Before completing, identify what should feed later scheduled tasks, Claude Cowork workflows, live artifacts, automations or future roadmap tasks. Do not leave the output as a dead-end note.'});
+  }
+  steps.push(
+    {title:`Step ${steps.length+1}. Check the success test`, body:t.success_test},
+    {title:`Step ${steps.length+2}. Mark complete, park, or kill`, body:`If it passes, mark complete. If not useful now, park it. If it is wrong or bloated, kill it. Kill rule: ${t.kill_rule}`}
+  );
+  return steps;
 }
 async function renderFocusTask(){
   const t = nextTask();
@@ -171,6 +193,8 @@ async function renderFocusTask(){
       <pre id="currentPrompt">${esc(prompt)}</pre>
       <div class="action-row"><button class="btn primary" onclick="copyCurrentPrompt()">Copy prompt</button><button class="btn" onclick="copyTaskBrief('${esc(t.id)}')">Copy task brief</button></div>
     </section>
+
+    ${futureBuildHtml(t)}
 
     <section class="focus-section">
       <h3>Before you mark complete</h3>
@@ -266,9 +290,25 @@ function taskBrief(t){
     `Success test: ${t.success_test}`,
     `Kill rule: ${t.kill_rule}`,
     `Privacy warning: ${t.privacy_warning}`
-  ].join('\n');
+  ];
+  if(t.downstream_outputs || t.feeds_into || t.future_build_rules){
+    lines.push('', 'Future-build capture:');
+    (t.downstream_outputs || []).forEach(x=>lines.push(`- ${x.name}: ${x.use}`));
+    (t.feeds_into || []).forEach(x=>lines.push(`- Feeds ${x.label || x.task}: ${x.reason || ''}`));
+    (t.future_build_rules || []).forEach(x=>lines.push(`- Rule: ${x}`));
+  }
+  return lines.join('\n');
+}
+function futureBuildBrief(t){
+  const lines=[`# Future-build brief: ${t.title}`,'',`Task ID: ${t.id}`,`Output: ${t.output}`,''];
+  if(t.capture_template) lines.push(`Capture template: ${t.capture_template}`,'');
+  if(t.downstream_outputs){ lines.push('## Reusable outputs'); t.downstream_outputs.forEach(x=>lines.push(`- ${x.name}: ${x.use}`)); lines.push(''); }
+  if(t.feeds_into){ lines.push('## Feeds roadmap tasks'); t.feeds_into.forEach(x=>lines.push(`- ${x.label || x.task}: ${x.reason || ''}`)); lines.push(''); }
+  if(t.future_build_rules){ lines.push('## Future build rules'); t.future_build_rules.forEach(x=>lines.push(`- ${x}`)); }
+  return lines.join('\n');
 }
 function copyTaskBrief(id){ const t=DATA.tasks.find(x=>x.id===id); if(t) copyText(taskBrief(t)); }
+function copyFutureBuildBrief(id){ const t=DATA.tasks.find(x=>x.id===id); if(t) copyText(futureBuildBrief(t)); }
 function reviewMarkdown(){
   const tasks=orderedTasks();
   const lines=[];
@@ -295,6 +335,7 @@ loadData();
 window.copyText=copyText;
 window.copyCurrentPrompt=copyCurrentPrompt;
 window.copyTaskBrief=copyTaskBrief;
+window.copyFutureBuildBrief=copyFutureBuildBrief;
 window.setSprintFilter=setSprintFilter;
 window.completeCurrentTask=completeCurrentTask;
 window.parkCurrentTask=parkCurrentTask;
