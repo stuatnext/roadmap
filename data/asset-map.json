@@ -117,5 +117,21 @@
     ],
     "first_files": "CV, proof metrics, role achievements, APAC experience, revenue infrastructure examples.",
     "privacy": "Safe for public positioning once reviewed."
+  },
+  {
+    "id": "nextio-live-artifact-specs",
+    "asset": "NEXT.io Live Artifact Specs Execution Source Pack",
+    "use": "Use when converting Leadership Time Reclaim outputs into P1 live artifacts, Claude Cowork source reviews, scheduled task candidates, and later automation specs.",
+    "when_to_open": "Open when the active task is one of the five P1 artifact builds: routing map, intake brief, decision log, pricing rule card, or GTM readiness gate.",
+    "when_not_to_open": "Do not open for general strategy, self-coaching, personal brand, Chinese, or broad automation ideas. Do not import the 41 roadmap-feed items into the active queue.",
+    "first_files": "source-packs/nextio-live-artifacts-summary.md, relevant prompts/live-artifacts file, Source Rules from execution source pack",
+    "linked_task_ids": [
+      "s1-a1",
+      "s1-a2",
+      "s1-a3",
+      "s1-a4",
+      "s1-a5"
+    ],
+    "privacy": "Use evidence summaries only. Do not upload raw emails, CRM exports, staff performance details, PIP content, client data, compensation, or sensitive commercial information to GitHub."
   }
 ]
