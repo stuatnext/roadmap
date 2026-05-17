@@ -1,0 +1,299 @@
+[
+  {
+    "id": "chatgpt-project",
+    "tool": "ChatGPT Project",
+    "category": "Primary brain",
+    "best_for": "Master roadmap, strategic reasoning, uploaded file context, decision support, commercial judgement, quality control.",
+    "use_when": "The task needs to reason across NEXT.io, Strait Up Growth, AI, Singapore, Chinese, questionnaire answers, and the uploaded files.",
+    "avoid": "Loose one-off drafting. Do not ask it for a mega-plan when you need one decision.",
+    "fallback": "Claude Chat or Claude Project for document-heavy writing.",
+    "confidence": "High",
+    "last_verified": "2026-05-17",
+    "review_interval_days": 60,
+    "source_urls": [
+      "https://help.openai.com/en/articles/10169521-using-projects-in-chatgpt"
+    ],
+    "notes": "Projects keep chats, files and custom instructions together for long-running work."
+  },
+  {
+    "id": "chatgpt-deep-research",
+    "tool": "ChatGPT Deep Research",
+    "category": "Research",
+    "best_for": "Source-backed market scans, competitor checks, AI and tech research, tool comparisons, trend reports.",
+    "use_when": "You need current evidence before making a recommendation or choosing a tool.",
+    "avoid": "Fast drafting, internal comms, or work where sources are already fixed.",
+    "fallback": "Gemini Deep Research.",
+    "confidence": "High",
+    "last_verified": "2026-05-17",
+    "review_interval_days": 60,
+    "source_urls": [
+      "https://help.openai.com/en/articles/10500283-deep-research"
+    ],
+    "notes": "Use when the output must cite sources and be checked against current information."
+  },
+  {
+    "id": "chatgpt-agent",
+    "tool": "ChatGPT Agent",
+    "category": "Agentic web and app work",
+    "best_for": "Complex online tasks with navigation, connected data sources, uploaded files, forms and spreadsheet edits under user control.",
+    "use_when": "The task requires actions across websites, files or apps, and you can supervise.",
+    "avoid": "Sensitive actions without approval, confidential CRM actions, or anything that should be manual first.",
+    "fallback": "Claude Cowork for local files, Make or n8n for repeatable automations.",
+    "confidence": "High",
+    "last_verified": "2026-05-17",
+    "review_interval_days": 60,
+    "source_urls": [
+      "https://help.openai.com/en/articles/11752874-chatgpt-agent"
+    ],
+    "notes": "Use only after defining the task, approval rules and failure conditions."
+  },
+  {
+    "id": "chatgpt-tasks",
+    "tool": "ChatGPT Tasks",
+    "category": "Recurring prompts",
+    "best_for": "Recurring reminders, weekly briefings, Chinese practice nudges, Friday review prompts, simple scheduled actions.",
+    "use_when": "The task is recurring and prompt-based, not a complex workflow.",
+    "avoid": "Complex file work, sensitive automations, or tasks needing app navigation.",
+    "fallback": "Gemini Scheduled Actions or calendar reminders.",
+    "confidence": "High",
+    "last_verified": "2026-05-17",
+    "review_interval_days": 60,
+    "source_urls": [
+      "https://help.openai.com/en/articles/10291617-scheduled-tasks-in-chatgpt"
+    ],
+    "notes": "Good for reminders and structured recurring prompts, not real process automation."
+  },
+  {
+    "id": "claude-chat",
+    "tool": "Claude Chat or Project",
+    "category": "Writing and packaging",
+    "best_for": "Long-form writing, email refinement, document packaging, tone matching, converting rough thinking into polished material.",
+    "use_when": "You need words, structure, tone, or document polish.",
+    "avoid": "Final source-backed factual research without checking sources.",
+    "fallback": "ChatGPT Project.",
+    "confidence": "Medium high",
+    "last_verified": "2026-05-17",
+    "review_interval_days": 60,
+    "source_urls": [
+      "https://claude.com/"
+    ],
+    "notes": "Use for writing and packaging, not for blindly validating strategy."
+  },
+  {
+    "id": "claude-cowork",
+    "tool": "Claude Cowork",
+    "category": "Agentic knowledge work",
+    "best_for": "Multi-step knowledge work on local files, document prep, file management, folder sorting, research synthesis.",
+    "use_when": "You want Claude to work with local files or desktop context and complete a defined knowledge-work task.",
+    "avoid": "High-risk file changes without a backup, confidential actions without permission, broad goals with unclear output.",
+    "fallback": "ChatGPT Agent or manual folder review.",
+    "confidence": "High",
+    "last_verified": "2026-05-17",
+    "review_interval_days": 60,
+    "source_urls": [
+      "https://www.anthropic.com/product/claude-cowork",
+      "https://claude.com/product/cowork"
+    ],
+    "notes": "Anthropic positions Cowork as agentic knowledge work, not normal chat."
+  },
+  {
+    "id": "claude-artifacts",
+    "tool": "Claude Artifacts",
+    "category": "Interactive prototypes",
+    "best_for": "Interactive HTML tools, calculators, dashboards, scorecards, prompt runners, simple apps.",
+    "use_when": "You need a quick usable internal tool without building a full app.",
+    "avoid": "Final business strategy or anything requiring a stable backend before the workflow is proven.",
+    "fallback": "Google AI Studio for Gemini-native prototypes, Lovable for full-stack web apps.",
+    "confidence": "High",
+    "last_verified": "2026-05-17",
+    "review_interval_days": 60,
+    "source_urls": [
+      "https://claude.com/blog/build-artifacts"
+    ],
+    "notes": "Good for simple internal tools after the task is clear."
+  },
+  {
+    "id": "claude-skills",
+    "tool": "Claude Skills",
+    "category": "Repeatable Claude workflows",
+    "best_for": "Packaged instructions for repeatable workflows, document conventions, brand voice, operating procedures.",
+    "use_when": "You want Claude to follow the same workflow reliably each time.",
+    "avoid": "One-off thinking or vague strategy.",
+    "fallback": "ChatGPT Project instructions or a repo AI_CONTEXT file.",
+    "confidence": "High",
+    "last_verified": "2026-05-17",
+    "review_interval_days": 90,
+    "source_urls": [
+      "https://claude.com/blog/complete-guide-to-building-skills-for-claude",
+      "https://resources.anthropic.com/hubfs/The-Complete-Guide-to-Building-Skill-for-Claude.pdf?hsLang=en"
+    ],
+    "notes": "Build only after the process is proven."
+  },
+  {
+    "id": "gemini-deep-research",
+    "tool": "Gemini Deep Research",
+    "category": "Research",
+    "best_for": "Broad external research, Google Search-backed scans, Workspace-connected research if enabled, tool discovery.",
+    "use_when": "You need broad current information or Google ecosystem context.",
+    "avoid": "Final judgement without a critic or source check.",
+    "fallback": "ChatGPT Deep Research.",
+    "confidence": "High",
+    "last_verified": "2026-05-17",
+    "review_interval_days": 60,
+    "source_urls": [
+      "https://gemini.google/us/overview/deep-research/?hl=en",
+      "https://support.google.com/gemini/answer/15719111?co=GENIE.Platform%3DDesktop&hl=en"
+    ],
+    "notes": "Use for market and AI-tech scanning."
+  },
+  {
+    "id": "gemini-app",
+    "tool": "Gemini App",
+    "category": "General Google assistant",
+    "best_for": "Quick Google-connected help, search-oriented brainstorming, lightweight learning, Android or Google ecosystem convenience.",
+    "use_when": "The task benefits from Google context but does not require deep research.",
+    "avoid": "Private or sensitive company data without approved controls.",
+    "fallback": "ChatGPT Project.",
+    "confidence": "Medium",
+    "last_verified": "2026-05-17",
+    "review_interval_days": 60,
+    "source_urls": [
+      "https://gemini.google.com/"
+    ],
+    "notes": "Use for light tasks, not your master system."
+  },
+  {
+    "id": "gemini-scheduled-actions",
+    "tool": "Gemini Scheduled Actions",
+    "category": "Recurring prompts",
+    "best_for": "Routine scheduled updates or reminders inside Gemini.",
+    "use_when": "You already use Gemini and need lightweight scheduled nudges.",
+    "avoid": "Core operating system or anything that cannot tolerate inactivity or platform changes.",
+    "fallback": "ChatGPT Tasks.",
+    "confidence": "Medium high",
+    "last_verified": "2026-05-17",
+    "review_interval_days": 60,
+    "source_urls": [
+      "https://support.google.com/gemini/answer/16316416?co=GENIE.Platform%3DDesktop&hl=en",
+      "https://blog.google/products-and-platforms/products/gemini/scheduled-actions-gemini-app/"
+    ],
+    "notes": "Useful but should not become another notification layer."
+  },
+  {
+    "id": "google-ai-studio",
+    "tool": "Google AI Studio",
+    "category": "AI-native prototyping",
+    "best_for": "Gemini experiments, Build mode prototypes, multimodal tests, API prompt testing, realtime voice/video experiments, prompt-to-code exploration.",
+    "use_when": "Gemini-native behaviour matters or you want to test an AI app idea before building elsewhere.",
+    "avoid": "Stable business dashboards, final roadmap, or app builds when the workflow is not proven.",
+    "fallback": "Claude Artifacts for simple tools, Lovable for full-stack web apps.",
+    "confidence": "High",
+    "last_verified": "2026-05-17",
+    "review_interval_days": 45,
+    "source_urls": [
+      "https://aistudio.google.com/",
+      "https://ai.google.dev/gemini-api/docs/aistudio-build-mode"
+    ],
+    "notes": "Exploration and AI-native prototyping. It sits before Lovable in the build ladder."
+  },
+  {
+    "id": "notebooklm",
+    "tool": "NotebookLM",
+    "category": "Source learning",
+    "best_for": "Learning from fixed source packs, uploaded documents, websites, YouTube, audio, Google Docs and Slides, plus Audio Overviews.",
+    "use_when": "You have a fixed source pack and want grounded learning or audio summaries.",
+    "avoid": "Live market scans as your only source or broad strategic decisions without critique.",
+    "fallback": "ChatGPT Project with uploaded files.",
+    "confidence": "High",
+    "last_verified": "2026-05-17",
+    "review_interval_days": 90,
+    "source_urls": [
+      "https://notebooklm.google/audio",
+      "https://support.google.com/notebooklm/answer/16212820?hl=en"
+    ],
+    "notes": "Best for learning and synthesis from known sources."
+  },
+  {
+    "id": "perplexity-comet",
+    "tool": "Perplexity and Comet",
+    "category": "Fast source-backed web and browser assistant",
+    "best_for": "Fast source-backed checks, current web answers, browsing support, early source gathering.",
+    "use_when": "You need a quick web-informed first pass.",
+    "avoid": "Sensitive browser automation, confidential work, or final decisions without source checking.",
+    "fallback": "Gemini Deep Research or ChatGPT Deep Research.",
+    "confidence": "Medium",
+    "last_verified": "2026-05-17",
+    "review_interval_days": 60,
+    "source_urls": [
+      "https://www.perplexity.ai/comet"
+    ],
+    "notes": "Agentic browsers can introduce security risk. Keep sensitive work elsewhere."
+  },
+  {
+    "id": "deepseek",
+    "tool": "DeepSeek",
+    "category": "Second-opinion critique",
+    "best_for": "Ruthless critique, alternative reasoning, technical reasoning tests, cheaper second opinions.",
+    "use_when": "You want another perspective after ChatGPT or Claude, not another mega-plan.",
+    "avoid": "Primary operating system, confidential work, connected workflow tasks.",
+    "fallback": "ChatGPT Project critique.",
+    "confidence": "Medium",
+    "last_verified": "2026-05-17",
+    "review_interval_days": 60,
+    "source_urls": [
+      "https://api-docs.deepseek.com/guides/reasoning_model"
+    ],
+    "notes": "Use for critique, not storage of your business context."
+  },
+  {
+    "id": "lovable",
+    "tool": "Lovable",
+    "category": "Full-stack app builder",
+    "best_for": "Working web apps, internal tools, portals, dashboards, Supabase-backed products, simple SaaS concepts.",
+    "use_when": "The workflow is proven and you need frontend, backend, auth, database or deployment.",
+    "avoid": "Unclear workflows or early-stage thinking.",
+    "fallback": "Claude Artifacts or Google AI Studio depending on job.",
+    "confidence": "Medium high",
+    "last_verified": "2026-05-17",
+    "review_interval_days": 60,
+    "source_urls": [
+      "https://docs.lovable.dev/introduction/welcome",
+      "https://lovable.dev/videos/supabase"
+    ],
+    "notes": "Build only after the manual workflow earns it."
+  },
+  {
+    "id": "make",
+    "tool": "Make",
+    "category": "Automation",
+    "best_for": "Visual automations, AI agents, integrations across business apps, repeatable operational workflows.",
+    "use_when": "A manual workflow has proved value and needs to run across apps.",
+    "avoid": "Messy processes with unclear owners or bad data.",
+    "fallback": "Zapier or n8n.",
+    "confidence": "High",
+    "last_verified": "2026-05-17",
+    "review_interval_days": 60,
+    "source_urls": [
+      "https://www.make.com/en",
+      "https://www.make.com/en/ai-agents"
+    ],
+    "notes": "Great after process clarity. Dangerous before it."
+  },
+  {
+    "id": "n8n",
+    "tool": "n8n",
+    "category": "Automation",
+    "best_for": "Flexible workflow automation, AI workflow design, technical automations with more control.",
+    "use_when": "You want deeper control than simple no-code tools and can manage workflow logic.",
+    "avoid": "Anything you cannot maintain or secure.",
+    "fallback": "Make for easier visual builds.",
+    "confidence": "High",
+    "last_verified": "2026-05-17",
+    "review_interval_days": 60,
+    "source_urls": [
+      "https://docs.n8n.io/",
+      "https://n8n.io/ai-agents/"
+    ],
+    "notes": "Good for agentic workflow automation after manual proof."
+  }
+]

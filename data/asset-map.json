@@ -1,0 +1,121 @@
+[
+  {
+    "id": "executive-growth-system",
+    "asset": "Stuart Executive Growth System",
+    "use": "NEXT.io relief, boundaries, ownership, executive visibility, HubSpot governance, Monday.com delivery backbone.",
+    "when_to_open": "Open when the task is about saying no, delegating, follow-up, Jo ownership, executive notes, meeting hygiene or internal standards.",
+    "when_not_to_open": "Do not use for public content, Strait Up Growth offer design, or AI tool scouting.",
+    "linked_task_ids": [
+      "s1-t1",
+      "s1-t2",
+      "s1-t3",
+      "s1-t4",
+      "s1-t5",
+      "s6-t4"
+    ],
+    "first_files": "README_START_HERE.md, CLAUDE.md, Work_Intake_Rules.md, Stop_Doing_Register.md, Ownership_Map.md, Decision_Rights_Register.md, Weekly_Executive_Script.md, HubSpot_Governance_Rules.md, Jo_Task_Brief_Template.md",
+    "privacy": "Contains internal-work context. Avoid pasting staff performance or sensitive CRM data into external tools."
+  },
+  {
+    "id": "commercial-director-advisory-board",
+    "asset": "Commercial Director Advisory Board",
+    "use": "Commercial judgement, pricing, GTM, forecasting, target-setting, sales strategy review.",
+    "when_to_open": "Open when the task involves pricing, forecasting, GTM readiness, revenue targets, discount logic, commercial coaching or proof base.",
+    "when_not_to_open": "Do not use for generic motivation, content brainstorming or Mandarin practice.",
+    "linked_task_ids": [
+      "s2-t1",
+      "s2-t2",
+      "s2-t3",
+      "s2-t4",
+      "s6-t3"
+    ],
+    "first_files": "README.md, pricing scorecards, GTM scorecards, strategy teardown template, scheduled pricing judgement coach.",
+    "privacy": "Use anonymised numbers unless the target model/tool is approved for confidential commercial data."
+  },
+  {
+    "id": "strait-up-growth-os",
+    "asset": "Strait Up Growth OS",
+    "use": "Offer, positioning, website audit, discovery calls, outreach, proof, proposal and client delivery.",
+    "when_to_open": "Open for Strait Up Growth website, market validation, outreach, client proof, Growth Review packaging and case studies.",
+    "when_not_to_open": "Do not use to solve NEXT.io internal execution unless turning lessons into public proof without confidential detail.",
+    "linked_task_ids": [
+      "s3-t1",
+      "s3-t2",
+      "s3-t3",
+      "s3-t5",
+      "s6-t1"
+    ],
+    "first_files": "positioning, offer architecture, discovery call framework, proposal framework, case study framework.",
+    "privacy": "Do not include client names or sensitive client workflows unless permission is clear."
+  },
+  {
+    "id": "industry-authority-engine",
+    "asset": "Industry Authority Engine",
+    "use": "LinkedIn, public voice, network building, speaking angles, commentary, content extraction.",
+    "when_to_open": "Open when writing posts, finding opinions, planning speaking angles, or building your Singapore relationship map.",
+    "when_not_to_open": "Do not use for internal NEXT.io governance or private commercial data.",
+    "linked_task_ids": [
+      "s3-t4",
+      "s5-t1",
+      "s5-t2",
+      "s5-t4"
+    ],
+    "first_files": "content pillars, work-led post template, public safe insight extractor, speaker bio, podcast angle bank.",
+    "privacy": "Public posts should be anonymised and never leak internal NEXT.io details."
+  },
+  {
+    "id": "llm-control-hub",
+    "asset": "LLM Control Hub",
+    "use": "Model routing, prompt quality, AI evaluation, tool testing, manual-before-agent logic, AI tech scout.",
+    "when_to_open": "Open when choosing models, testing tools, judging output quality, building prompts, or deciding if something deserves automation.",
+    "when_not_to_open": "Do not use as an excuse to compare models endlessly.",
+    "linked_task_ids": [
+      "s1-t7",
+      "s2-t5",
+      "s4-t1",
+      "s4-t2",
+      "s4-t3",
+      "s4-t4",
+      "s5-t3",
+      "s6-t2"
+    ],
+    "first_files": "model router, quality gate, prompt rules, no more LLM loop, tool choice gate.",
+    "privacy": "Model tests should use dummy or anonymised examples unless data is safe."
+  },
+  {
+    "id": "chinese-business-track",
+    "asset": "Chinese Business Track",
+    "use": "Business Mandarin tied to Singapore relationships, Strait Up Growth, pricing, growth, operations and AI.",
+    "when_to_open": "Open for Mandarin scripts, founder roleplays, business vocabulary and Singapore relationship practice.",
+    "when_not_to_open": "Do not use for generic language learning disconnected from your goals.",
+    "linked_task_ids": [
+      "s1-t6",
+      "s2-t6",
+      "s4-t5"
+    ],
+    "first_files": "business-introduction.md, founder-conversation-roleplay.md, pricing-vocabulary.md, follow-up-message.md.",
+    "privacy": "No special privacy risk unless using real client or staff names."
+  },
+  {
+    "id": "claude-archive",
+    "asset": "Claude Archive",
+    "use": "Mining previous useful outputs and artifacts, not validating strategy forever.",
+    "when_to_open": "Open only when looking for a prior prompt, artifact, dashboard or wording you already created.",
+    "when_not_to_open": "Do not use for another strategy loop.",
+    "linked_task_ids": [],
+    "first_files": "old outputs, dashboards and previous Claude project material.",
+    "privacy": "Treat as a mixed source pack. Check before sharing externally."
+  },
+  {
+    "id": "cv-proof-base",
+    "asset": "Stuart CV and Proof Base",
+    "use": "Career proof, compensation narrative, LinkedIn authority, Singapore positioning, credibility.",
+    "when_to_open": "Open when updating your proof base, compensation narrative, founder story or profile positioning.",
+    "when_not_to_open": "Do not use as a substitute for market validation.",
+    "linked_task_ids": [
+      "s6-t3"
+    ],
+    "first_files": "CV, proof metrics, role achievements, APAC experience, revenue infrastructure examples.",
+    "privacy": "Safe for public positioning once reviewed."
+  }
+]

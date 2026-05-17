@@ -1,0 +1,44 @@
+[
+  {
+    "id": "s1",
+    "name": "Sprint 1: Relief and Control",
+    "weeks": "Weeks 1 to 2",
+    "focus": "Make NEXT.io less chaotic before adding more ambition.",
+    "rule": "If it does not reduce executional drag, ownership drift, or alert fatigue, it waits."
+  },
+  {
+    "id": "s2",
+    "name": "Sprint 2: Commercial Confidence",
+    "weeks": "Weeks 3 to 4",
+    "focus": "Turn pricing, GTM, targets and forecasting from gut feel into scorecards.",
+    "rule": "One live NEXT.io decision must become easier to defend each week."
+  },
+  {
+    "id": "s3",
+    "name": "Sprint 3: Market Contact and Proof",
+    "weeks": "Weeks 5 to 6",
+    "focus": "Make Strait Up Growth touch the market and produce proof.",
+    "rule": "No more offer polishing unless a human outside your immediate circle has reacted to it."
+  },
+  {
+    "id": "s4",
+    "name": "Sprint 4: Manual AI Workflows",
+    "weeks": "Weeks 7 to 8",
+    "focus": "Prove workflows manually before building agents, apps or automations.",
+    "rule": "No agent until the manual workflow has been used repeatedly and would be missed if removed."
+  },
+  {
+    "id": "s5",
+    "name": "Sprint 5: Authority and Network",
+    "weeks": "Weeks 9 to 10",
+    "focus": "Turn your real opinions, work lessons and Singapore ambition into public authority and relationships.",
+    "rule": "Visibility must create conversations, not vanity activity."
+  },
+  {
+    "id": "s6",
+    "name": "Sprint 6: Package and Automate",
+    "weeks": "Weeks 11 to 12",
+    "focus": "Package what worked, kill what did not, and automate only the proven parts.",
+    "rule": "Build only what has earned its place."
+  }
+]

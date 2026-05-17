@@ -1,0 +1,188 @@
+[
+  {
+    "task_id": "s1-t1",
+    "title": "Create the Stop Doing Register",
+    "path": "prompts/next-io/s1-t1-create-the-stop-doing-register.md",
+    "folder": "next-io"
+  },
+  {
+    "task_id": "s1-t2",
+    "title": "Build the Follow-Up and Accountability Tracker",
+    "path": "prompts/next-io/s1-t2-build-the-follow-up-and-accountability-tracker.md",
+    "folder": "next-io"
+  },
+  {
+    "task_id": "s1-t3",
+    "title": "Send one clean ownership message to Jo",
+    "path": "prompts/next-io/s1-t3-send-one-clean-ownership-message-to-jo.md",
+    "folder": "next-io"
+  },
+  {
+    "task_id": "s1-t4",
+    "title": "Send the Friday Executive Note",
+    "path": "prompts/next-io/s1-t4-send-the-friday-executive-note.md",
+    "folder": "next-io"
+  },
+  {
+    "task_id": "s1-t5",
+    "title": "Install the owner-to-owner communication rule",
+    "path": "prompts/next-io/s1-t5-install-the-owner-to-owner-communication-rule.md",
+    "folder": "next-io"
+  },
+  {
+    "task_id": "s1-t6",
+    "title": "Set up Business Mandarin as a strategic habit",
+    "path": "prompts/chinese/s1-t6-set-up-business-mandarin-as-a-strategic-habit.md",
+    "folder": "chinese"
+  },
+  {
+    "task_id": "s1-t7",
+    "title": "Create the AI Output Quality Gate",
+    "path": "prompts/ai-tech-learning/s1-t7-create-the-ai-output-quality-gate.md",
+    "folder": "ai-tech-learning"
+  },
+  {
+    "task_id": "s2-t1",
+    "title": "Build one pricing scorecard for a live NEXT.io product",
+    "path": "prompts/commercial-confidence/s2-t1-build-one-pricing-scorecard-for-a-live-next-io-product.md",
+    "folder": "commercial-confidence"
+  },
+  {
+    "task_id": "s2-t2",
+    "title": "Create a low, base and stretch revenue target model",
+    "path": "prompts/commercial-confidence/s2-t2-create-a-low-base-and-stretch-revenue-target-model.md",
+    "folder": "commercial-confidence"
+  },
+  {
+    "task_id": "s2-t3",
+    "title": "Create one GTM readiness gate",
+    "path": "prompts/commercial-confidence/s2-t3-create-one-gtm-readiness-gate.md",
+    "folder": "commercial-confidence"
+  },
+  {
+    "task_id": "s2-t4",
+    "title": "Run one live commercial decision memo",
+    "path": "prompts/commercial-confidence/s2-t4-run-one-live-commercial-decision-memo.md",
+    "folder": "commercial-confidence"
+  },
+  {
+    "task_id": "s2-t5",
+    "title": "Run an AI and tech scout for one NEXT.io bottleneck",
+    "path": "prompts/ai-tech-learning/s2-t5-run-an-ai-and-tech-scout-for-one-next-io-bottleneck.md",
+    "folder": "ai-tech-learning"
+  },
+  {
+    "task_id": "s2-t6",
+    "title": "Build pricing and business vocabulary in Mandarin",
+    "path": "prompts/commercial-confidence/s2-t6-build-pricing-and-business-vocabulary-in-mandarin.md",
+    "folder": "commercial-confidence"
+  },
+  {
+    "task_id": "s3-t1",
+    "title": "Audit straitupgrowth.com instead of rebuilding it",
+    "path": "prompts/strait-up-growth/s3-t1-audit-straitupgrowth-com-instead-of-rebuilding-it.md",
+    "folder": "strait-up-growth"
+  },
+  {
+    "task_id": "s3-t2",
+    "title": "Build a 10-company Singapore target list",
+    "path": "prompts/strait-up-growth/s3-t2-build-a-10-company-singapore-target-list.md",
+    "folder": "strait-up-growth"
+  },
+  {
+    "task_id": "s3-t3",
+    "title": "Send 10 Singapore outreach messages",
+    "path": "prompts/strait-up-growth/s3-t3-send-10-singapore-outreach-messages.md",
+    "folder": "strait-up-growth"
+  },
+  {
+    "task_id": "s3-t4",
+    "title": "Publish two work-led posts per week",
+    "path": "prompts/personal-brand-network/s3-t4-publish-two-work-led-posts-per-week.md",
+    "folder": "personal-brand-network"
+  },
+  {
+    "task_id": "s3-t5",
+    "title": "Turn current SUG client work into a proof asset",
+    "path": "prompts/friday-review/s3-t5-turn-current-sug-client-work-into-a-proof-asset.md",
+    "folder": "friday-review"
+  },
+  {
+    "task_id": "s4-t1",
+    "title": "Run the manual Follow-Up System for two weeks",
+    "path": "prompts/ai-tech-learning/s4-t1-run-the-manual-follow-up-system-for-two-weeks.md",
+    "folder": "ai-tech-learning"
+  },
+  {
+    "task_id": "s4-t2",
+    "title": "Use Google AI Studio only if Gemini-native behaviour matters",
+    "path": "prompts/ai-tech-learning/s4-t2-use-google-ai-studio-only-if-gemini-native-behaviour-matters.md",
+    "folder": "ai-tech-learning"
+  },
+  {
+    "task_id": "s4-t3",
+    "title": "Build the Commercial Strategy Critic manual workflow",
+    "path": "prompts/ai-tech-learning/s4-t3-build-the-commercial-strategy-critic-manual-workflow.md",
+    "folder": "ai-tech-learning"
+  },
+  {
+    "task_id": "s4-t4",
+    "title": "Choose automation only after manual proof",
+    "path": "prompts/friday-review/s4-t4-choose-automation-only-after-manual-proof.md",
+    "folder": "friday-review"
+  },
+  {
+    "task_id": "s4-t5",
+    "title": "Roleplay one Singapore founder conversation in Mandarin",
+    "path": "prompts/chinese/s4-t5-roleplay-one-singapore-founder-conversation-in-mandarin.md",
+    "folder": "chinese"
+  },
+  {
+    "task_id": "s5-t1",
+    "title": "Build the Singapore 30 relationship map",
+    "path": "prompts/personal-brand-network/s5-t1-build-the-singapore-30-relationship-map.md",
+    "folder": "personal-brand-network"
+  },
+  {
+    "task_id": "s5-t2",
+    "title": "Run the weekly content extraction drill",
+    "path": "prompts/personal-brand-network/s5-t2-run-the-weekly-content-extraction-drill.md",
+    "folder": "personal-brand-network"
+  },
+  {
+    "task_id": "s5-t3",
+    "title": "Create a recurring AI and tech briefing that feeds real work",
+    "path": "prompts/ai-tech-learning/s5-t3-create-a-recurring-ai-and-tech-briefing-that-feeds-real-work.md",
+    "folder": "ai-tech-learning"
+  },
+  {
+    "task_id": "s5-t4",
+    "title": "Build one speaking or podcast angle",
+    "path": "prompts/friday-review/s5-t4-build-one-speaking-or-podcast-angle.md",
+    "folder": "friday-review"
+  },
+  {
+    "task_id": "s6-t1",
+    "title": "Package what worked and kill what did not",
+    "path": "prompts/friday-review/s6-t1-package-what-worked-and-kill-what-did-not.md",
+    "folder": "friday-review"
+  },
+  {
+    "task_id": "s6-t2",
+    "title": "Build one small tool only if the workflow earned it",
+    "path": "prompts/friday-review/s6-t2-build-one-small-tool-only-if-the-workflow-earned-it.md",
+    "folder": "friday-review"
+  },
+  {
+    "task_id": "s6-t3",
+    "title": "Update your proof base and compensation narrative",
+    "path": "prompts/friday-review/s6-t3-update-your-proof-base-and-compensation-narrative.md",
+    "folder": "friday-review"
+  },
+  {
+    "task_id": "s6-t4",
+    "title": "Set up the next 30-day sprint without hardcoded dates",
+    "path": "prompts/next-io/s6-t4-set-up-the-next-30-day-sprint-without-hardcoded-dates.md",
+    "folder": "next-io"
+  }
+]
