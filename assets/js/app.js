@@ -143,6 +143,38 @@ function qualityGateHtml(){
   return `<ol class="tight-list">${qs.map(q=>`<li>${esc(q)}</li>`).join('')}</ol>`;
 }
 
+
+function artifactSourceHtml(t){
+  if(!t.artifact_source) return '';
+  const a=t.artifact_source;
+  const boxes = [
+    ['Artifact', a.artifact],
+    ['Priority', a.priority || a.build_status],
+    ['Problem solved', a.problem_solved],
+    ['Purpose', a.purpose],
+    ['Primary user', a.primary_user || a.user],
+    ['Connected sources', a.connected_sources],
+    ['Backend stance', a.backend_needed],
+    ['Version 1 rule', a.version_1_rule],
+    ['Copy/export', a.copy_export_needs],
+    ['Human approval gate', a.human_approval_gate],
+    ['First manual test', a.first_manual_test],
+    ['What not to build', a.what_not_to_build]
+  ].filter(x=>x[1]);
+  return `<section class="focus-section artifact-source-section">
+    <h3>Source workbook signal</h3>
+    <div class="artifact-grid">
+      ${boxes.map(b=>`<div class="box"><strong>${esc(b[0])}</strong><p>${esc(b[1] || '')}</p></div>`).join('')}
+    </div>
+    ${a.fields || a.buttons || a.views ? `<details class="source-detail"><summary>Fields, buttons and views</summary>
+      ${a.fields ? `<p><strong>Fields:</strong> ${esc(a.fields)}</p>` : ''}
+      ${a.buttons ? `<p><strong>Buttons:</strong> ${esc(a.buttons)}</p>` : ''}
+      ${a.views ? `<p><strong>Views:</strong> ${esc(a.views)}</p>` : ''}
+    </details>` : ''}
+    ${t.source_rules_summary ? `<details class="source-detail"><summary>Source rules applied</summary><ul class="tight-list">${t.source_rules_summary.map(r=>`<li>${esc(r)}</li>`).join('')}</ul></details>` : ''}
+  </section>`;
+}
+
 function futureBuildHtml(t){
   if(!t.downstream_outputs && !t.feeds_into && !t.future_build_rules && !t.capture_template) return '';
   const outputs = (t.downstream_outputs || []).map(x=>`<li><strong>${esc(x.name)}</strong><span>${esc(x.use)}</span></li>`).join('');
@@ -239,6 +271,8 @@ async function renderFocusTask(){
       ${renderPromptSequence(prompt, t)}
     </section>
 
+    ${artifactSourceHtml(t)}
+
     ${futureBuildHtml(t)}
 
     <section class="focus-section">
@@ -319,7 +353,7 @@ async function toggleReference(){ state.showReference=!state.showReference; save
 function saveTaskNote(el){ state.taskNotes[el.dataset.taskNote]=el.value; save(); }
 function copyCurrentPrompt(){ copyText(CURRENT_PROMPT || ''); }
 function taskBrief(t){
-  return [
+  const lines = [
     `# Task: ${t.title}`,
     '',
     `Problem: ${t.problem}`,
@@ -336,6 +370,9 @@ function taskBrief(t){
     `Kill rule: ${t.kill_rule}`,
     `Privacy warning: ${t.privacy_warning}`
   ];
+  if(t.artifact_source){
+    lines.push('', 'Artifact source:', `- Artifact: ${t.artifact_source.artifact || ''}`, `- Purpose: ${t.artifact_source.purpose || ''}`, `- Connected sources: ${t.artifact_source.connected_sources || ''}`, `- Backend: ${t.artifact_source.backend_needed || ''}`);
+  }
   if(t.downstream_outputs || t.feeds_into || t.future_build_rules){
     lines.push('', 'Future-build capture:');
     (t.downstream_outputs || []).forEach(x=>lines.push(`- ${x.name}: ${x.use}`));
@@ -344,6 +381,7 @@ function taskBrief(t){
   }
   return lines.join('\n');
 }
+
 function futureBuildBrief(t){
   const lines=[`# Future-build brief: ${t.title}`,'',`Task ID: ${t.id}`,`Output: ${t.output}`,''];
   if(t.capture_template) lines.push(`Capture template: ${t.capture_template}`,'');
