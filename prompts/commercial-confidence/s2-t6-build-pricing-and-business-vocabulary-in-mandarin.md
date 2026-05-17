@@ -1,44 +1,152 @@
 # Build pricing and business vocabulary in Mandarin
 
-**Sprint:** Sprint 2: Commercial Confidence
+This is a prompt sequence, not one giant prompt. Run one prompt at a time. Do not paste this whole file into an LLM unless you want a task brief.
 
-**Lane:** Chinese and Singapore
+**Best model:** ChatGPT Project  
+**Fallback:** Gemini App  
+**Asset to use:** Chinese Business Track
 
-**Use this model or tool:** ChatGPT for phrase pack. Gemini for pronunciation. ChatGPT Tasks for reminder.
+**Task goal:** A short Mandarin phrase pack around price, value, growth, systems and business problems.
 
-**Use this asset:** Business Mandarin note.
+**Success test:** One roleplay completed.
 
-## Starter prompt
+**Privacy rule:** Use anonymised examples. Do not paste confidential personal data, client data, employee performance details, compensation data, emails, CRM exports or sensitive commercial information into any external tool unless approved and safe.
+
+---
+
+## Prompt 1: Capture the raw situation
 
 ```text
-Create a Business Mandarin phrase pack for discussing pricing, value, business growth and operations.
+Use ChatGPT Project. If this needs document tone, long writing, or Microsoft 365 context, use Gemini App.
 
-Include:
-1. 20 words.
-2. 10 phrases.
-3. One short roleplay with a founder.
-4. Pinyin and English.
-5. A 15-minute drill.
+I am working on this roadmap task: Build pricing and business vocabulary in Mandarin.
 
-Keep it practical for Singapore business conversations.
+Why it exists from my questionnaire answers:
+You said Chinese matters to your Singapore future. This task connects it to commercial language, pricing, and business conversations.
+
+The live facts are below. They may be messy:
+[paste notes, examples, links, data, meeting notes, screenshots, or rough thoughts]
+
+First, do not solve anything. Create a clean capture of the situation.
+
+Output:
+1. facts
+2. assumptions
+3. missing information
+4. risks
+5. decisions needed
+6. what not to overbuild
+
+Keep it sharp. Do not give generic advice.
 ```
 
-## Human starter action
+## Prompt 2: Diagnose and prioritise
 
-Practise introducing one commercial concept in Mandarin.
+```text
+Using the captured situation below:
+[paste output from Prompt 1]
 
-## Expected output
+Diagnose the root problem for this task:
+Problem: Business Mandarin is not linked to commercial confidence.
+Cause: Language learning is not anchored in live business vocabulary.
 
-A short Mandarin phrase pack around price, value, growth, systems and business problems.
+Give me:
+1. the real problem in one sentence
+2. the smallest useful version
+3. the full version only if needed
+4. top 3 risks
+5. one recommended next action within 48 hours
+6. one thing I should not do
 
-## Success test
+Use this asset if useful: Chinese Business Track.
+Do not invent facts. Mark assumptions clearly.
+```
 
+## Prompt 3: Build the task output
+
+```text
+Build the output for this roadmap task.
+
+Task: Build pricing and business vocabulary in Mandarin
+Required output: A short Mandarin phrase pack around price, value, growth, systems and business problems.
+Minimum version: Score one product across five criteria and write one pricing defence paragraph.
+Full version: A short Mandarin phrase pack around price, value, growth, systems and business problems.
+
+Use the diagnosis below:
+[paste output from Prompt 2]
+
+Create the output in a format I can use immediately.
+
+Rules:
+1. Be specific to NEXT.io, Strait Up Growth, Singapore, AI leverage, Chinese, or my career where relevant.
+2. Reduce action, do not expand it.
+3. Include only what I need to act.
+4. Add a clear success test.
+5. Add a kill rule if the output gets bloated.
+```
+
+## Prompt 4: Extract reusable outputs
+
+```text
+Using the task output below:
+[paste output from Prompt 3]
+
+Extract reusable outputs so this task feeds the wider roadmap.
+
+Create sections:
+1. immediate action
+2. reusable asset created
+3. future scheduled task candidate
+4. Claude Cowork candidate
+5. live artifact candidate
+6. automation candidate
+7. future roadmap task
+8. park or kill recommendation
+
+Capture separate reusable blocks: decision memo, scorecard, assumptions log, missing-data list, objection scripts for Pierre/Ana/Will, and a reusable commercial framework.
+
+Only mark something automation-ready if the manual workflow is repeatable, has a trigger, input, owner, output, and success test.
+```
+
+## Prompt 5: Create the action script or implementation steps
+
+```text
+Using the reusable outputs below:
+[paste output from Prompt 4]
+
+Create the immediate implementation plan.
+
+Give me:
+1. one action to take in the next 48 hours
+2. exact script, message, checklist, or first build step
+3. where to save the output
+4. what to track
+5. what to tell Friday Review
+
+Keep it short. Do not create another plan.
+```
+
+## Prompt 6: Review and feed forward
+
+```text
+Here is what happened after I attempted this task:
+[paste what you did, what worked, what failed, any replies, any blockers]
+
+Review against this success test:
 One roleplay completed.
 
-## Friday review question
+Answer:
+1. complete, repeat, park, or kill?
+2. what changed in the real world?
+3. what output should feed the next roadmap task?
+4. what should become a scheduled task, live artifact, Cowork workflow, automation spec, or future prompt?
+5. what is my next action?
 
-Can I explain one business idea more confidently in Mandarin?
+Keep the final answer under 150 words.
+```
 
-## Kill rule
+---
 
-Do not chase fluency. Chase useful phrases.
+## How to use the sequence
+
+Run the prompts in order. Skip a later prompt only if the previous output proves the task should be parked or killed. Save useful outputs in the task notes before marking complete.
