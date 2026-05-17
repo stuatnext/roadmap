@@ -4,13 +4,13 @@
     "sprint": "s1",
     "lane": "NEXT.io Control",
     "priority": "Must",
-    "title": "Create the Stop Doing Register",
-    "problem": "Leadership time is leaking into execution.",
-    "cause": "There is no written boundary between standards you own and tasks others must execute.",
-    "why_from_answers": "You said you get pulled into HubSpot imports, segmented lists, forms, direct fixes, sales collateral, and middleman communication. You also said you want to stop being the go-to person for executional tasks.",
-    "why_it_matters": "You said you get pulled into HubSpot imports, segmented lists, forms, collateral and middleman work. That is the fuel leak.",
-    "minimum_version": "Complete the smallest version that creates a real-world action within 48 hours.",
-    "full_version": "A written list of tasks you stop, delegate, standardise, automate or keep.",
+    "title": "Reclaim Leadership Time at NEXT.io",
+    "problem": "NEXT.io is using you as the executional safety net, which steals time from pricing, forecasting, GTM, leadership and Strait Up Growth.",
+    "cause": "Executional work has no clean intake, ownership, standard, escalation path, or automation route, so it defaults back to you.",
+    "why_from_answers": "You said you get pulled into HubSpot imports, segmented lists, forms, direct fixes, sales collateral and middleman communication. You said you want to stop being the go-to person for executional tasks and become the go-to person for commercial strategy, business growth, change management and operational efficiency.",
+    "why_it_matters": "This is not a productivity reflection exercise. It is the input layer for future delegation, scheduled task builds, Claude Cowork workflows, live artifacts, and automations. If a task keeps landing on you, it must become owned, standardised, automated, scheduled, or killed.",
+    "minimum_version": "Pick 5 executional tasks you currently absorb. For each, name the correct owner, the standard, the redirect script, and whether it should become a future task, scheduled task, live artifact, or automation candidate.",
+    "full_version": "A Leadership Time Reclaim Register with five sections: stop doing, delegate, supervise by standard, automate later, and keep. Each row must have owner, standard, redirect script, escalation path, future build route, and reusable output.",
     "best_model": "chatgpt-project",
     "fallback_model": "claude-chat",
     "model_confidence": "Medium high",
@@ -19,18 +19,79 @@
     "use_asset_reason": "Open only the smallest relevant asset pack for this task. Do not dump the whole knowledge base into the model.",
     "prompt_file": "prompts/next-io/s1-t1-create-the-stop-doing-register.md",
     "prompt_folder": "next-io",
-    "human_first_action": "Open a blank table. List every task you did this week that someone else should own. Mark each as stop, delegate, supervise, automate or keep.",
+    "human_first_action": "Open a blank table. List every executional task you did or chased this week. For each one, write who should own it, what good looks like, and whether the repeatable part should become a scheduled reminder, Claude Cowork task, live artifact, or automation candidate.",
     "do_not_ask_ai_until": "Write the rough human version first, or list the live facts and constraints. Then use AI to structure, challenge, sharpen or source-check.",
-    "output": "A written list of tasks you stop, delegate, standardise, automate or keep.",
-    "success_test": "10 tasks classified. One task redirected.",
-    "kill_rule": "If it becomes a complaint list rather than handoff language, kill the draft and redo it.",
-    "friday_review_question": "Which executional task did I stop owning?",
+    "output": "A Leadership Time Reclaim Register that becomes source material for future roadmap tasks, scheduled tasks, live artifacts, and automations.",
+    "success_test": "At least 5 tasks classified, 1 task redirected this week, and at least 2 future build candidates captured for the roadmap.",
+    "kill_rule": "If the output is only a complaint list, kill it. If it does not create owner, standard, script, escalation and future-build route, redo it.",
+    "friday_review_question": "Which executional task did I stop owning, and which repeated task should become a scheduled task, live artifact, or automation candidate?",
     "privacy_warning": "Use anonymised examples. Do not paste confidential personal data, client data, employee performance details, compensation data, emails, CRM exports or sensitive commercial information into any external tool unless approved and safe.",
     "time": "35 min",
     "energy": "Medium",
     "complexity": "Medium",
     "best_time": "When alert fatigue is lowest",
-    "original_action": "Open a blank table. List every task you did this week that someone else should own. Mark each as stop, delegate, supervise, automate or keep."
+    "original_action": "Build a Leadership Time Reclaim Register that feeds delegation, future roadmap tasks, scheduled task builds, live artifacts and automations.",
+    "downstream_outputs": [
+      {
+        "name": "Stop Doing Register",
+        "use": "Defines tasks Stuart will no longer execute."
+      },
+      {
+        "name": "Ownership Map",
+        "use": "Feeds owner-to-owner communication, Jo task briefs, Monday.com task ownership and escalation."
+      },
+      {
+        "name": "Boundary Script Bank",
+        "use": "Feeds future coaching prompts, email drafts and leadership scripts."
+      },
+      {
+        "name": "Scheduled Task Candidates",
+        "use": "Feeds ChatGPT Tasks or Claude scheduled reminders for recurring checks, reviews and follow-ups."
+      },
+      {
+        "name": "Live Artifact Candidates",
+        "use": "Feeds Claude Artifacts or HTML tools for trackers, forms, dashboards or scorecards."
+      },
+      {
+        "name": "Automation Candidates",
+        "use": "Feeds Make, Zapier, n8n, Claude Cowork or ChatGPT Agent specs after the manual workflow proves useful."
+      }
+    ],
+    "feeds_into": [
+      {
+        "task": "s1-t2",
+        "label": "Follow-Up and Accountability Tracker",
+        "reason": "Tasks with owners and deadlines become tracked follow-ups."
+      },
+      {
+        "task": "s1-t3",
+        "label": "Ownership Message to Jo",
+        "reason": "CRM execution tasks become written ownership and performance expectations."
+      },
+      {
+        "task": "s1-t5",
+        "label": "Owner-to-Owner Communication Rule",
+        "reason": "Middleman tasks become direct owner communication rules."
+      },
+      {
+        "task": "s4-t1",
+        "label": "Manual Follow-Up System",
+        "reason": "Repeated follow-ups become manual workflow candidates."
+      },
+      {
+        "task": "s4-t4",
+        "label": "Automation Only After Manual Proof",
+        "reason": "Repeatable tasks become automation candidates only after manual proof."
+      }
+    ],
+    "capture_template": "templates/leadership-time-reclaim-register.md",
+    "future_build_rules": [
+      "Scheduled task candidate: use when the work is recurring, time-based, and mostly a reminder or review.",
+      "Claude Cowork candidate: use when the work needs file, folder, document or Microsoft 365 context.",
+      "Live artifact candidate: use when the work needs an interactive checklist, tracker, calculator, prompt runner or scorecard.",
+      "Automation candidate: use only after the manual workflow has been used at least twice and still saves time.",
+      "Do not automate vague ownership. First define owner, standard, deadline and escalation."
+    ]
   },
   {
     "id": "s1-t2",
