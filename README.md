@@ -2,20 +2,17 @@
 
 A private, GitHub-ready roadmap app for Stuart Crowley.
 
-This is a task-led operating system, not a generic personal productivity dashboard.
+This is a single-task execution system. It is not a dashboard, prompt library, or generic personal productivity tool.
 
 ## How to use
 
 1. Open `index.html` through GitHub Pages or a local server.
-2. Pick the active sprint.
-3. Select no more than three active tasks.
-4. Open each task card.
-5. Follow the human-first action.
-6. Use the recommended model only when needed.
-7. Open only the linked asset pack.
-8. Run the prompt from the prompt file.
-9. Complete Friday Review.
-10. Kill or park anything that does not earn its place.
+2. Leave scope as `All sprints`, or choose one sprint if you need focus.
+3. Complete the task shown on screen.
+4. Follow the steps in order: human-first action, asset, model, prompt, output, success test.
+5. Mark the task complete, park it, or kill it.
+6. The next task appears automatically.
+7. Use the review export when you want to check progress or choose what to repeat.
 
 ## Local preview
 
@@ -34,7 +31,7 @@ Then open `http://localhost:8000`.
 
 ## Core rule
 
-One roadmap. Three active tasks. No orphan systems.
+One roadmap. One current task. No orphan systems.
 
 ## Privacy
 

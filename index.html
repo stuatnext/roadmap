@@ -7,36 +7,24 @@
   <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
-  <header class="topbar">
+  <header class="topbar focus-topbar">
     <div>
       <p class="eyebrow">One Roadmap</p>
       <h1>Stuart Crowley Operating Roadmap</h1>
-      <p class="subtitle">One active sprint. Three active tasks. Every task tells you what to do, which model to use, which asset to open, what prompt to run, and how to judge if it worked.</p>
+      <p class="subtitle">One task at a time. Complete it, park it, or kill it. Then move on.</p>
     </div>
     <div class="status-card">
-      <span>Active sprint</span>
+      <span>Current sprint</span>
       <strong id="activeSprintName">Loading</strong>
-      <small id="activeTaskCount">0 active tasks</small>
+      <small id="queueStatus">Loading queue</small>
     </div>
   </header>
-  <nav id="tabs" class="tabs">
-    <button data-view="command" class="tab active">Command</button>
-    <button data-view="roadmap" class="tab">Sprint Roadmap</button>
-    <button data-view="prompts" class="tab">Prompt Runner</button>
-    <button data-view="models" class="tab">Model Router</button>
-    <button data-view="assets" class="tab">Asset Map</button>
-    <button data-view="review" class="tab">Review</button>
-    <button data-view="archive" class="tab">Archive</button>
-  </nav>
-  <main>
-    <section id="command" class="view active"></section>
-    <section id="roadmap" class="view"></section>
-    <section id="prompts" class="view"></section>
-    <section id="models" class="view"></section>
-    <section id="assets" class="view"></section>
-    <section id="review" class="view"></section>
-    <section id="archive" class="view"></section>
+
+  <main class="focus-shell">
+    <section id="focusTask" class="focus-task"></section>
+    <aside id="sidePanel" class="side-panel"></aside>
   </main>
+
   <div id="toast" class="toast" hidden></div>
   <script src="assets/js/app.js"></script>
 </body>

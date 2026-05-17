@@ -1,6 +1,6 @@
 # AI Context for Stuart One Roadmap
 
-This repo is Stuart Crowley’s task-led operating roadmap. It exists to make execution easier, not to create more strategy documents.
+This repo is Stuart Crowley’s single-task execution roadmap. It exists to remove ambiguity and stop the roadmap becoming another set of fragmented tabs.
 
 ## What this is
 
@@ -20,15 +20,34 @@ A modular static roadmap app for:
 - not a place to add more dashboards
 - not a prompt dump
 - not a strategy generator
+- not a multi-tab command centre
+
+## Primary UX rule
+
+Show one task at a time.
+
+Each task must guide Stuart through:
+
+1. why the task exists
+2. the real problem
+3. the human-first action
+4. the asset to open
+5. the model or tool to use
+6. the prompt to run
+7. the expected output
+8. the success test
+9. the complete, park, or kill decision
+
+When one task is marked complete, parked, or killed, the next task should appear automatically.
 
 ## Rules for any AI editing this repo
 
-1. Preserve the task-led structure.
-2. Do not add a new tab unless it removes friction.
-3. Do not add a new task unless it maps to a sprint and one of the six outcomes.
-4. Every task must include problem, cause, questionnaire source, best model, fallback model, asset, prompt file, human-first action, output, success test, kill rule and privacy warning.
-5. Do not duplicate prompt text inside `tasks.json`. Use prompt files.
-6. Keep active tasks capped at three.
+1. Preserve the single-task flow.
+2. Do not restore command-vs-sprint tabs.
+3. Do not add a new tab unless it removes friction.
+4. Do not add a new task unless it maps to a sprint and one of the six outcomes.
+5. Every task must include problem, cause, questionnaire source, best model, fallback model, asset, prompt file, human-first action, output, success test, kill rule and privacy warning.
+6. Do not duplicate prompt text inside `tasks.json`. Use prompt files.
 7. Do not create mega-plans.
 8. Do not suggest a website, dashboard, agent, prompt library or app without checking existing assets first.
 9. Use simple language.
@@ -36,7 +55,7 @@ A modular static roadmap app for:
 
 ## How tasks work
 
-Each task card should answer:
+Each task should answer:
 
 - what problem this solves
 - why it exists from Stuart’s questionnaire answers
