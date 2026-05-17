@@ -1,43 +1,152 @@
 # Send 10 Singapore outreach messages
 
-**Sprint:** Sprint 3: Market Contact and Proof
+This is a prompt sequence, not one giant prompt. Run one prompt at a time. Do not paste this whole file into an LLM unless you want a task brief.
 
-**Lane:** Strait Up Growth
+**Best model:** ChatGPT Project  
+**Fallback:** Claude Chat or Project  
+**Asset to use:** Strait Up Growth OS
 
-**Use this model or tool:** ChatGPT Project for drafts. Human final. No AI for sending unless using a CRM workflow.
+**Task goal:** Ten real messages sent to potential buyers, mentors or connectors.
 
-**Use this asset:** Strait Up Growth OS: discovery call framework, objection handling, LinkedIn to lead path.
+**Success test:** 10 messages sent. At least 1 reply or conversation booked.
 
-## Starter prompt
+**Privacy rule:** Use anonymised examples. Do not paste confidential personal data, client data, employee performance details, compensation data, emails, CRM exports or sensitive commercial information into any external tool unless approved and safe.
+
+---
+
+## Prompt 1: Capture the raw situation
 
 ```text
-Write 3 short LinkedIn outreach variants for Singapore B2B founders or operators.
+Use ChatGPT Project. If this needs document tone, long writing, or Microsoft 365 context, use Claude Chat or Project.
 
-Goal: ask for market perspective, not pitch.
+I am working on this roadmap task: Send 10 Singapore outreach messages.
 
-Mention only if relevant: operational drag, CRM mess, AI confusion, founder overload, poor follow-up.
+Why it exists from my questionnaire answers:
+You said outreach and social presence are the things you have procrastinated on even though they would move the needle fastest.
 
-Tone: peer-to-peer, direct, respectful, under 80 words.
+The live facts are below. They may be messy:
+[paste notes, examples, links, data, meeting notes, screenshots, or rough thoughts]
 
-Output: 3 variants, 3 follow-ups, and one softer version for warm contacts.
+First, do not solve anything. Create a clean capture of the situation.
+
+Output:
+1. facts
+2. assumptions
+3. missing information
+4. risks
+5. decisions needed
+6. what not to overbuild
+
+Keep it sharp. Do not give generic advice.
 ```
 
-## Human starter action
+## Prompt 2: Diagnose and prioritise
 
-Send 2 messages per weekday. Track sent, replied, follow-up date and next step.
+```text
+Using the captured situation below:
+[paste output from Prompt 1]
 
-## Expected output
+Diagnose the root problem for this task:
+Problem: Strait Up Growth will not grow inside your head.
+Cause: The offer has not touched enough real prospects.
 
-Ten real messages sent to potential buyers, mentors or connectors.
+Give me:
+1. the real problem in one sentence
+2. the smallest useful version
+3. the full version only if needed
+4. top 3 risks
+5. one recommended next action within 48 hours
+6. one thing I should not do
 
-## Success test
+Use this asset if useful: Strait Up Growth OS.
+Do not invent facts. Mark assumptions clearly.
+```
 
+## Prompt 3: Build the task output
+
+```text
+Build the output for this roadmap task.
+
+Task: Send 10 Singapore outreach messages
+Required output: Ten real messages sent to potential buyers, mentors or connectors.
+Minimum version: Send three messages, not ten.
+Full version: Ten real messages sent to potential buyers, mentors or connectors.
+
+Use the diagnosis below:
+[paste output from Prompt 2]
+
+Create the output in a format I can use immediately.
+
+Rules:
+1. Be specific to NEXT.io, Strait Up Growth, Singapore, AI leverage, Chinese, or my career where relevant.
+2. Reduce action, do not expand it.
+3. Include only what I need to act.
+4. Add a clear success test.
+5. Add a kill rule if the output gets bloated.
+```
+
+## Prompt 4: Extract reusable outputs
+
+```text
+Using the task output below:
+[paste output from Prompt 3]
+
+Extract reusable outputs so this task feeds the wider roadmap.
+
+Create sections:
+1. immediate action
+2. reusable asset created
+3. future scheduled task candidate
+4. Claude Cowork candidate
+5. live artifact candidate
+6. automation candidate
+7. future roadmap task
+8. park or kill recommendation
+
+Capture separate reusable blocks: tool test card, manual workflow, prompt instructions, tool choice gate, risk log, privacy notes, and build/kill decision.
+
+Only mark something automation-ready if the manual workflow is repeatable, has a trigger, input, owner, output, and success test.
+```
+
+## Prompt 5: Create the action script or implementation steps
+
+```text
+Using the reusable outputs below:
+[paste output from Prompt 4]
+
+Create the immediate implementation plan.
+
+Give me:
+1. one action to take in the next 48 hours
+2. exact script, message, checklist, or first build step
+3. where to save the output
+4. what to track
+5. what to tell Friday Review
+
+Keep it short. Do not create another plan.
+```
+
+## Prompt 6: Review and feed forward
+
+```text
+Here is what happened after I attempted this task:
+[paste what you did, what worked, what failed, any replies, any blockers]
+
+Review against this success test:
 10 messages sent. At least 1 reply or conversation booked.
 
-## Friday review question
+Answer:
+1. complete, repeat, park, or kill?
+2. what changed in the real world?
+3. what output should feed the next roadmap task?
+4. what should become a scheduled task, live artifact, Cowork workflow, automation spec, or future prompt?
+5. what is my next action?
 
-How many real humans did I contact?
+Keep the final answer under 150 words.
+```
 
-## Kill rule
+---
 
-Do not call it research if no message is sent.
+## How to use the sequence
+
+Run the prompts in order. Skip a later prompt only if the previous output proves the task should be parked or killed. Save useful outputs in the task notes before marking complete.
