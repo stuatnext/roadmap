@@ -22,3 +22,27 @@
 .prompt-step pre{margin:0;border-radius:0;border-width:1px 0 0 0;max-height:420px;white-space:pre-wrap}
 .copy-inline{border:1px solid var(--line);background:rgba(255,255,255,.06);color:var(--ink);border-radius:999px;padding:7px 11px;font-weight:800;cursor:pointer;font-size:.78rem;flex:0 0 auto}
 .copy-inline:hover{background:rgba(120,169,255,.14)}
+
+.artifact-source-section .box { border-color: rgba(120,169,255,.25); }
+
+
+.artifact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 10px;
+  margin-top: 12px;
+}
+.source-detail {
+  margin-top: 12px;
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 12px;
+  padding: 10px 12px;
+  background: rgba(255,255,255,.03);
+}
+.source-detail summary {
+  cursor: pointer;
+  font-weight: 700;
+}
+.source-detail p {
+  margin: 8px 0;
+}
