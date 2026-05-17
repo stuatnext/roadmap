@@ -5,6 +5,8 @@ const store = {
   get(key, fallback){ try { return JSON.parse(localStorage.getItem(key)) || fallback; } catch(e){ return fallback; } },
   set(key, value){ localStorage.setItem(key, JSON.stringify(value)); }
 };
+let CURRENT_PROMPT = '';
+let CURRENT_PROMPT_SECTIONS = [];
 let state = store.get(STORAGE_KEY, {
   done:{},
   parked:{},
@@ -21,6 +23,51 @@ function esc(s){ return (s||'').toString().replace(/[&<>"']/g, c=>({'&':'&amp;',
 function toast(msg){ const el=document.getElementById('toast'); el.textContent=msg; el.hidden=false; setTimeout(()=>{el.hidden=true}, 1700); }
 async function copyText(txt){ try{ await navigator.clipboard.writeText(txt); toast('Copied'); } catch(e){ toast('Copy failed'); } }
 async function fetchText(path){ const r = await fetch(path); if(!r.ok) throw new Error(path); return r.text(); }
+
+function stripFence(txt){
+  const m = txt.match(/```(?:text|markdown|md)?\n([\s\S]*?)```/i);
+  return m ? m[1].trim() : txt.trim();
+}
+function parsePromptSections(md){
+  const lines = (md || '').split(/\r?\n/);
+  const sections = [];
+  let current = null;
+  for(const line of lines){
+    const m = line.match(/^##\s+(Prompt\s+\d+:[^\n]+)\s*$/i);
+    if(m){
+      if(current) sections.push(current);
+      current = {title:m[1].trim(), body:''};
+    } else if(current){
+      current.body += line + '\n';
+    }
+  }
+  if(current) sections.push(current);
+  return sections.map((sec, idx)=>({
+    index: idx,
+    title: sec.title,
+    body: sec.body.trim(),
+    copy: stripFence(sec.body)
+  })).filter(sec=>sec.body || sec.copy);
+}
+function renderPromptSequence(md, t){
+  CURRENT_PROMPT = md || '';
+  CURRENT_PROMPT_SECTIONS = parsePromptSections(CURRENT_PROMPT);
+  if(!CURRENT_PROMPT_SECTIONS.length){
+    return `<p class="tiny">File: ${esc(t.prompt_file)}</p><pre id="currentPrompt">${esc(CURRENT_PROMPT)}</pre><div class="action-row"><button class="btn primary" onclick="copyCurrentPrompt()">Copy prompt</button><button class="btn" onclick="copyTaskBrief('${esc(t.id)}')">Copy task brief</button></div>`;
+  }
+  return `<p class="tiny">File: ${esc(t.prompt_file)}</p>
+    <p class="small">Run these prompts one at a time. Do not paste the whole file unless you want a task brief.</p>
+    <div class="prompt-sequence">
+      ${CURRENT_PROMPT_SECTIONS.map((sec,i)=>`<details class="prompt-step" ${i===0?'open':''}><summary><span>${esc(sec.title)}</span><button class="copy-inline" onclick="event.preventDefault(); event.stopPropagation(); copyPromptSection(${i})">Copy</button></summary><pre>${esc(sec.copy)}</pre></details>`).join('')}
+    </div>
+    <div class="action-row"><button class="btn primary" onclick="copyPromptSection(0)">Copy first prompt</button><button class="btn" onclick="copyCurrentPrompt()">Copy full sequence</button><button class="btn" onclick="copyTaskBrief('${esc(t.id)}')">Copy task brief</button></div>`;
+}
+function copyPromptSection(i){
+  const sec = CURRENT_PROMPT_SECTIONS[i];
+  if(!sec) return toast('Prompt section missing');
+  copyText(sec.copy || sec.body || '');
+}
+
 async function loadData(){
   document.getElementById('queueStatus').textContent = 'Loading data files';
   const files = ['sprints','tasks','model-router','asset-map','quality-gate','kill-rules','review-questions'];
@@ -133,7 +180,7 @@ function taskSteps(t){
     {title:'Step 2. Write the human-first version', body:t.human_first_action},
     {title:'Step 3. Open only the named asset', body:`Use ${assetName(t.asset_id)}. ${t.use_asset_reason || ''}`},
     {title:'Step 4. Use the recommended model', body:`Primary: ${modelName(t.best_model)}. Fallback: ${modelName(t.fallback_model)}.`},
-    {title:'Step 5. Run the prompt', body:`Copy the prompt below into the primary model. Keep confidential data out unless approved and safe.`},
+    {title:'Step 5. Run the prompt sequence', body:`Use the prompt sequence below one step at a time. Do not paste the full file unless you want a task brief. Keep confidential data out unless approved and safe.`},
     {title:'Step 6. Create the output', body:t.output}
   ];
   if(t.downstream_outputs || t.feeds_into || t.future_build_rules){
@@ -188,10 +235,8 @@ async function renderFocusTask(){
     </section>
 
     <section class="focus-section">
-      <h3>Starter prompt</h3>
-      <p class="tiny">File: ${esc(t.prompt_file)}</p>
-      <pre id="currentPrompt">${esc(prompt)}</pre>
-      <div class="action-row"><button class="btn primary" onclick="copyCurrentPrompt()">Copy prompt</button><button class="btn" onclick="copyTaskBrief('${esc(t.id)}')">Copy task brief</button></div>
+      <h3>Prompt sequence</h3>
+      ${renderPromptSequence(prompt, t)}
     </section>
 
     ${futureBuildHtml(t)}
@@ -272,7 +317,7 @@ async function uncompleteTask(id){ delete state.done[id]; save(); await renderAl
 async function setHistoryView(view){ state.showHistory=view; save(); await renderAll(); }
 async function toggleReference(){ state.showReference=!state.showReference; save(); await renderAll(); }
 function saveTaskNote(el){ state.taskNotes[el.dataset.taskNote]=el.value; save(); }
-function copyCurrentPrompt(){ const el=document.getElementById('currentPrompt'); if(el) copyText(el.textContent); }
+function copyCurrentPrompt(){ copyText(CURRENT_PROMPT || ''); }
 function taskBrief(t){
   return [
     `# Task: ${t.title}`,
