@@ -1,3 +1,4 @@
+window.roadmapStarted = true;
 const DATA = {};
 const STORAGE_KEY = 'stuartOneRoadmapSingleTaskState';
 const store = {
@@ -12,7 +13,8 @@ let state = store.get(STORAGE_KEY, {
   taskNotes:{},
   sprintFilter:'all',
   showQueue:false,
-  showReference:false
+  showReference:false,
+  showHistory:false
 });
 function save(){ store.set(STORAGE_KEY, state); }
 function esc(s){ return (s||'').toString().replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
@@ -20,6 +22,7 @@ function toast(msg){ const el=document.getElementById('toast'); el.textContent=m
 async function copyText(txt){ try{ await navigator.clipboard.writeText(txt); toast('Copied'); } catch(e){ toast('Copy failed'); } }
 async function fetchText(path){ const r = await fetch(path); if(!r.ok) throw new Error(path); return r.text(); }
 async function loadData(){
+  document.getElementById('queueStatus').textContent = 'Loading data files';
   const files = ['sprints','tasks','model-router','asset-map','quality-gate','kill-rules','review-questions'];
   try{
     await Promise.all(files.map(async name => {
@@ -29,7 +32,10 @@ async function loadData(){
     }));
     await renderAll();
   } catch(e){
-    document.querySelector('main').innerHTML = `<div class="card"><h2>Run through a local server or GitHub Pages</h2><p>This roadmap loads JSON and Markdown files. If you opened index.html directly, your browser may block those files.</p><pre>python3 -m http.server 8000</pre><p>Then open <span class="file-link">http://localhost:8000</span>.</p></div>`;
+    console.error('Roadmap load failed', e);
+    document.getElementById('activeSprintName').textContent = 'Data load failed';
+    document.getElementById('queueStatus').textContent = 'Check /data/*.json paths';
+    document.querySelector('main').innerHTML = `<div class="card hero-card"><p class="eyebrow">Loading failed</p><h2>The queue could not load.</h2><p>The app needs the JSON files in <span class="file-link">/data/</span> and the JavaScript file in <span class="file-link">/assets/js/</span>.</p><ol class="tight-list"><li>Open <span class="file-link">data/tasks.json</span> from your GitHub Pages URL. It should show JSON.</li><li>Open <span class="file-link">data/sprints.json</span>. It should show JSON.</li><li>If either shows 404, upload the missing folder to the repo root.</li><li>If both work, hard refresh the page or clear Safari website data for the site.</li></ol><pre>python3 -m http.server 8000</pre></div>`;
   }
 }
 function sprintName(id){ const s=DATA.sprints.find(x=>x.id===id); return s ? s.name : id; }
@@ -89,6 +95,22 @@ function qualityGateHtml(){
   const qs = DATA['quality-gate'] || [];
   return `<ol class="tight-list">${qs.map(q=>`<li>${esc(q)}</li>`).join('')}</ol>`;
 }
+
+function inlineRecoveryHtml(){
+  const parked = orderedTasks().filter(t=>state.parked[t.id]);
+  if(!parked.length) return '';
+  return `<div class="card recovery-card">
+    <div>
+      <p class="eyebrow">Parked tasks</p>
+      <h3>${parked.length} task${parked.length===1?'':'s'} parked for later</h3>
+      <p class="small">These are paused, not gone. Unpark one and it returns to the queue.</p>
+    </div>
+    <div class="recovery-list">
+      ${parked.map(t=>`<div class="small-row"><span>${esc(t.title)}<small>${esc(sprintName(t.sprint))}</small></span><button class="btn ghost" onclick="unparkTask('${esc(t.id)}')">Unpark</button></div>`).join('')}
+    </div>
+  </div>`;
+}
+
 function taskSteps(t){
   return [
     {title:'Step 1. Read the real problem', body:t.problem},
@@ -109,12 +131,12 @@ async function renderFocusTask(){
   document.getElementById('queueStatus').textContent = `${c.remaining} remaining · ${c.done} done · ${c.parked} parked · ${c.killed} killed`;
   const root = document.getElementById('focusTask');
   if(!t){
-    root.innerHTML = `<div class="card hero-card"><p class="eyebrow">Queue clear</p><h2>No current task</h2><p>You have no remaining tasks in this scope. Run the review, unpark a task, or change sprint scope.</p><div class="action-row"><button class="btn primary" onclick="copyReviewMarkdown()">Copy review</button><button class="btn" onclick="downloadReview()">Download review</button><button class="btn ghost" onclick="toggleReference()">Open reference</button></div></div>`;
+    root.innerHTML = `<div class="card hero-card"><p class="eyebrow">Queue clear</p><h2>No current task</h2><p>You have no remaining tasks in this scope. Run the review, unpark a task, or change sprint scope.</p><div class="action-row"><button class="btn primary" onclick="copyReviewMarkdown()">Copy review</button><button class="btn" onclick="downloadReview()">Download review</button><button class="btn ghost" onclick="toggleReference()">Open reference</button></div></div>${inlineRecoveryHtml()}`;
     return;
   }
   const prompt = await getPrompt(t);
   const steps = taskSteps(t);
-  root.innerHTML = `<article class="card hero-card task-focus-card">
+  root.innerHTML = `${inlineRecoveryHtml()}<article class="card hero-card task-focus-card">
     <div class="task-focus-head">
       <div>
         <p class="eyebrow">Current task</p>
@@ -179,6 +201,9 @@ function renderSidePanel(){
   const done = orderedTasks().filter(t=>state.done[t.id]);
   const parked = orderedTasks().filter(t=>state.parked[t.id]);
   const killed = orderedTasks().filter(t=>state.killed[t.id]);
+  const completedList = done.map(t=>`<div class="small-row"><span>${esc(t.title)}</span><button class="link-btn" onclick="uncompleteTask('${esc(t.id)}')">reopen</button></div>`).join('') || '<p class="tiny">Nothing completed yet.</p>';
+  const parkedList = parked.map(t=>`<div class="small-row"><span>${esc(t.title)}</span><button class="link-btn" onclick="unparkTask('${esc(t.id)}')">unpark</button></div>`).join('') || '<p class="tiny">Nothing parked.</p>';
+  const killedList = killed.map(t=>`<div class="small-row"><span>${esc(t.title)}</span><button class="link-btn" onclick="unkillTask('${esc(t.id)}')">restore</button></div>`).join('') || '<p class="tiny">Nothing killed.</p>';
   document.getElementById('sidePanel').innerHTML = `<div class="card side-card">
     <p class="eyebrow">Setup</p>
     <h3>Choose scope</h3>
@@ -190,13 +215,27 @@ function renderSidePanel(){
   <div class="card side-card">
     <p class="eyebrow">Queue</p>
     <h3>What comes next</h3>
-    <p class="small">Only the current task opens fully. The next tasks are shown for context.</p>
+    <p class="small">Only the current task opens fully. Parked, completed and killed tasks are below.</p>
     <ol class="queue-list">${queue.slice(0,8).map((t,i)=>`<li class="${i===0?'current-queue':''}"><span>${esc(t.title)}</span><small>${esc(sprintName(t.sprint))}</small></li>`).join('') || '<li>No remaining tasks.</li>'}</ol>
-    <button class="btn ghost" onclick="toggleReference()">${state.showReference?'Hide':'Show'} reference</button>
   </div>
 
-  ${state.showReference ? `<div class="card side-card"><p class="eyebrow">Reference</p><h3>Quality gate</h3>${qualityGateHtml()}<h3>Review actions</h3><div class="action-row vertical"><button class="btn" onclick="copyReviewMarkdown()">Copy review</button><button class="btn" onclick="downloadReview()">Download review</button><button class="btn ghost" onclick="resetScopeProgress()">Reset this scope</button></div></div>
-  <div class="card side-card"><p class="eyebrow">Parked</p><h3>Parked or killed</h3>${parked.map(t=>`<div class="small-row"><span>${esc(t.title)}</span><button class="link-btn" onclick="unparkTask('${esc(t.id)}')">unpark</button></div>`).join('') || '<p class="tiny">Nothing parked.</p>'}${killed.length?`<h4>Killed</h4>${killed.map(t=>`<div class="small-row"><span>${esc(t.title)}</span><button class="link-btn" onclick="unkillTask('${esc(t.id)}')">restore</button></div>`).join('')}`:''}</div>` : ''}`;
+  <div class="card side-card">
+    <p class="eyebrow">Task history</p>
+    <h3>Parked, completed, killed</h3>
+    <p class="small">Parked tasks do not disappear. Unpark one and it goes back into the queue.</p>
+    <div class="history-tabs">
+      <button class="btn ghost" onclick="setHistoryView('parked')">Parked (${parked.length})</button>
+      <button class="btn ghost" onclick="setHistoryView('done')">Done (${done.length})</button>
+      <button class="btn ghost" onclick="setHistoryView('killed')">Killed (${killed.length})</button>
+    </div>
+    <div id="historyList">${state.showHistory==='done' ? completedList : state.showHistory==='killed' ? killedList : parkedList}</div>
+  </div>
+
+  <div class="card side-card">
+    <p class="eyebrow">Reference</p>
+    <button class="btn ghost" onclick="toggleReference()">${state.showReference?'Hide':'Show'} quality gate and review</button>
+    ${state.showReference ? `<h3>Quality gate</h3>${qualityGateHtml()}<h3>Review actions</h3><div class="action-row vertical"><button class="btn" onclick="copyReviewMarkdown()">Copy review</button><button class="btn" onclick="downloadReview()">Download review</button><button class="btn ghost" onclick="resetScopeProgress()">Reset this scope</button></div>` : ''}
+  </div>`;
 }
 async function renderAll(){ renderSidePanel(); await renderFocusTask(); }
 async function setSprintFilter(v){ state.sprintFilter=v; save(); await renderAll(); }
@@ -205,6 +244,8 @@ async function parkCurrentTask(id){ state.parked[id]=true; delete state.done[id]
 async function killCurrentTask(id){ state.killed[id]=true; delete state.done[id]; delete state.parked[id]; save(); toast('Killed. Next task loaded.'); await renderAll(); }
 async function unparkTask(id){ delete state.parked[id]; save(); await renderAll(); }
 async function unkillTask(id){ delete state.killed[id]; save(); await renderAll(); }
+async function uncompleteTask(id){ delete state.done[id]; save(); await renderAll(); }
+async function setHistoryView(view){ state.showHistory=view; save(); await renderAll(); }
 async function toggleReference(){ state.showReference=!state.showReference; save(); await renderAll(); }
 function saveTaskNote(el){ state.taskNotes[el.dataset.taskNote]=el.value; save(); }
 function copyCurrentPrompt(){ const el=document.getElementById('currentPrompt'); if(el) copyText(el.textContent); }
@@ -260,6 +301,8 @@ window.parkCurrentTask=parkCurrentTask;
 window.killCurrentTask=killCurrentTask;
 window.unparkTask=unparkTask;
 window.unkillTask=unkillTask;
+window.uncompleteTask=uncompleteTask;
+window.setHistoryView=setHistoryView;
 window.toggleReference=toggleReference;
 window.saveTaskNote=saveTaskNote;
 window.copyReviewMarkdown=copyReviewMarkdown;
