@@ -1,112 +1,213 @@
 # Reclaim Leadership Time at NEXT.io
 
-**Sprint:** Sprint 1: Relief and Control  
-**Lane:** NEXT.io Control  
-**Use this model or tool:** ChatGPT Project for structure and decision logic. Claude Project or Claude Cowork if you want to include Microsoft 365 examples, meeting notes or internal documents.  
-**Use this asset:** Stuart Executive Growth System: Stop_Doing_Register.md, Work_Intake_Rules.md, Delegation_Responses.md
+This is a prompt sequence, not one giant prompt. Run one prompt at a time. Do not paste this whole file into an LLM unless you want a task brief.
 
-## Why this task exists
+**Best model:** ChatGPT Project  
+**Fallback:** Claude Chat or Project  
+**Asset to use:** Stuart Executive Growth System
 
-This is not a reflective productivity exercise.
+**Task goal:** A Leadership Time Reclaim Register that becomes source material for future roadmap tasks, scheduled tasks, live artifacts, and automations.
 
-This task creates the input layer for:
+**Success test:** At least 5 tasks classified, 1 task redirected this week, and at least 2 future build candidates captured for the roadmap.
 
-1. future roadmap tasks
-2. scheduled tasks
-3. Claude Cowork workflows
-4. live artifacts
-5. Make, Zapier or n8n automation specs
-6. NEXT.io ownership and escalation rules
+**Privacy rule:** Use anonymised examples. Do not paste confidential personal data, client data, employee performance details, compensation data, emails, CRM exports or sensitive commercial information into any external tool unless approved and safe.
 
-If a repeated task keeps falling to Stuart, it must become owned, standardised, scheduled, automated later, or killed.
+---
 
-## Human starter action
-
-Before using AI, list every executional task you did, chased, fixed or absorbed this week.
-
-For each task, write:
-
-1. who should own it
-2. what good looks like
-3. whether it is one-off or recurring
-4. whether it needs a reminder, tracker, artifact, Cowork workflow or automation later
-5. what would happen if Stuart stopped doing it
-
-## Starter prompt
+## Prompt 1: Capture and classify
 
 ```text
-Context:
-I am Commercial Director at NEXT.io. I keep getting pulled into executional work: CRM imports, HubSpot list building, forms, direct fixes, sales collateral firefighting, middleman communication, chasing owners, and cleaning up vague ownership.
+I am creating a Leadership Time Reclaim Register for NEXT.io.
 
-My real objective:
-Reclaim leadership time so I can focus on commercial strategy, pricing, forecasting, GTM, leadership, Strait Up Growth, Singapore, AI leverage and Chinese.
+Here is my raw list of executional work, chasing, fixing, middleman tasks, CRM tasks, and ownership gaps from this week:
 
-Important:
-Do not create a generic stop-doing list. Create a reusable operating input that feeds future tasks, scheduled tasks, Claude Cowork workflows, live artifacts and automations.
+[paste messy list]
 
-Existing assets:
-Stop Doing Register, Work Intake Rules, Delegation Responses, my roadmap task queue.
+Classify each item into:
+1. stop doing
+2. delegate
+3. standardise
+4. schedule
+5. build artifact
+6. automate later
+7. keep
 
-Task:
-Create a Leadership Time Reclaim Register.
+For each item, give:
+task
+correct owner
+why it should not sit with me
+my retained role
+recurring or one-off
+risk if ignored
 
-Output format:
-Use a table with these columns:
-
-1. task currently landing on me
-2. why this is a trap
-3. correct owner
-4. my retained role: decide, set standard, QA, escalate, or no involvement
-5. standard required
-6. first redirect script
-7. escalation path
-8. recurring or one-off
-9. future build route: scheduled task, Claude Cowork, live artifact, automation candidate, roadmap task, or kill
-10. future build note
-11. first enforcement date
-
-Then create these separate sections:
-
-A. Top 3 tasks to stop this week
-B. Top 3 tasks to delegate with scripts
-C. Top 3 scheduled task candidates
-D. Top 3 live artifact candidates
-E. Top 3 automation candidates, but only if the manual workflow is clear
-F. One message I should send this week
-
-Rules:
-No motivation.
-No generic productivity advice.
-No vague delegation language.
-No automation unless the task is repeatable and has a clear owner, trigger, input and output.
-If a task is political or sensitive, write a safer leadership script.
-
-Success test:
-I can redirect at least one task in the next 48 hours and capture at least two future build candidates.
+Do not write scripts yet.
+Do not suggest automations yet.
+Only classify.
 ```
 
-## Future build routing rules
+## Prompt 2: Create the register
 
-Use this after the register is created.
+```text
+Using the classified list below, create a Leadership Time Reclaim Register.
 
-1. **Scheduled task**: recurring, time-based, simple reminder or review.
-2. **Claude Cowork**: needs file, folder, document, meeting note or Microsoft 365 context.
-3. **Live artifact**: needs an interactive tracker, checklist, calculator, prompt runner or scorecard.
-4. **Automation**: only after the manual workflow has worked at least twice.
-5. **Kill**: no clear owner, low value, or exists only because someone is avoiding ownership.
+[paste classified list]
 
-## Expected output
+Use this table:
+task currently landing on me
+why this is a trap
+correct owner
+my retained role
+standard required
+recurring or one-off
+first enforcement date
+risk if not fixed
 
-A Leadership Time Reclaim Register that becomes source material for future roadmap tasks, scheduled tasks, live artifacts, and automations.
+Keep it sharp.
+Prioritise the 5 highest-leverage items.
+```
 
-## Success test
+## Prompt 3: Write boundary scripts
 
-At least 5 tasks classified, 1 task redirected this week, and at least 2 future build candidates captured.
+```text
+Using this Leadership Time Reclaim Register:
 
-## Friday review question
+[paste register]
 
-Which executional task did I stop owning, and which repeated task should become a scheduled task, live artifact, or automation candidate?
+Write practical redirect scripts for each task.
 
-## Kill rule
+For each script, give:
+1. soft version
+2. direct version
+3. escalation version
 
-If it becomes a complaint list rather than owner, standard, script, escalation and future-build route, kill the draft and redo it.
+Tone:
+clear, professional, firm, not passive aggressive.
+
+Do not make me sound lazy.
+Frame this as ownership clarity and commercial focus.
+```
+
+## Prompt 4: Create reusable future-build outputs
+
+```text
+Using this Leadership Time Reclaim Register:
+
+[paste register]
+
+Extract future build candidates into separate sections:
+1. Scheduled task candidates
+2. Claude Cowork candidates
+3. Live artifact candidates
+4. Automation candidates
+5. Roadmap tasks
+6. Kill list
+
+For each candidate, include:
+name
+problem solved
+trigger
+input
+output
+owner
+manual workflow needed first
+success test
+why now or why later
+
+Only mark something automation-ready if the workflow is repeatable and clear.
+```
+
+## Prompt 5: Turn scheduled task candidates into scheduled task prompts
+
+```text
+Using these scheduled task candidates:
+
+[paste scheduled task candidates]
+
+Create ready-to-use scheduled task prompts.
+
+For each one, include:
+task title
+frequency
+prompt
+what I should do when I receive it
+success test
+
+Keep each prompt under 120 words.
+```
+
+## Prompt 6: Turn live artifact candidates into artifact specs
+
+```text
+Using these live artifact candidates:
+
+[paste artifact candidates]
+
+Create a simple live artifact spec for each.
+
+For each artifact, include:
+purpose
+user
+fields
+buttons
+views
+local storage needs
+copy/export needs
+what not to build
+success test
+
+Keep it simple.
+No backend unless absolutely required.
+```
+
+## Prompt 7: Turn automation candidates into automation specs
+
+```text
+Using these automation candidates:
+
+[paste automation candidates]
+
+Create automation specs.
+
+For each automation, include:
+trigger
+apps involved
+input data
+action steps
+output
+human approval gate
+failure risk
+privacy risk
+manual test required before automation
+success test
+
+Do not build anything yet.
+Only write the spec.
+```
+
+## Prompt 8: Friday review
+
+```text
+Here is my Leadership Time Reclaim Register and what happened this week:
+
+[paste register]
+[paste outcomes]
+
+Review:
+1. what I stopped owning
+2. what I failed to stop owning
+3. what should be delegated next
+4. what should become a scheduled task
+5. what should become a live artifact
+6. what should be parked
+7. what should be killed
+8. one boundary I need to enforce next week
+
+Keep it practical.
+Give me only next week’s top 3 actions.
+```
+
+---
+
+## How to use the sequence
+
+Run the prompts in order. Skip a later prompt only if the previous output proves the task should be parked or killed. Save useful outputs in the task notes before marking complete.

@@ -1,45 +1,152 @@
 # Send one clean ownership message to Jo
 
-**Sprint:** Sprint 1: Relief and Control
+This is a prompt sequence, not one giant prompt. Run one prompt at a time. Do not paste this whole file into an LLM unless you want a task brief.
 
-**Lane:** Leadership Boundaries
+**Best model:** Claude Cowork  
+**Fallback:** ChatGPT Project  
+**Asset to use:** Stuart Executive Growth System
 
-**Use this model or tool:** Claude Project for tone. ChatGPT Project for structure.
+**Task goal:** Jo has clear tasks, deadlines, update format and escalation route.
 
-**Use this asset:** Executive Growth System: Jo_Task_Brief_Template.md, Jo_Weekly_Review_Prep.md, HubSpot_Governance_Rules.md
+**Success test:** Message sent or ready. Deadlines explicit.
 
-## Starter prompt
+**Privacy rule:** Use anonymised examples. Do not paste confidential personal data, client data, employee performance details, compensation data, emails, CRM exports or sensitive commercial information into any external tool unless approved and safe.
+
+---
+
+## Prompt 1: Capture the raw situation
 
 ```text
-Context: Jo owns CRM execution. I own standards, commercial requirements and escalation. I need to avoid taking the work back while still supporting delivery.
+Use Claude Cowork. If this needs document tone, long writing, or Microsoft 365 context, use ChatGPT Project.
 
-Task: Draft a clear ownership message to Jo.
+I am working on this roadmap task: Send one clean ownership message to Jo.
 
-Output: short email or Teams message with tasks, deadlines, update format, blocker rule and support offer.
+Why it exists from my questionnaire answers:
+You said Jo is on a PIP, CRM execution keeps landing on you, and you need her focused on the right tasks rather than you quietly absorbing the work.
 
-Tone: direct, fair, calm, no passive aggression.
+The live facts are below. They may be messy:
+[paste notes, examples, links, data, meeting notes, screenshots, or rough thoughts]
 
-Constraints: no long explanation, no HR theatre, no emotional wording.
+First, do not solve anything. Create a clean capture of the situation.
 
-Success test: Jo knows exactly what she owns and when she must update me.
+Output:
+1. facts
+2. assumptions
+3. missing information
+4. risks
+5. decisions needed
+6. what not to overbuild
+
+Keep it sharp. Do not give generic advice.
 ```
 
-## Human starter action
+## Prompt 2: Diagnose and prioritise
 
-Write the task list first without AI. Use AI only to sharpen tone.
+```text
+Using the captured situation below:
+[paste output from Prompt 1]
 
-## Expected output
+Diagnose the root problem for this task:
+Problem: CRM ownership is unclear while Jo is under performance pressure.
+Cause: You are protecting delivery by quietly doing tasks that should be visible and owned.
 
-Jo has clear tasks, deadlines, update format and escalation route.
+Give me:
+1. the real problem in one sentence
+2. the smallest useful version
+3. the full version only if needed
+4. top 3 risks
+5. one recommended next action within 48 hours
+6. one thing I should not do
 
-## Success test
+Use this asset if useful: Stuart Executive Growth System.
+Do not invent facts. Mark assumptions clearly.
+```
 
+## Prompt 3: Build the task output
+
+```text
+Build the output for this roadmap task.
+
+Task: Send one clean ownership message to Jo
+Required output: Jo has clear tasks, deadlines, update format and escalation route.
+Minimum version: Complete the smallest version that creates a real-world action within 48 hours.
+Full version: Jo has clear tasks, deadlines, update format and escalation route.
+
+Use the diagnosis below:
+[paste output from Prompt 2]
+
+Create the output in a format I can use immediately.
+
+Rules:
+1. Be specific to NEXT.io, Strait Up Growth, Singapore, AI leverage, Chinese, or my career where relevant.
+2. Reduce action, do not expand it.
+3. Include only what I need to act.
+4. Add a clear success test.
+5. Add a kill rule if the output gets bloated.
+```
+
+## Prompt 4: Extract reusable outputs
+
+```text
+Using the task output below:
+[paste output from Prompt 3]
+
+Extract reusable outputs so this task feeds the wider roadmap.
+
+Create sections:
+1. immediate action
+2. reusable asset created
+3. future scheduled task candidate
+4. Claude Cowork candidate
+5. live artifact candidate
+6. automation candidate
+7. future roadmap task
+8. park or kill recommendation
+
+Capture separate reusable blocks: owner map, script, escalation rule, meeting/action note, scheduled reminder, and future automation or artifact candidate.
+
+Only mark something automation-ready if the manual workflow is repeatable, has a trigger, input, owner, output, and success test.
+```
+
+## Prompt 5: Create the action script or implementation steps
+
+```text
+Using the reusable outputs below:
+[paste output from Prompt 4]
+
+Create the immediate implementation plan.
+
+Give me:
+1. one action to take in the next 48 hours
+2. exact script, message, checklist, or first build step
+3. where to save the output
+4. what to track
+5. what to tell Friday Review
+
+Keep it short. Do not create another plan.
+```
+
+## Prompt 6: Review and feed forward
+
+```text
+Here is what happened after I attempted this task:
+[paste what you did, what worked, what failed, any replies, any blockers]
+
+Review against this success test:
 Message sent or ready. Deadlines explicit.
 
-## Friday review question
+Answer:
+1. complete, repeat, park, or kill?
+2. what changed in the real world?
+3. what output should feed the next roadmap task?
+4. what should become a scheduled task, live artifact, Cowork workflow, automation spec, or future prompt?
+5. what is my next action?
 
-Did I give ownership or quietly rescue again?
+Keep the final answer under 150 words.
+```
 
-## Kill rule
+---
 
-If deadlines are not explicit, it is not an ownership message.
+## How to use the sequence
+
+Run the prompts in order. Skip a later prompt only if the previous output proves the task should be parked or killed. Save useful outputs in the task notes before marking complete.
