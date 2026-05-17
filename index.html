@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stuart One Roadmap</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">One Roadmap</p>
+      <h1>Stuart Crowley Operating Roadmap</h1>
+      <p class="subtitle">One active sprint. Three active tasks. Every task tells you what to do, which model to use, which asset to open, what prompt to run, and how to judge if it worked.</p>
+    </div>
+    <div class="status-card">
+      <span>Active sprint</span>
+      <strong id="activeSprintName">Loading</strong>
+      <small id="activeTaskCount">0 active tasks</small>
+    </div>
+  </header>
+  <nav id="tabs" class="tabs">
+    <button data-view="command" class="tab active">Command</button>
+    <button data-view="roadmap" class="tab">Sprint Roadmap</button>
+    <button data-view="prompts" class="tab">Prompt Runner</button>
+    <button data-view="models" class="tab">Model Router</button>
+    <button data-view="assets" class="tab">Asset Map</button>
+    <button data-view="review" class="tab">Review</button>
+    <button data-view="archive" class="tab">Archive</button>
+  </nav>
+  <main>
+    <section id="command" class="view active"></section>
+    <section id="roadmap" class="view"></section>
+    <section id="prompts" class="view"></section>
+    <section id="models" class="view"></section>
+    <section id="assets" class="view"></section>
+    <section id="review" class="view"></section>
+    <section id="archive" class="view"></section>
+  </main>
+  <div id="toast" class="toast" hidden></div>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
