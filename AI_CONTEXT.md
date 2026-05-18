@@ -80,21 +80,17 @@ Keep prompts separated.
 
 The user should not need to paste a giant prompt.
 
-## Prompt sequence rule for future LLM edits
 
-Do not replace the build prompts with short generic prompts.
+## V2.1 Live Artifact Build Rules
 
-Each build prompt must include:
+The P1 artifact tasks are not static prompt exercises. Each one should build a time-saving Claude Live Artifact plus a Claude Scheduled Task that feeds it.
 
-1. Context for Stuart and NEXT.io.
-2. The live artifact being built.
-3. The exact model or tool to use.
-4. The sources or knowledge Stuart must provide or open.
-5. Evidence-first instruction.
-6. Output format.
-7. Human review gate.
-8. Copy/export target.
-9. Success test.
-10. No live sync, no source writeback, no automatic decisions.
+Architecture:
+1. Claude Cowork/connected sources gather evidence.
+2. Claude Live Artifact provides the persistent review UI.
+3. Claude Scheduled Task refreshes the review inputs on Hourly, Daily, Weekdays or Weekly cadence.
+4. Automation is parked until the workflow proves itself for at least four cycles.
 
-The prompt files are task execution tools, not strategy notes.
+Never assume source writeback. Never create automatic approvals, owner reassignment, CRM edits, external messages or escalations. If source access fails, request an export or pasted evidence and use manual import mode.
+
+Do not upload every ZIP file to Claude. Use only the task-specific source pack listed in each prompt.

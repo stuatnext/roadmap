@@ -55,17 +55,18 @@ Do not put confidential NEXT.io data, CRM exports, personal performance details,
 
 Use anonymised examples unless the tool and data handling are approved.
 
-## How to use build prompts
 
-For artifact tasks, do not paste the whole prompt file.
+## Live Artifact build flow
 
-Run prompts in order:
+For P1 artifact tasks, follow the prompt sequence in the current task. The intended build is:
 
-1. Capture evidence.
-2. Classify or diagnose.
-3. Create the core output.
-4. Extract reusable outputs.
-5. Build or test the artifact.
-6. Review and feed forward.
+1. Confirm source access and relevant knowledge pack.
+2. Scan sources or import evidence.
+3. Design the artifact behaviour.
+4. Build the Claude Live Artifact.
+5. Create the Claude Scheduled Task that feeds it.
+6. Test with real or anonymised examples.
+7. Park automation spec until four proven cycles.
+8. Run Friday review and decide keep, revise, park or kill.
 
-Each prompt states which model or tool to use and which sources to provide.
+Claude Scheduled Tasks should use only supported cadence options: Hourly, Daily, Weekdays or Weekly. Do not assume custom cadences.

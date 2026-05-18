@@ -24,10 +24,13 @@ It answers one question:
 
 What do I build next, and exactly how do I build it?
 
-## Prompt consolidation update
 
-- Rebuilt P1 live artifact prompt files using the execution source pack.
-- Added source and knowledge requirements inside every build-stage prompt.
-- Consolidated Excel evidence prompts and HTML build prompts into one stage-by-stage sequence.
-- Preserved no-backend, no-live-sync, no-source-writeback and human-approval rules.
-- Added AI context rules so future LLMs do not shorten prompts into generic artifact prompts.
+## 2026-05-18 - V2.1 live artifact + scheduled task build prompts
+
+- Rewrote the five P1 live artifact prompt files as guided build sequences.
+- Added source-pack instructions per artifact to avoid uploading irrelevant ZIPs.
+- Added Claude Scheduled Task setup prompts with supported cadence only: Hourly, Daily, Weekdays, Weekly.
+- Added scheduled task feed logic: scheduled output becomes evidence/import block for the Live Artifact.
+- Added automation-readiness prompts as parked specs only after four proven cycles.
+- Updated model router with Claude Scheduled Tasks.
+- Updated task descriptions so P1 builds create artifact, scheduled task, manual test and parked automation spec.
