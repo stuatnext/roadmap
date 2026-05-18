@@ -191,3 +191,26 @@ Core rule: build only the five P1 artifacts first. Keep version one local, evide
 - Automation-ready count is zero now.
 - Automation specs parked for later are not build instructions yet.
 - No automation moves forward until the manual workflow has a clear trigger, owner, input, output, approval gate, failure risk, privacy risk, and success test.
+## Build-phase prompt source
+- Latest prompt source: `NEXTio_Execution_Source_Pack_ALL_PROMPTS.xlsx`.
+- Use sheet `P1 Prompt Pack` as the source of truth for the five Sprint 1 live artifact prompt sequences.
+- Each P1 artifact prompt now has six stages: capture raw situation, classify or diagnose, create core output, extract reusable outputs, build or test artifact, Friday review and feed forward.
+- Each prompt stage includes model/tool recommendation, connected sources, expected output, human review gate, copy/export target, success test and notes.
+- Do not paste a full prompt file into an LLM unless asking for a task brief. Run one prompt stage at a time.
+
+## Prompt quality update
+
+The P1 live artifact tasks now use consolidated prompt sequences.
+
+Each prompt tells Stuart:
+
+- what model or tool to use
+- why that model or tool is appropriate
+- what sources or knowledge to provide
+- what evidence must be gathered before recommendation
+- what output format is required
+- what human review gate applies
+- where to copy or export the result
+- what must not be automated or built
+
+Do not paste a whole prompt file into an LLM. Run one stage at a time.
