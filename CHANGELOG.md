@@ -1,40 +1,25 @@
 # Changelog
 
-## Prompt sequences across all tasks
+## V2 guided builder
 
-Changed every task prompt file from a single large prompt into a prompt sequence.
+Changed the app from a roadmap view into a guided build system.
 
-Reason: Stuart found the monster-prompt format too heavy and correctly identified that each task needs several smaller prompts to succeed.
+### Changed
 
-Files touched:
+- Replaced task overview flow with one-task, one-step build mode.
+- Added step-level model and source control.
+- Added current-step prompt copying.
+- Added artifact source specs inside build tasks.
+- Added task-level output capture.
+- Added queue preview, parked tasks and killed tasks as collapsible panels.
+- Added weekly review as a queue control checkpoint.
 
-- `prompts/**/**/*.md`
-- `assets/js/app.js`
-- `assets/css/styles.css`
-- `README.md`
-- `AI_CONTEXT.md`
+### Why
 
-Rollback note: restore the previous prompt files if single-prompt execution is needed again.
+The previous app still asked Stuart to decide whether to use the command view, sprint view, or prompt view.
 
-## Single-task flow
+V2 removes that friction.
 
-Changed the roadmap from a multi-tab dashboard into a one-task-at-a-time execution flow.
+It answers one question:
 
-Reason: Stuart found the command tab, sprint tab, prompt runner and other sections confusing. The roadmap now shows one task, the step-by-step process, model choice, asset, prompt sequence, success test, and complete, park or kill buttons.
-
-Files touched:
-
-- `index.html`
-- `assets/js/app.js`
-- `assets/css/styles.css`
-- `README.md`
-- `AI_CONTEXT.md`
-
-Rollback note: restore the previous upgraded repo if tabbed browsing is required again.
-
-## Leadership time reclaim linkage
-
-- Reframed the Stop Doing task as Reclaim Leadership Time at NEXT.io.
-- Added downstream outputs so the task feeds scheduled tasks, Claude Cowork workflows, live artifacts, automations and future roadmap tasks.
-- Added a reusable Leadership Time Reclaim Register template.
-- Added future-build routing rules to prevent dead-end notes and premature automation.
+What do I build next, and exactly how do I build it?

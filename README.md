@@ -1,59 +1,56 @@
-# Stuart One Roadmap
+# Stuart One Roadmap V2
 
-A private, GitHub-ready roadmap app for Stuart Crowley.
+A guided builder for Stuart's NEXT.io, Strait Up Growth, AI, Singapore and capability roadmap.
 
-This is a single-task execution system. It is not a dashboard, prompt dump, or generic personal productivity tool.
+This is not a dashboard.
 
-## How to use
+This is not a prompt archive.
+
+This is a step-by-step build queue.
+
+## How to use it
 
 1. Open `index.html` through GitHub Pages or a local server.
-2. Leave scope as `All sprints`, or choose one sprint if you need focus.
-3. Complete the task shown on screen.
-4. Follow the steps in order: human-first action, asset, model, prompt sequence, output, success test.
-5. Run the prompt sequence one prompt at a time. Do not paste the full prompt file into an LLM.
-6. Save useful outputs in the task notes.
-7. Mark the task complete, park it, or kill it.
-8. The next task appears automatically.
-9. Use the review export when you want to check progress or choose what to repeat.
+2. Work on the one current build task shown.
+3. Follow the build steps in order.
+4. Run only the prompt shown for the current step.
+5. Save useful output in the task notes box.
+6. Mark the task complete, park it, or kill it.
+7. Move to the next task.
 
-## Prompt sequence rule
-
-Each task prompt file is now a sequence.
-
-Run:
-
-1. capture
-2. diagnose
-3. build the output
-4. extract reusable outputs
-5. take action
-6. review and feed forward
-
-Some tasks include extra prompts for scheduled tasks, Claude Cowork workflows, live artifacts, or automation specs.
-
-## Local preview
+## Local run
 
 ```bash
 python3 -m http.server 8000
 ```
 
-Then open `http://localhost:8000`.
+Then open:
 
-## GitHub Pages
-
-1. Create a private GitHub repo.
-2. Upload this folder.
-3. Go to Settings, Pages.
-4. Deploy from the root folder.
+```text
+http://localhost:8000
+```
 
 ## Core rule
 
-One roadmap. One current task. One prompt step at a time.
+One task. One step. One prompt.
+
+Do not paste a full prompt sequence into a model unless you intentionally want a task brief.
+
+## What V2 changes
+
+The app now behaves like a guided builder:
+
+- one task visible at a time
+- one build step visible at a time
+- source and model control inside each step
+- artifact source specs shown inside build tasks
+- prompts shown step by step
+- output capture per task
+- weekly review as queue control
+- parked and killed tasks stay accessible
 
 ## Privacy
 
-Do not store sensitive NEXT.io, client, CRM, staff or compensation data in this repo. See `docs/privacy-rules.md`.
+Do not put confidential NEXT.io data, CRM exports, personal performance details, client details, compensation, subscriber-level data or sensitive commercial information into public repos or unapproved tools.
 
-## For future AI tools
-
-Read `AI_CONTEXT.md` before modifying this repo.
+Use anonymised examples unless the tool and data handling are approved.

@@ -3,29 +3,42 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Stuart One Roadmap</title>
+  <title>Stuart Guided Builder</title>
   <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
-  <header class="topbar focus-topbar">
+  <header class="topbar">
     <div>
-      <p class="eyebrow">One Roadmap</p>
-      <h1>Stuart Crowley Operating Roadmap</h1>
-      <p class="subtitle">One task at a time. Complete it, park it, or kill it. Then move on.</p>
+      <p class="eyebrow">One Roadmap V2</p>
+      <h1>Guided Builder</h1>
+      <p class="subtitle">One build task. One step. One prompt. Finish, park, or kill before moving on.</p>
     </div>
     <div class="status-card">
-      <span>Current sprint</span>
-      <strong id="activeSprintName">Loading</strong>
+      <span>Current build</span>
+      <strong id="currentTaskName">Loading</strong>
       <small id="queueStatus">Loading queue</small>
     </div>
   </header>
 
-  <main class="focus-shell">
-    <section id="focusTask" class="focus-task"></section>
-    <aside id="sidePanel" class="side-panel"></aside>
+  <main class="builder-shell">
+    <section id="appRoot" class="builder-root"></section>
   </main>
 
   <div id="toast" class="toast" hidden></div>
-  <script src="assets/js/app.js"></script>
+  <script>
+    setTimeout(function(){
+      if(!window.roadmapStarted){
+        var name=document.getElementById('currentTaskName');
+        var queue=document.getElementById('queueStatus');
+        var root=document.getElementById('appRoot');
+        if(name) name.textContent='App did not start';
+        if(queue) queue.textContent='Check assets/js/app.js and data/*.json paths';
+        if(root && !root.innerHTML.trim()){
+          root.innerHTML='<div class="card hero-card"><p class="eyebrow">Loading failed</p><h2>The app script did not run.</h2><p>Open <span class="file-link">assets/js/app.js</span> and <span class="file-link">data/tasks.json</span> from your GitHub Pages URL. If either shows 404, the folders are in the wrong place.</p></div>';
+        }
+      }
+    }, 3500);
+  </script>
+  <script src="assets/js/app.js" defer></script>
 </body>
 </html>
