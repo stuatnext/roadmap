@@ -1,32 +1,33 @@
 window.roadmapStarted = true;
 const DATA = {};
-const STORAGE_KEY = 'stuartOneRoadmapSingleTaskState';
+const STORAGE_KEY = 'stuartOneRoadmapGuidedBuilderV2';
 const store = {
   get(key, fallback){ try { return JSON.parse(localStorage.getItem(key)) || fallback; } catch(e){ return fallback; } },
   set(key, value){ localStorage.setItem(key, JSON.stringify(value)); }
 };
-let CURRENT_PROMPT = '';
-let CURRENT_PROMPT_SECTIONS = [];
 let state = store.get(STORAGE_KEY, {
   done:{},
   parked:{},
   killed:{},
-  notes:{},
   taskNotes:{},
-  sprintFilter:'all',
+  taskSteps:{},
+  reviewNotes:'',
+  showReview:false,
   showQueue:false,
-  showReference:false,
-  showHistory:false
+  showParked:false,
+  showKilled:false,
+  showSourceSpec:false
 });
+let CURRENT_PROMPT = '';
+let CURRENT_PROMPT_SECTIONS = [];
 function save(){ store.set(STORAGE_KEY, state); }
 function esc(s){ return (s||'').toString().replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 function toast(msg){ const el=document.getElementById('toast'); el.textContent=msg; el.hidden=false; setTimeout(()=>{el.hidden=true}, 1700); }
-async function copyText(txt){ try{ await navigator.clipboard.writeText(txt); toast('Copied'); } catch(e){ toast('Copy failed'); } }
+async function copyText(txt){ try{ await navigator.clipboard.writeText(txt || ''); toast('Copied'); } catch(e){ toast('Copy failed'); } }
 async function fetchText(path){ const r = await fetch(path); if(!r.ok) throw new Error(path); return r.text(); }
-
 function stripFence(txt){
-  const m = txt.match(/```(?:text|markdown|md)?\n([\s\S]*?)```/i);
-  return m ? m[1].trim() : txt.trim();
+  const m = (txt||'').match(/```(?:text|markdown|md)?\n([\s\S]*?)```/i);
+  return m ? m[1].trim() : (txt||'').trim();
 }
 function parsePromptSections(md){
   const lines = (md || '').split(/\r?\n/);
@@ -37,39 +38,42 @@ function parsePromptSections(md){
     if(m){
       if(current) sections.push(current);
       current = {title:m[1].trim(), body:''};
-    } else if(current){
-      current.body += line + '\n';
-    }
+    } else if(current){ current.body += line + '\n'; }
   }
   if(current) sections.push(current);
   return sections.map((sec, idx)=>({
     index: idx,
     title: sec.title,
     body: sec.body.trim(),
-    copy: stripFence(sec.body)
+    copy: stripFence(sec.body),
+    meta: parsePromptMeta(sec.body)
   })).filter(sec=>sec.body || sec.copy);
 }
-function renderPromptSequence(md, t){
-  CURRENT_PROMPT = md || '';
-  CURRENT_PROMPT_SECTIONS = parsePromptSections(CURRENT_PROMPT);
-  if(!CURRENT_PROMPT_SECTIONS.length){
-    return `<p class="tiny">File: ${esc(t.prompt_file)}</p><pre id="currentPrompt">${esc(CURRENT_PROMPT)}</pre><div class="action-row"><button class="btn primary" onclick="copyCurrentPrompt()">Copy prompt</button><button class="btn" onclick="copyTaskBrief('${esc(t.id)}')">Copy task brief</button></div>`;
+function parsePromptMeta(body){
+  const meta={};
+  const map={
+    'use this model or tool':'model',
+    'recommended model/tool':'model',
+    'why this model or tool':'why_model',
+    'why':'why_model',
+    'connected sources':'connected_sources',
+    'expected output':'expected_output',
+    'human review gate':'human_review_gate',
+    'copy/export target':'copy_export_target',
+    'success test':'success_test',
+    'notes':'notes'
+  };
+  const lines=(body||'').split(/\r?\n/);
+  for(const line of lines){
+    const bold=line.match(/^\*\*([^*]+):\*\*\s*(.*)$/);
+    if(bold){ const key=map[bold[1].trim().toLowerCase()]; if(key) meta[key]=bold[2].trim(); continue; }
+    const plain=line.match(/^([^:]{2,45}):\s*(.+)$/);
+    if(plain){ const key=map[plain[1].trim().toLowerCase()]; if(key && !meta[key]) meta[key]=plain[2].trim(); }
   }
-  return `<p class="tiny">File: ${esc(t.prompt_file)}</p>
-    <p class="small">Run these prompts one at a time. Do not paste the whole file unless you want a task brief.</p>
-    <div class="prompt-sequence">
-      ${CURRENT_PROMPT_SECTIONS.map((sec,i)=>`<details class="prompt-step" ${i===0?'open':''}><summary><span>${esc(sec.title)}</span><button class="copy-inline" onclick="event.preventDefault(); event.stopPropagation(); copyPromptSection(${i})">Copy</button></summary><pre>${esc(sec.copy)}</pre></details>`).join('')}
-    </div>
-    <div class="action-row"><button class="btn primary" onclick="copyPromptSection(0)">Copy first prompt</button><button class="btn" onclick="copyCurrentPrompt()">Copy full sequence</button><button class="btn" onclick="copyTaskBrief('${esc(t.id)}')">Copy task brief</button></div>`;
+  return meta;
 }
-function copyPromptSection(i){
-  const sec = CURRENT_PROMPT_SECTIONS[i];
-  if(!sec) return toast('Prompt section missing');
-  copyText(sec.copy || sec.body || '');
-}
-
 async function loadData(){
-  document.getElementById('queueStatus').textContent = 'Loading data files';
+  setText('queueStatus','Loading data files');
   const files = ['sprints','tasks','model-router','asset-map','quality-gate','kill-rules','review-questions'];
   try{
     await Promise.all(files.map(async name => {
@@ -77,35 +81,31 @@ async function loadData(){
       if(!res.ok) throw new Error(name);
       DATA[name] = await res.json();
     }));
-    await renderAll();
+    await render();
   } catch(e){
     console.error('Roadmap load failed', e);
-    document.getElementById('activeSprintName').textContent = 'Data load failed';
-    document.getElementById('queueStatus').textContent = 'Check /data/*.json paths';
-    document.querySelector('main').innerHTML = `<div class="card hero-card"><p class="eyebrow">Loading failed</p><h2>The queue could not load.</h2><p>The app needs the JSON files in <span class="file-link">/data/</span> and the JavaScript file in <span class="file-link">/assets/js/</span>.</p><ol class="tight-list"><li>Open <span class="file-link">data/tasks.json</span> from your GitHub Pages URL. It should show JSON.</li><li>Open <span class="file-link">data/sprints.json</span>. It should show JSON.</li><li>If either shows 404, upload the missing folder to the repo root.</li><li>If both work, hard refresh the page or clear Safari website data for the site.</li></ol><pre>python3 -m http.server 8000</pre></div>`;
+    setText('currentTaskName','Data load failed');
+    setText('queueStatus','Check /data/*.json paths');
+    document.getElementById('appRoot').innerHTML = `<div class="card hero-card"><p class="eyebrow">Loading failed</p><h2>The queue could not load.</h2><p>The app needs JSON files in <span class="file-link">/data/</span> and JavaScript in <span class="file-link">/assets/js/</span>.</p><ol class="tight-list"><li>Open <span class="file-link">data/tasks.json</span> from your GitHub Pages URL. It should show JSON.</li><li>Open <span class="file-link">data/sprints.json</span>. It should show JSON.</li><li>If either shows 404, upload the missing folder to the repo root.</li><li>If both work, hard refresh the page.</li></ol></div>`;
   }
 }
-function sprintName(id){ const s=DATA.sprints.find(x=>x.id===id); return s ? s.name : id; }
-function sprintIndex(id){ return DATA.sprints.findIndex(x=>x.id===id); }
-function modelEntry(id){ return DATA['model-router'].find(x=>x.id===id); }
+function setText(id, val){ const el=document.getElementById(id); if(el) el.textContent=val; }
+function sprintName(id){ const s=(DATA.sprints||[]).find(x=>x.id===id); return s ? s.name : id; }
+function sprintIndex(id){ return (DATA.sprints||[]).findIndex(x=>x.id===id); }
+function modelEntry(id){ return (DATA['model-router']||[]).find(x=>x.id===id); }
 function modelName(id){ const m=modelEntry(id); return m ? m.tool : id; }
-function assetEntry(id){ return DATA['asset-map'].find(x=>x.id===id); }
+function assetEntry(id){ return (DATA['asset-map']||[]).find(x=>x.id===id); }
 function assetName(id){ const a=assetEntry(id); return a ? a.asset : id; }
-function tasksInScope(){
-  return DATA.tasks.filter(t => state.sprintFilter === 'all' || t.sprint === state.sprintFilter);
-}
 function orderedTasks(){
-  return tasksInScope().slice().sort((a,b)=>{
+  return (DATA.tasks||[]).slice().sort((a,b)=>{
     const sa=sprintIndex(a.sprint), sb=sprintIndex(b.sprint);
     if(sa!==sb) return sa-sb;
     return DATA.tasks.indexOf(a)-DATA.tasks.indexOf(b);
   });
 }
-function nextTask(){
-  return orderedTasks().find(t => !state.done[t.id] && !state.parked[t.id] && !state.killed[t.id]);
-}
+function nextTask(){ return orderedTasks().find(t => !state.done[t.id] && !state.parked[t.id] && !state.killed[t.id]); }
 function counts(){
-  const all = tasksInScope();
+  const all=orderedTasks();
   return {
     total: all.length,
     done: all.filter(t=>state.done[t.id]).length,
@@ -114,321 +114,240 @@ function counts(){
     remaining: all.filter(t=>!state.done[t.id] && !state.parked[t.id] && !state.killed[t.id]).length
   };
 }
-function activeSprintFromTask(t){ return t ? t.sprint : (state.sprintFilter === 'all' ? 'all' : state.sprintFilter); }
 async function getPrompt(t){
   if(!t || !t.prompt_file) return 'No prompt file for this task.';
   try { return await fetchText(t.prompt_file); }
   catch(e){ return `Prompt file could not load. Open ${t.prompt_file} manually.`; }
 }
-function modelCard(id, label){
-  const m=modelEntry(id);
-  if(!m) return `<div class="mini-card"><strong>${esc(label)}</strong><p>${esc(id)}</p></div>`;
-  return `<div class="mini-card">
-    <strong>${esc(label)}: ${esc(m.tool)}</strong>
-    <p>${esc(m.use_when || m.best_for || '')}</p>
-    <details><summary>When not to use it</summary><p>${esc(m.avoid || '')}</p><p class="tiny">Confidence: ${esc(m.confidence || 'Not set')}. Review: every ${esc(m.review_interval_days || '?')} days.</p></details>
+function currentBuildStepIndex(t, total){
+  const idx = state.taskSteps[t.id] || 0;
+  return Math.max(0, Math.min(idx, total-1));
+}
+function baseSteps(t){
+  return [
+    {
+      kind:'brief',
+      title:'Step 1: Understand the problem',
+      intro:'Read this before asking any model for help.',
+      body:t.problem,
+      checklist:[
+        `Cause: ${t.cause}`,
+        `Why this exists: ${t.why_from_answers}`,
+        `What this should make easier: ${t.why_it_matters}`
+      ],
+      model:null,
+      prompt:null
+    },
+    {
+      kind:'source',
+      title:'Step 2: Gather the source material',
+      intro:'Do the human-first prep. This stops the model guessing.',
+      body:t.human_first_action,
+      checklist:[
+        `Open asset: ${assetName(t.asset_id)}`,
+        t.use_asset_reason || 'Use only the smallest relevant source material.',
+        t.do_not_ask_ai_until || 'Write the rough human version first.'
+      ],
+      model:t.best_model,
+      prompt:null
+    }
+  ];
+}
+function promptSteps(t, sections){
+  return sections.map((sec, i)=>({
+    kind:'prompt',
+    title:sec.title,
+    intro:'Run this prompt only. Do not paste the whole sequence.',
+    body:sec.copy,
+    prompt:sec,
+    model:sec.meta.model ? null : t.best_model,
+    meta:sec.meta,
+    checklist:[
+      sec.meta.expected_output ? `Expected output: ${sec.meta.expected_output}` : `Output: part ${i+1} of the task sequence`,
+      sec.meta.human_review_gate ? `Human review gate: ${sec.meta.human_review_gate}` : 'Review before taking action.',
+      sec.meta.copy_export_target ? `Copy/export target: ${sec.meta.copy_export_target}` : 'Save the useful output into your task notes.'
+    ]
+  }));
+}
+function closingSteps(t){
+  return [
+    {
+      kind:'test',
+      title:'Final step: Test before you call it done',
+      intro:'Do not mark complete because the prompt looked good. Mark complete only if it changes something.',
+      body:t.success_test,
+      checklist:[
+        `Minimum version: ${t.minimum_version}`,
+        `Output to save: ${t.output}`,
+        `Kill rule: ${t.kill_rule}`,
+        `Friday review question: ${t.friday_review_question}`
+      ],
+      model:null,
+      prompt:null
+    }
+  ];
+}
+function allBuildSteps(t, sections){ return [...baseSteps(t), ...promptSteps(t, sections), ...closingSteps(t)]; }
+function modelControlHtml(t, step){
+  const meta = step.meta || {};
+  const primaryLabel = meta.model || modelName(t.best_model);
+  const primary = meta.model ? null : modelEntry(t.best_model);
+  const fallback = modelEntry(t.fallback_model);
+  const why = meta.why_model || (primary && (primary.use_when || primary.best_for)) || '';
+  const avoid = primary && primary.avoid ? primary.avoid : '';
+  const connected = meta.connected_sources || (t.artifact_source && t.artifact_source.connected_sources) || 'Use only sources named in this task and the linked asset.';
+  return `<div class="control-grid">
+    <div class="control-card"><span>Use this model or tool</span><strong>${esc(primaryLabel)}</strong><p>${esc(why)}</p>${avoid ? `<small>Do not use it for: ${esc(avoid)}</small>` : ''}</div>
+    <div class="control-card"><span>Fallback</span><strong>${esc(modelName(t.fallback_model))}</strong><p>${esc(fallback ? (fallback.use_when || fallback.best_for || '') : '')}</p></div>
+    <div class="control-card"><span>Source control</span><strong>${esc(connected)}</strong><p>${esc(t.privacy_warning)}</p></div>
+    <div class="control-card"><span>Asset to open</span><strong>${esc(assetName(t.asset_id))}</strong><p>${esc(t.use_asset_reason || '')}</p></div>
   </div>`;
 }
-function assetCard(id){
-  const a=assetEntry(id);
-  if(!a) return `<div class="mini-card"><strong>Asset</strong><p>${esc(id)}</p></div>`;
-  return `<div class="mini-card">
-    <strong>${esc(a.asset)}</strong>
-    <p>${esc(a.use || '')}</p>
-    <details><summary>Open rules</summary><p><strong>Open when:</strong> ${esc(a.when_to_open || '')}</p><p><strong>Do not open when:</strong> ${esc(a.when_not_to_open || '')}</p><p><strong>Start with:</strong> ${esc(a.first_files || '')}</p></details>
-  </div>`;
-}
-function qualityGateHtml(){
-  const qs = DATA['quality-gate'] || [];
-  return `<ol class="tight-list">${qs.map(q=>`<li>${esc(q)}</li>`).join('')}</ol>`;
-}
-
-
-function artifactSourceHtml(t){
-  if(!t.artifact_source) return '';
+function sourceSpecHtml(t){
   const a=t.artifact_source;
-  const boxes = [
-    ['Artifact', a.artifact],
-    ['Priority', a.priority || a.build_status],
-    ['Problem solved', a.problem_solved],
-    ['Purpose', a.purpose],
-    ['Primary user', a.primary_user || a.user],
-    ['Connected sources', a.connected_sources],
-    ['Backend stance', a.backend_needed],
-    ['Version 1 rule', a.version_1_rule],
-    ['Copy/export', a.copy_export_needs],
-    ['Human approval gate', a.human_approval_gate],
-    ['First manual test', a.first_manual_test],
-    ['What not to build', a.what_not_to_build]
+  if(!a) return '';
+  const rows=[
+    ['Problem solved', a.problem_solved], ['Purpose', a.purpose], ['Primary user', a.primary_user || a.user], ['Inputs', a.inputs], ['Fields', a.fields], ['Buttons', a.buttons], ['Views', a.views], ['Connected sources', a.connected_sources], ['Claude Cowork role', a.claude_cowork_role], ['Human approval gate', a.human_approval_gate], ['Version 1 rule', a.version_1_rule], ['Copy/export', a.copy_export_needs], ['What not to build', a.what_not_to_build], ['First manual test', a.first_manual_test], ['Success test', a.success_test]
   ].filter(x=>x[1]);
-  return `<section class="focus-section artifact-source-section">
-    <h3>Source workbook signal</h3>
-    <div class="artifact-grid">
-      ${boxes.map(b=>`<div class="box"><strong>${esc(b[0])}</strong><p>${esc(b[1] || '')}</p></div>`).join('')}
-    </div>
-    ${a.fields || a.buttons || a.views ? `<details class="source-detail"><summary>Fields, buttons and views</summary>
-      ${a.fields ? `<p><strong>Fields:</strong> ${esc(a.fields)}</p>` : ''}
-      ${a.buttons ? `<p><strong>Buttons:</strong> ${esc(a.buttons)}</p>` : ''}
-      ${a.views ? `<p><strong>Views:</strong> ${esc(a.views)}</p>` : ''}
-    </details>` : ''}
-    ${t.source_rules_summary ? `<details class="source-detail"><summary>Source rules applied</summary><ul class="tight-list">${t.source_rules_summary.map(r=>`<li>${esc(r)}</li>`).join('')}</ul></details>` : ''}
+  return `<details class="source-spec" ${state.showSourceSpec?'open':''} ontoggle="state.showSourceSpec=this.open; save();"><summary>Artifact source spec from workbook</summary><div class="spec-grid">${rows.map(([k,v])=>`<div><strong>${esc(k)}</strong><p>${esc(v)}</p></div>`).join('')}</div></details>`;
+}
+function futureBuildHtml(t){
+  if(!t.downstream_outputs && !t.feeds_into && !t.future_build_rules) return '';
+  const outs=(t.downstream_outputs||[]).map(x=>`<li><strong>${esc(x.name)}</strong><span>${esc(x.use)}</span></li>`).join('');
+  const feeds=(t.feeds_into||[]).map(x=>`<li><strong>${esc(x.label||x.task)}</strong><span>${esc(x.reason||'')}</span></li>`).join('');
+  const rules=(t.future_build_rules||[]).map(x=>`<li>${esc(x)}</li>`).join('');
+  return `<details class="source-spec"><summary>Reusable outputs this task should create</summary>${outs?`<h4>Outputs</h4><ul class="feed-list">${outs}</ul>`:''}${feeds?`<h4>Feeds later tasks</h4><ul class="feed-list">${feeds}</ul>`:''}${rules?`<h4>Rules</h4><ol class="tight-list">${rules}</ol>`:''}<button class="btn ghost" onclick="copyFutureBuildBrief('${esc(t.id)}')">Copy future-build brief</button></details>`;
+}
+function parkedHtml(){
+  const parked=orderedTasks().filter(t=>state.parked[t.id]);
+  if(!parked.length) return '';
+  return `<section class="mini-panel"><button class="panel-toggle" onclick="toggleParked()">Parked tasks (${parked.length})</button>${state.showParked?`<div class="panel-body">${parked.map(t=>`<div class="history-row"><span>${esc(t.title)}<small>${esc(sprintName(t.sprint))}</small></span><button class="btn ghost" onclick="unparkTask('${esc(t.id)}')">Unpark</button></div>`).join('')}</div>`:''}</section>`;
+}
+function killedHtml(){
+  const killed=orderedTasks().filter(t=>state.killed[t.id]);
+  if(!killed.length) return '';
+  return `<section class="mini-panel"><button class="panel-toggle" onclick="toggleKilled()">Killed tasks (${killed.length})</button>${state.showKilled?`<div class="panel-body">${killed.map(t=>`<div class="history-row"><span>${esc(t.title)}<small>${esc(sprintName(t.sprint))}</small></span><button class="btn ghost" onclick="restoreTask('${esc(t.id)}')">Restore</button></div>`).join('')}</div>`:''}</section>`;
+}
+function queueHtml(){
+  const q=orderedTasks().filter(t=>!state.done[t.id] && !state.parked[t.id] && !state.killed[t.id]);
+  return `<section class="mini-panel"><button class="panel-toggle" onclick="toggleQueue()">Queue preview (${q.length})</button>${state.showQueue?`<div class="panel-body"><ol class="queue-list">${q.slice(0,10).map((t,i)=>`<li class="${i===0?'current':''}"><span>${esc(t.title)}</span><small>${esc(sprintName(t.sprint))}</small></li>`).join('')}</ol></div>`:''}</section>`;
+}
+function reviewHtml(){
+  const qs=DATA['review-questions'] || [];
+  const next=nextTask();
+  return `<section class="review-card card ${state.showReview?'open':''}">
+    <div class="review-head"><div><p class="eyebrow">Weekly review</p><h2>Queue control checkpoint</h2><p>Use this to decide what to build next, what to park, and what to kill.</p></div><button class="btn ghost" onclick="toggleReview()">${state.showReview?'Hide review':'Open review'}</button></div>
+    ${state.showReview?`<div class="review-body"><ol class="review-questions">${qs.map(q=>`<li>${esc(q)}</li>`).join('')}<li>Did the last completed task make me more efficient, more effective, or more undeniable?</li><li>Should the next task remain next: ${esc(next ? next.title : 'No remaining task')}?</li></ol><textarea id="reviewNotes" oninput="saveReviewNotes(this)" placeholder="Write the review. Keep it brutal and short.">${esc(state.reviewNotes||'')}</textarea><div class="action-row"><button class="btn primary" onclick="copyReviewMarkdown()">Copy review</button><button class="btn" onclick="downloadReview()">Download review</button></div></div>`:''}
   </section>`;
 }
-
-function futureBuildHtml(t){
-  if(!t.downstream_outputs && !t.feeds_into && !t.future_build_rules && !t.capture_template) return '';
-  const outputs = (t.downstream_outputs || []).map(x=>`<li><strong>${esc(x.name)}</strong><span>${esc(x.use)}</span></li>`).join('');
-  const feeds = (t.feeds_into || []).map(x=>`<li><strong>${esc(x.label || x.task)}</strong><span>${esc(x.reason || '')}</span></li>`).join('');
-  const rules = (t.future_build_rules || []).map(x=>`<li>${esc(x)}</li>`).join('');
-  return `<section class="focus-section future-build-section">
-      <h3>This output feeds later builds</h3>
-      <p>This task is not a dead-end note. Save the output so it can power future scheduled tasks, Claude Cowork workflows, live artifacts and automations.</p>
-      ${t.capture_template ? `<p class="tiny">Capture template: <span class="file-link">${esc(t.capture_template)}</span></p>` : ''}
-      ${outputs ? `<h4>Reusable outputs to capture</h4><ul class="feed-list">${outputs}</ul>` : ''}
-      ${feeds ? `<h4>Roadmap tasks this feeds</h4><ul class="feed-list">${feeds}</ul>` : ''}
-      ${rules ? `<h4>Future build rules</h4><ol class="tight-list">${rules}</ol>` : ''}
-      <div class="action-row"><button class="btn" onclick="copyFutureBuildBrief('${esc(t.id)}')">Copy future-build brief</button></div>
-    </section>`;
-}
-
-function inlineRecoveryHtml(){
-  const parked = orderedTasks().filter(t=>state.parked[t.id]);
-  if(!parked.length) return '';
-  return `<div class="card recovery-card">
-    <div>
-      <p class="eyebrow">Parked tasks</p>
-      <h3>${parked.length} task${parked.length===1?'':'s'} parked for later</h3>
-      <p class="small">These are paused, not gone. Unpark one and it returns to the queue.</p>
-    </div>
-    <div class="recovery-list">
-      ${parked.map(t=>`<div class="small-row"><span>${esc(t.title)}<small>${esc(sprintName(t.sprint))}</small></span><button class="btn ghost" onclick="unparkTask('${esc(t.id)}')">Unpark</button></div>`).join('')}
-    </div>
-  </div>`;
-}
-
-function taskSteps(t){
-  const steps = [
-    {title:'Step 1. Read the real problem', body:t.problem},
-    {title:'Step 2. Write the human-first version', body:t.human_first_action},
-    {title:'Step 3. Open only the named asset', body:`Use ${assetName(t.asset_id)}. ${t.use_asset_reason || ''}`},
-    {title:'Step 4. Use the recommended model', body:`Primary: ${modelName(t.best_model)}. Fallback: ${modelName(t.fallback_model)}.`},
-    {title:'Step 5. Run the prompt sequence', body:`Use the prompt sequence below one step at a time. Do not paste the full file unless you want a task brief. Keep confidential data out unless approved and safe.`},
-    {title:'Step 6. Create the output', body:t.output}
-  ];
-  if(t.downstream_outputs || t.feeds_into || t.future_build_rules){
-    steps.push({title:'Step 7. Capture future-build inputs', body:'Before completing, identify what should feed later scheduled tasks, Claude Cowork workflows, live artifacts, automations or future roadmap tasks. Do not leave the output as a dead-end note.'});
-  }
-  steps.push(
-    {title:`Step ${steps.length+1}. Check the success test`, body:t.success_test},
-    {title:`Step ${steps.length+2}. Mark complete, park, or kill`, body:`If it passes, mark complete. If not useful now, park it. If it is wrong or bloated, kill it. Kill rule: ${t.kill_rule}`}
-  );
-  return steps;
-}
-async function renderFocusTask(){
-  const t = nextTask();
-  const c = counts();
-  const sprintId = activeSprintFromTask(t);
-  document.getElementById('activeSprintName').textContent = sprintId === 'all' ? 'All sprints' : sprintName(sprintId);
-  document.getElementById('queueStatus').textContent = `${c.remaining} remaining · ${c.done} done · ${c.parked} parked · ${c.killed} killed`;
-  const root = document.getElementById('focusTask');
+async function render(){
+  const t=nextTask();
+  const c=counts();
+  setText('currentTaskName', t ? t.title : 'Queue clear');
+  setText('queueStatus', `${c.remaining} remaining · ${c.done} done · ${c.parked} parked · ${c.killed} killed`);
+  const root=document.getElementById('appRoot');
   if(!t){
-    root.innerHTML = `<div class="card hero-card"><p class="eyebrow">Queue clear</p><h2>No current task</h2><p>You have no remaining tasks in this scope. Run the review, unpark a task, or change sprint scope.</p><div class="action-row"><button class="btn primary" onclick="copyReviewMarkdown()">Copy review</button><button class="btn" onclick="downloadReview()">Download review</button><button class="btn ghost" onclick="toggleReference()">Open reference</button></div></div>${inlineRecoveryHtml()}`;
+    root.innerHTML=`${parkedHtml()}${killedHtml()}${reviewHtml()}<div class="card hero-card"><p class="eyebrow">No current build task</p><h2>The active queue is clear.</h2><p>Run the weekly review, unpark a task, or restore a killed task if needed.</p></div>`;
     return;
   }
-  const prompt = await getPrompt(t);
-  const steps = taskSteps(t);
-  root.innerHTML = `${inlineRecoveryHtml()}<article class="card hero-card task-focus-card">
-    <div class="task-focus-head">
-      <div>
-        <p class="eyebrow">Current task</p>
-        <h2>${esc(t.title)}</h2>
-        <p class="subtitle dark-subtitle">${esc(t.why_from_answers)}</p>
+  CURRENT_PROMPT = await getPrompt(t);
+  CURRENT_PROMPT_SECTIONS = parsePromptSections(CURRENT_PROMPT);
+  const steps=allBuildSteps(t, CURRENT_PROMPT_SECTIONS);
+  const idx=currentBuildStepIndex(t, steps.length);
+  const step=steps[idx];
+  const progressPct=Math.round(((idx+1)/steps.length)*100);
+  const promptHtml = step.kind==='prompt' ? `<pre class="prompt-box">${esc(step.body)}</pre><div class="action-row"><button class="btn primary" onclick="copyBuildStepPrompt(${idx})">Copy this prompt</button><button class="btn" onclick="copyFullPromptSequence()">Copy full prompt sequence</button></div>` : '';
+  root.innerHTML = `${queueHtml()}${parkedHtml()}${killedHtml()}${reviewHtml()}
+    <article class="card build-card">
+      <div class="build-head">
+        <div><p class="eyebrow">Current build task</p><h2>${esc(t.title)}</h2><p>${esc(t.why_from_answers)}</p></div>
+        <div class="build-meta"><span>${esc(sprintName(t.sprint))}</span><span>${esc(t.lane)}</span><span>${esc(t.time)}</span><span>${esc(t.energy)}</span></div>
       </div>
-      <div class="focus-badges"><span class="pill blue">${esc(sprintName(t.sprint))}</span><span class="pill">${esc(t.lane)}</span><span class="pill green">${esc(t.time)}</span><span class="pill gold">${esc(t.energy)}</span></div>
-    </div>
-
-    <section class="focus-section">
-      <h3>Why this matters</h3>
-      <p>${esc(t.why_it_matters || t.problem)}</p>
-      <div class="split-boxes">
-        <div class="box"><strong>Problem</strong><p>${esc(t.problem)}</p></div>
-        <div class="box"><strong>Cause</strong><p>${esc(t.cause)}</p></div>
-      </div>
-    </section>
-
-    <section class="focus-section">
-      <h3>Step-by-step</h3>
-      <div class="step-list">${steps.map((s,i)=>`<div class="step-card"><div class="step-num">${i+1}</div><div><strong>${esc(s.title)}</strong><p>${esc(s.body)}</p></div></div>`).join('')}</div>
-    </section>
-
-    <section class="focus-section">
-      <h3>Best model and tool choice</h3>
-      <div class="split-boxes">${modelCard(t.best_model,'Primary')}${modelCard(t.fallback_model,'Fallback')}${assetCard(t.asset_id)}</div>
-    </section>
-
-    <section class="focus-section">
-      <h3>Prompt sequence</h3>
-      ${renderPromptSequence(prompt, t)}
-    </section>
-
-    ${artifactSourceHtml(t)}
-
-    ${futureBuildHtml(t)}
-
-    <section class="focus-section">
-      <h3>Before you mark complete</h3>
-      <div class="split-boxes">
-        <div class="box"><strong>Minimum version</strong><p>${esc(t.minimum_version)}</p></div>
-        <div class="box"><strong>Success test</strong><p>${esc(t.success_test)}</p></div>
-        <div class="box"><strong>Kill rule</strong><p>${esc(t.kill_rule)}</p></div>
-        <div class="box warning-box"><strong>Privacy warning</strong><p>${esc(t.privacy_warning)}</p></div>
-      </div>
-    </section>
-
-    <section class="focus-section">
-      <h3>Notes for this task</h3>
-      <textarea data-task-note="${esc(t.id)}" oninput="saveTaskNote(this)" placeholder="Paste useful output, decision, owner, blocker, or proof here.">${esc(state.taskNotes[t.id] || '')}</textarea>
-    </section>
-
-    <section class="completion-bar">
-      <button class="btn success" onclick="completeCurrentTask('${esc(t.id)}')">Mark complete and show next task</button>
-      <button class="btn" onclick="parkCurrentTask('${esc(t.id)}')">Park for later</button>
-      <button class="btn danger" onclick="killCurrentTask('${esc(t.id)}')">Kill this task</button>
-    </section>
-  </article>`;
+      <div class="progress-block"><div class="progress-line"><div style="width:${progressPct}%"></div></div><p>Step ${idx+1} of ${steps.length}</p></div>
+      <section class="step-main">
+        <p class="eyebrow">${esc(step.kind==='prompt'?'Prompt step':'Build step')}</p>
+        <h3>${esc(step.title)}</h3>
+        <p class="step-intro">${esc(step.intro||'')}</p>
+        ${step.body && step.kind!=='prompt'?`<div class="step-body"><p>${esc(step.body)}</p></div>`:''}
+        ${step.checklist && step.checklist.length?`<ul class="check-list">${step.checklist.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:''}
+        ${modelControlHtml(t, step)}
+        ${promptHtml}
+      </section>
+      ${sourceSpecHtml(t)}
+      ${futureBuildHtml(t)}
+      <section class="notes-card"><h3>Output capture for this task</h3><p>Paste the useful output, decision, owner, artifact link, blocker, or proof here.</p><textarea data-task-note="${esc(t.id)}" oninput="saveTaskNote(this)">${esc(state.taskNotes[t.id]||'')}</textarea></section>
+      <section class="nav-bar">
+        <button class="btn" onclick="prevBuildStep('${esc(t.id)}')" ${idx===0?'disabled':''}>Back</button>
+        ${idx<steps.length-1?`<button class="btn primary" onclick="nextBuildStep('${esc(t.id)}')">Next build step</button>`:`<button class="btn success" onclick="completeTask('${esc(t.id)}')">Complete task and load next</button>`}
+        <button class="btn" onclick="parkTask('${esc(t.id)}')">Park</button>
+        <button class="btn danger" onclick="killTask('${esc(t.id)}')">Kill</button>
+      </section>
+    </article>`;
 }
-function renderSidePanel(){
-  const c=counts();
-  const sprints = DATA.sprints.map(s=>`<option value="${s.id}" ${state.sprintFilter===s.id?'selected':''}>${esc(s.name)}</option>`).join('');
-  const queue = orderedTasks().filter(t=>!state.done[t.id] && !state.parked[t.id] && !state.killed[t.id]);
-  const done = orderedTasks().filter(t=>state.done[t.id]);
-  const parked = orderedTasks().filter(t=>state.parked[t.id]);
-  const killed = orderedTasks().filter(t=>state.killed[t.id]);
-  const completedList = done.map(t=>`<div class="small-row"><span>${esc(t.title)}</span><button class="link-btn" onclick="uncompleteTask('${esc(t.id)}')">reopen</button></div>`).join('') || '<p class="tiny">Nothing completed yet.</p>';
-  const parkedList = parked.map(t=>`<div class="small-row"><span>${esc(t.title)}</span><button class="link-btn" onclick="unparkTask('${esc(t.id)}')">unpark</button></div>`).join('') || '<p class="tiny">Nothing parked.</p>';
-  const killedList = killed.map(t=>`<div class="small-row"><span>${esc(t.title)}</span><button class="link-btn" onclick="unkillTask('${esc(t.id)}')">restore</button></div>`).join('') || '<p class="tiny">Nothing killed.</p>';
-  document.getElementById('sidePanel').innerHTML = `<div class="card side-card">
-    <p class="eyebrow">Setup</p>
-    <h3>Choose scope</h3>
-    <p class="small">Use all sprints for the full roadmap queue, or choose one sprint if you want a narrow focus.</p>
-    <select id="sprintFilter" onchange="setSprintFilter(this.value)"><option value="all" ${state.sprintFilter==='all'?'selected':''}>All sprints</option>${sprints}</select>
-    <div class="progress-wrap"><div class="progress"><div class="progress-fill" style="width:${c.total?Math.round(c.done/c.total*100):0}%"></div></div><p class="tiny">${c.done}/${c.total} complete in this scope</p></div>
-  </div>
-
-  <div class="card side-card">
-    <p class="eyebrow">Queue</p>
-    <h3>What comes next</h3>
-    <p class="small">Only the current task opens fully. Parked, completed and killed tasks are below.</p>
-    <ol class="queue-list">${queue.slice(0,8).map((t,i)=>`<li class="${i===0?'current-queue':''}"><span>${esc(t.title)}</span><small>${esc(sprintName(t.sprint))}</small></li>`).join('') || '<li>No remaining tasks.</li>'}</ol>
-  </div>
-
-  <div class="card side-card">
-    <p class="eyebrow">Task history</p>
-    <h3>Parked, completed, killed</h3>
-    <p class="small">Parked tasks do not disappear. Unpark one and it goes back into the queue.</p>
-    <div class="history-tabs">
-      <button class="btn ghost" onclick="setHistoryView('parked')">Parked (${parked.length})</button>
-      <button class="btn ghost" onclick="setHistoryView('done')">Done (${done.length})</button>
-      <button class="btn ghost" onclick="setHistoryView('killed')">Killed (${killed.length})</button>
-    </div>
-    <div id="historyList">${state.showHistory==='done' ? completedList : state.showHistory==='killed' ? killedList : parkedList}</div>
-  </div>
-
-  <div class="card side-card">
-    <p class="eyebrow">Reference</p>
-    <button class="btn ghost" onclick="toggleReference()">${state.showReference?'Hide':'Show'} quality gate and review</button>
-    ${state.showReference ? `<h3>Quality gate</h3>${qualityGateHtml()}<h3>Review actions</h3><div class="action-row vertical"><button class="btn" onclick="copyReviewMarkdown()">Copy review</button><button class="btn" onclick="downloadReview()">Download review</button><button class="btn ghost" onclick="resetScopeProgress()">Reset this scope</button></div>` : ''}
-  </div>`;
+function copyBuildStepPrompt(idx){
+  const stepTask=nextTask(); if(!stepTask) return;
+  const steps=allBuildSteps(stepTask, CURRENT_PROMPT_SECTIONS);
+  const step=steps[idx];
+  if(step && step.prompt) copyText(step.prompt.copy || step.prompt.body || '');
+  else copyText([step.title, step.body, ...(step.checklist||[])].join('\n'));
 }
-async function renderAll(){ renderSidePanel(); await renderFocusTask(); }
-async function setSprintFilter(v){ state.sprintFilter=v; save(); await renderAll(); }
-async function completeCurrentTask(id){ state.done[id]=true; delete state.parked[id]; delete state.killed[id]; save(); toast('Complete. Next task loaded.'); await renderAll(); }
-async function parkCurrentTask(id){ state.parked[id]=true; delete state.done[id]; delete state.killed[id]; save(); toast('Parked. Next task loaded.'); await renderAll(); }
-async function killCurrentTask(id){ state.killed[id]=true; delete state.done[id]; delete state.parked[id]; save(); toast('Killed. Next task loaded.'); await renderAll(); }
-async function unparkTask(id){ delete state.parked[id]; save(); await renderAll(); }
-async function unkillTask(id){ delete state.killed[id]; save(); await renderAll(); }
-async function uncompleteTask(id){ delete state.done[id]; save(); await renderAll(); }
-async function setHistoryView(view){ state.showHistory=view; save(); await renderAll(); }
-async function toggleReference(){ state.showReference=!state.showReference; save(); await renderAll(); }
+function copyFullPromptSequence(){ copyText(CURRENT_PROMPT || ''); }
+async function nextBuildStep(id){ const t=DATA.tasks.find(x=>x.id===id); if(!t) return; const steps=allBuildSteps(t, CURRENT_PROMPT_SECTIONS); state.taskSteps[id]=Math.min((state.taskSteps[id]||0)+1, steps.length-1); save(); await render(); }
+async function prevBuildStep(id){ state.taskSteps[id]=Math.max((state.taskSteps[id]||0)-1, 0); save(); await render(); }
+async function completeTask(id){ state.done[id]=true; delete state.parked[id]; delete state.killed[id]; state.taskSteps[id]=0; save(); toast('Complete. Next build loaded.'); await render(); }
+async function parkTask(id){ state.parked[id]=true; delete state.done[id]; delete state.killed[id]; state.taskSteps[id]=0; save(); toast('Parked. Next build loaded.'); await render(); }
+async function killTask(id){ state.killed[id]=true; delete state.done[id]; delete state.parked[id]; state.taskSteps[id]=0; save(); toast('Killed. Next build loaded.'); await render(); }
+async function unparkTask(id){ delete state.parked[id]; save(); await render(); }
+async function restoreTask(id){ delete state.killed[id]; save(); await render(); }
+function toggleQueue(){ state.showQueue=!state.showQueue; save(); render(); }
+function toggleParked(){ state.showParked=!state.showParked; save(); render(); }
+function toggleKilled(){ state.showKilled=!state.showKilled; save(); render(); }
+function toggleReview(){ state.showReview=!state.showReview; save(); render(); }
 function saveTaskNote(el){ state.taskNotes[el.dataset.taskNote]=el.value; save(); }
-function copyCurrentPrompt(){ copyText(CURRENT_PROMPT || ''); }
-function taskBrief(t){
-  const lines = [
-    `# Task: ${t.title}`,
-    '',
-    `Problem: ${t.problem}`,
-    `Cause: ${t.cause}`,
-    `Why this exists from my answers: ${t.why_from_answers}`,
-    '',
-    `Primary model: ${modelName(t.best_model)}`,
-    `Fallback model: ${modelName(t.fallback_model)}`,
-    `Asset: ${assetName(t.asset_id)}`,
-    '',
-    `Human-first action: ${t.human_first_action}`,
-    `Output: ${t.output}`,
-    `Success test: ${t.success_test}`,
-    `Kill rule: ${t.kill_rule}`,
-    `Privacy warning: ${t.privacy_warning}`
-  ];
-  if(t.artifact_source){
-    lines.push('', 'Artifact source:', `- Artifact: ${t.artifact_source.artifact || ''}`, `- Purpose: ${t.artifact_source.purpose || ''}`, `- Connected sources: ${t.artifact_source.connected_sources || ''}`, `- Backend: ${t.artifact_source.backend_needed || ''}`);
-  }
-  if(t.downstream_outputs || t.feeds_into || t.future_build_rules){
-    lines.push('', 'Future-build capture:');
-    (t.downstream_outputs || []).forEach(x=>lines.push(`- ${x.name}: ${x.use}`));
-    (t.feeds_into || []).forEach(x=>lines.push(`- Feeds ${x.label || x.task}: ${x.reason || ''}`));
-    (t.future_build_rules || []).forEach(x=>lines.push(`- Rule: ${x}`));
-  }
-  return lines.join('\n');
-}
-
+function saveReviewNotes(el){ state.reviewNotes=el.value; save(); }
 function futureBuildBrief(t){
   const lines=[`# Future-build brief: ${t.title}`,'',`Task ID: ${t.id}`,`Output: ${t.output}`,''];
-  if(t.capture_template) lines.push(`Capture template: ${t.capture_template}`,'');
   if(t.downstream_outputs){ lines.push('## Reusable outputs'); t.downstream_outputs.forEach(x=>lines.push(`- ${x.name}: ${x.use}`)); lines.push(''); }
   if(t.feeds_into){ lines.push('## Feeds roadmap tasks'); t.feeds_into.forEach(x=>lines.push(`- ${x.label || x.task}: ${x.reason || ''}`)); lines.push(''); }
   if(t.future_build_rules){ lines.push('## Future build rules'); t.future_build_rules.forEach(x=>lines.push(`- ${x}`)); }
   return lines.join('\n');
 }
-function copyTaskBrief(id){ const t=DATA.tasks.find(x=>x.id===id); if(t) copyText(taskBrief(t)); }
 function copyFutureBuildBrief(id){ const t=DATA.tasks.find(x=>x.id===id); if(t) copyText(futureBuildBrief(t)); }
 function reviewMarkdown(){
   const tasks=orderedTasks();
   const lines=[];
-  lines.push(`# Roadmap Review`, '', `Scope: ${state.sprintFilter==='all'?'All sprints':sprintName(state.sprintFilter)}`, '');
+  lines.push('# Guided Builder Review','');
+  lines.push('## Review notes','', state.reviewNotes || '[write review notes]', '');
   lines.push('## Completed tasks','');
-  tasks.filter(t=>state.done[t.id]).forEach(t=>{ lines.push(`- ${t.title}`); if(state.taskNotes[t.id]) lines.push(`  - Notes: ${state.taskNotes[t.id].replace(/\n/g,' ')}`); });
+  tasks.filter(t=>state.done[t.id]).forEach(t=>{ lines.push(`- ${t.title}`); if(state.taskNotes[t.id]) lines.push(`  - Output: ${state.taskNotes[t.id].replace(/\n/g,' ')}`); });
   lines.push('', '## Parked tasks','');
   tasks.filter(t=>state.parked[t.id]).forEach(t=>lines.push(`- ${t.title}`));
   lines.push('', '## Killed tasks','');
   tasks.filter(t=>state.killed[t.id]).forEach(t=>lines.push(`- ${t.title}`));
   const next=nextTask();
-  lines.push('', '## Next task','', next ? `- ${next.title}` : '- No remaining task in scope.');
-  lines.push('', '## Review prompt','', 'Using this review, tell me what to repeat, what to kill, what to simplify, and whether the next task should remain next. Do not create a new system.');
+  lines.push('', '## Next build task','', next ? `- ${next.title}` : '- No remaining task.');
+  lines.push('', '## Prompt for review','', 'Using this review, tell me what to repeat, what to kill, what to simplify, and whether the next build task should remain next. Keep it practical. Do not create a new system.');
   return lines.join('\n');
 }
 function copyReviewMarkdown(){ copyText(reviewMarkdown()); }
-function downloadReview(){ const blob=new Blob([reviewMarkdown()],{type:'text/markdown'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=`roadmap-review-${state.sprintFilter}.md`; a.click(); URL.revokeObjectURL(a.href); }
-async function resetScopeProgress(){
-  if(!confirm('Reset done, parked and killed status for the current scope? Notes remain saved.')) return;
-  tasksInScope().forEach(t=>{ delete state.done[t.id]; delete state.parked[t.id]; delete state.killed[t.id]; });
-  save(); await renderAll();
-}
+function downloadReview(){ const blob=new Blob([reviewMarkdown()],{type:'text/markdown'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='guided-builder-review.md'; a.click(); URL.revokeObjectURL(a.href); }
 loadData();
 window.copyText=copyText;
-window.copyCurrentPrompt=copyCurrentPrompt;
-window.copyTaskBrief=copyTaskBrief;
-window.copyFutureBuildBrief=copyFutureBuildBrief;
-window.setSprintFilter=setSprintFilter;
-window.completeCurrentTask=completeCurrentTask;
-window.parkCurrentTask=parkCurrentTask;
-window.killCurrentTask=killCurrentTask;
+window.copyBuildStepPrompt=copyBuildStepPrompt;
+window.copyFullPromptSequence=copyFullPromptSequence;
+window.nextBuildStep=nextBuildStep;
+window.prevBuildStep=prevBuildStep;
+window.completeTask=completeTask;
+window.parkTask=parkTask;
+window.killTask=killTask;
 window.unparkTask=unparkTask;
-window.unkillTask=unkillTask;
-window.uncompleteTask=uncompleteTask;
-window.setHistoryView=setHistoryView;
-window.toggleReference=toggleReference;
+window.restoreTask=restoreTask;
+window.toggleQueue=toggleQueue;
+window.toggleParked=toggleParked;
+window.toggleKilled=toggleKilled;
+window.toggleReview=toggleReview;
 window.saveTaskNote=saveTaskNote;
+window.saveReviewNotes=saveReviewNotes;
+window.copyFutureBuildBrief=copyFutureBuildBrief;
 window.copyReviewMarkdown=copyReviewMarkdown;
 window.downloadReview=downloadReview;
-window.resetScopeProgress=resetScopeProgress;
