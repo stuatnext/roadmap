@@ -54,3 +54,18 @@ The app now behaves like a guided builder:
 Do not put confidential NEXT.io data, CRM exports, personal performance details, client details, compensation, subscriber-level data or sensitive commercial information into public repos or unapproved tools.
 
 Use anonymised examples unless the tool and data handling are approved.
+
+## How to use build prompts
+
+For artifact tasks, do not paste the whole prompt file.
+
+Run prompts in order:
+
+1. Capture evidence.
+2. Classify or diagnose.
+3. Create the core output.
+4. Extract reusable outputs.
+5. Build or test the artifact.
+6. Review and feed forward.
+
+Each prompt states which model or tool to use and which sources to provide.

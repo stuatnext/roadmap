@@ -79,3 +79,22 @@ Each prompt file should use this pattern:
 Keep prompts separated.
 
 The user should not need to paste a giant prompt.
+
+## Prompt sequence rule for future LLM edits
+
+Do not replace the build prompts with short generic prompts.
+
+Each build prompt must include:
+
+1. Context for Stuart and NEXT.io.
+2. The live artifact being built.
+3. The exact model or tool to use.
+4. The sources or knowledge Stuart must provide or open.
+5. Evidence-first instruction.
+6. Output format.
+7. Human review gate.
+8. Copy/export target.
+9. Success test.
+10. No live sync, no source writeback, no automatic decisions.
+
+The prompt files are task execution tools, not strategy notes.

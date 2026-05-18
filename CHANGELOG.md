@@ -23,3 +23,11 @@ V2 removes that friction.
 It answers one question:
 
 What do I build next, and exactly how do I build it?
+
+## Prompt consolidation update
+
+- Rebuilt P1 live artifact prompt files using the execution source pack.
+- Added source and knowledge requirements inside every build-stage prompt.
+- Consolidated Excel evidence prompts and HTML build prompts into one stage-by-stage sequence.
+- Preserved no-backend, no-live-sync, no-source-writeback and human-approval rules.
+- Added AI context rules so future LLMs do not shorten prompts into generic artifact prompts.
