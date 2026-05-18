@@ -1,205 +1,591 @@
-# Build Commercial decision log v1
+# Commercial decision log v1 build prompts
 
-Run one prompt at a time. Do not paste this whole file unless you want a task brief.
+This is a consolidated prompt sequence for building the NEXT.io live artifact: **Commercial decision log**.
 
-**Best model/tool:** Claude Artifacts for the interactive v1. Use Claude Cowork only for source evidence scans. Use ChatGPT Project for structure and quality control.
+It combines the execution workbook prompts with the roadmap build rules. Do not paste the whole file into an LLM. Run one prompt at a time.
 
-**Source pack:** NEXT.io Live Artifact Specs Execution Source Pack
+## What this artifact must achieve
 
-## Source spec
-- **Problem solved:** Prevents repeat questions about pricing, GTM, products, bundling, discounts, and deliverables.
 - **Purpose:** Capture commercial decisions so they do not live in email or memory.
-- **User:** Stuart, Will, James, Kim, Rory's team, project owners.
-- **Inputs:** Decision needed, recommendation, options, revenue impact, risk, owner, evidence, deadline.
-- **Fields:** Decision ID, date, decision type, project, owner recommendation, options, approved decision, conditions, affected teams, evidence, follow-up.
-- **Buttons:** New decision, request clarification, mark approved, copy summary, export CSV, export markdown.
-- **Views:** Pending Stuart approval, approved decisions, by project, by owner, by decision type, recent changes.
-- **Connected sources:** Outlook, Teams, OneDrive, Monday.com, HubSpot, web where market context matters.
-- **Claude Cowork role:** Scan evidence, draft decision memo, extract owner actions, create log entry.
-- **Human approval gate:** Stuart approves the decision before it is logged as final.
-- **Local storage needs:** Decision records, draft notes, evidence summaries, filters, last scan date.
+- **Problem solved:** Prevents repeat questions about pricing, GTM, products, bundling, discounts, and deliverables.
+- **Primary user:** Stuart, Will, James, Kim, Rory's team, project owners.
+- **Roadmap trigger:** Use the next product, pricing, GTM, discount, bundle, or deliverables approval.
+- **Success test:** No one searches email to confirm what Stuart approved.
+
+## Version 1 boundaries
+
+- **Backend:** No. Local storage, Claude evidence scan, and copy/export first.
 - **Version 1 rule:** Local state, manual source review, human approval, copy/export.
-- **Copy/export needs:** Copy decision summary with evidence. Export CSV or markdown for teams.
+- **Copy/export:** Copy decision summary with evidence. Export CSV or markdown for teams.
+- **Human approval gate:** Stuart approves the decision before it is logged as final.
 - **What not to build:** No automatic approvals, contract edits, CRM edits, source sync, or notifications.
 - **First manual test:** Log five recent decisions and send the summary back to the owners.
-- **Success test:** No one searches email to confirm what Stuart approved.
-- **Roadmap trigger:** Use the next product, pricing, GTM, discount, bundle, or deliverables approval.
-- **Notes:** This protects Stuart's authority while reducing repeat clarification.
 
-## Source rules that matter
-- **Source scan first:** Start every refresh by scanning the named connected sources before updating the artifact.
-- **Evidence before recommendation:** Show the evidence summary before recommending an action or owner change.
-- **Freshness rule:** Use the freshness rule in the artifact. Mark unknown where source access fails.
-- **No raw sensitive data:** Summarise sensitive evidence. Do not expose compensation, private HR notes, PIP content, banking details, or subscriber-level data.
-- **No source writeback:** Version one should not write back to HubSpot, Monday, Outlook, Teams, OneDrive, GA4, or website systems.
-- **Decision rights filter:** Separate owner execution from Stuart decision rights in every output.
-- **No backend by default:** Use Claude source scan, local storage, and export unless shared permissions or audit trail becomes unavoidable.
-- **Manual proof gate:** Only move an artifact toward automation after the manual workflow works for at least four cycles.
-- **No automatic decisions:** Claude, workflows, and artifacts prepare evidence. They do not approve pricing, discounts, products, GTM, or owner changes.
-- **No automatic source writeback:** Version one must not write back to HubSpot, Monday, Outlook, Teams, OneDrive, website, GA4, or CRM.
+## How to use this file
 
-## Prompt 1: Capture the real workflow
+1. Start with Prompt 1.
+2. Save the output.
+3. Review it manually.
+4. Paste the approved output into the next prompt.
+5. Do not skip to the artifact build until evidence, classifications and core output are approved.
 
-```text
-I am building the NEXT.io live artifact: Commercial decision log.
+## Source discipline
 
-Do not build yet.
+- Evidence first.
+- No live sync.
+- No source writeback.
+- No automatic decisions.
+- Use copy/export and human approval.
+- If the model lacks source access, paste/export the relevant evidence manually.
 
-Capture the real workflow first.
 
-Use this trigger:
-Use the next product, pricing, GTM, discount, bundle, or deliverables approval.
+## Prompt 1: Capture raw situation
 
-Here is my real or anonymised example:
-[paste example]
+**Use this model or tool:** Claude Opus with connected sources
 
-Output only:
-1. trigger
-2. user
-3. correct owner
-4. input needed
-5. output needed
-6. decision or handoff created
-7. evidence needed
-8. risk if this artifact does not exist
-9. what must not be automated
-10. missing information
+**Why this model or tool:** Best for finding commercial decisions across email, chat, docs, deals and boards.
 
-Do not give strategy. Do not add new features.
-```
+**Connected sources:** Outlook, Teams, OneDrive, HubSpot, Monday.com, contracts or deal docs if provided
 
-## Prompt 2: Classify source needs and evidence rules
+**Expected output:** Evidence list of commercial decisions.
+
+**Human review gate:** Stuart confirms which examples are material.
+
+**Copy/export target:** Copy evidence into decision log draft.
+
+**Success test:** Five real decisions are captured with evidence.
+
+**Before you run this prompt, provide/open:**
+- NEXTio_Execution_Source_Pack_ALL_PROMPTS.xlsx, especially Artifact Specs, Source Rules and P1 Prompt Pack.
+- The source evidence named for this task: Outlook, Teams, OneDrive, HubSpot, Monday.com, contracts or deal docs if provided.
+- A 14-day date window or clear instruction to use the last 14 days.
+- Any existing Execution Register export if available.
 
 ```text
-Using the captured workflow below:
-[paste Prompt 1 output]
+Context:
+I am Stuart Crowley, Commercial Director at NEXT.io. I am building the live artifact: Commercial decision log.
 
-Classify the source needs for this artifact.
+Goal of this artifact:
+Capture commercial decisions so they do not live in email or memory.
 
-Connected sources from the execution source pack:
-Outlook, Teams, OneDrive, Monday.com, HubSpot, web where market context matters.
+Problem solved:
+Prevents repeat questions about pricing, GTM, products, bundling, discounts, and deliverables.
 
-For each source, say:
-1. why it might be useful
-2. what evidence Claude Cowork should look for
-3. what Stuart or the named owner must manually review
-4. what must not be stored in the artifact
-5. what can be copied or exported safely
+This is stage 1: Capture raw situation.
+
+Use this model/tool:
+Claude Opus with connected sources
+
+Why this tool:
+Best for finding commercial decisions across email, chat, docs, deals and boards.
+
+How to use the tool:
+Use when Claude can access Microsoft 365, Monday.com, HubSpot or uploaded source files. It should scan evidence first and show source gaps before recommending anything.
+
+Knowledge and sources to provide or open:
+- NEXTio_Execution_Source_Pack_ALL_PROMPTS.xlsx, especially Artifact Specs, Source Rules and P1 Prompt Pack.
+- The source evidence named for this task: Outlook, Teams, OneDrive, HubSpot, Monday.com, contracts or deal docs if provided.
+- A 14-day date window or clear instruction to use the last 14 days.
+- Any existing Execution Register export if available.
+
+Connected sources named by the execution source pack:
+Outlook, Teams, OneDrive, HubSpot, Monday.com, contracts or deal docs if provided
+
+Task:
+Scan Outlook, Teams, OneDrive, HubSpot and Monday.com for recent commercial decisions or approval requests involving product, pricing, discounting, bundling, GTM, media products, partnership deliverables or sales and marketing strategies. Return evidence only: source, date, requester, decision needed, recommendation, affected product, owner, deadline and whether Stuart approval was required.
+
+Expected output:
+Evidence list of commercial decisions.
+
+Output format:
+Return only:
+1. A Markdown evidence table with columns: source, date, sender or item owner, request, visible owner, Stuart involvement, source gap, sensitivity risk.
+2. A short source-gap list.
+3. A human-review checklist for Stuart.
+4. A copy/export block ready to paste into the next prompt.
+Do not recommend owners yet.
+
+Human review gate:
+Stuart confirms which examples are material.
+
+Copy/export target:
+Copy evidence into decision log draft.
+
+Success test:
+Five real decisions are captured with evidence.
 
 Rules:
-- Claude prepares evidence summaries. It does not decide or act.
-- No automatic source sync in v1.
-- No source writeback.
-- No sensitive raw data stored locally.
-- Mark unknown where source access fails.
+- Do not infer from memory. Use evidence or mark unknown.
+- Do not assume live sync.
+- Do not write back to Outlook, Teams, Monday.com, HubSpot, OneDrive, GA4 or website systems.
+- Do not make automatic owner changes, commercial approvals, CRM edits or escalations.
+- Separate owner execution from Stuart decision rights.
+- Summarise sensitive data. Do not expose HR, PIP, compensation, banking, subscriber-level or private personal data.
+- Version one uses local state, manual review, human approval and copy/export.
+- If source access fails, state the source gap clearly and ask Stuart for an export or pasted evidence.
+
+Stage note:
+Do not include private HR or compensation details.
+
+Do not give generic strategy. Do not add new features. Do not expand scope. Complete this stage only.
 ```
 
-## Prompt 3: Build the v1 artifact spec
+## Prompt 2: Classify decision type and owner
+
+**Use this model or tool:** Claude Opus or ChatGPT Project with evidence attached
+
+**Why this model or tool:** Best for applying decision rights and ownership logic.
+
+**Connected sources:** Outlook, Teams, OneDrive, HubSpot, Monday.com, contracts or deal docs if provided
+
+**Expected output:** Decision classification table.
+
+**Human review gate:** Stuart approves decision categories.
+
+**Copy/export target:** Copy categories into log fields.
+
+**Success test:** Only true Stuart decisions come to Stuart.
+
+**Before you run this prompt, provide/open:**
+- NEXTio_Execution_Source_Pack_ALL_PROMPTS.xlsx, especially Artifact Specs, Source Rules and P1 Prompt Pack.
+- The source evidence named for this task: Outlook, Teams, OneDrive, HubSpot, Monday.com, contracts or deal docs if provided.
+- The approved evidence table from Prompt 1.
+- Any approved NEXT.io owner boundaries or decision rights notes.
 
 ```text
-Using the workflow and source needs below:
-[paste Prompt 1 and Prompt 2 outputs]
+Context:
+I am Stuart Crowley, Commercial Director at NEXT.io. I am building the live artifact: Commercial decision log.
 
-Create the v1 artifact spec for: Commercial decision log.
+Goal of this artifact:
+Capture commercial decisions so they do not live in email or memory.
 
-Use the execution source pack constraints:
-Fields: Decision ID, date, decision type, project, owner recommendation, options, approved decision, conditions, affected teams, evidence, follow-up.
-Buttons: New decision, request clarification, mark approved, copy summary, export CSV, export markdown.
-Views: Pending Stuart approval, approved decisions, by project, by owner, by decision type, recent changes.
-Local storage needs: Decision records, draft notes, evidence summaries, filters, last scan date.
-Copy/export needs: Copy decision summary with evidence. Export CSV or markdown for teams.
-Human approval gate: Stuart approves the decision before it is logged as final.
-What not to build: No automatic approvals, contract edits, CRM edits, source sync, or notifications.
+Problem solved:
+Prevents repeat questions about pricing, GTM, products, bundling, discounts, and deliverables.
 
-Output:
-1. purpose
-2. user
-3. fields
-4. buttons
-5. views
-6. local storage needs
-7. copy/export needs
-8. human approval gate
-9. what not to build
-10. success test
-11. first manual test
-12. kill rule
+This is stage 2: Classify decision type and owner.
 
-Keep it simple. No backend unless proven necessary.
+Use this model/tool:
+Claude Opus or ChatGPT Project with evidence attached
+
+Why this tool:
+Best for applying decision rights and ownership logic.
+
+How to use the tool:
+Use when you provide the workbook, evidence exports, copied tables or previous prompt outputs. ChatGPT should reason and structure, not pretend it can see connected sources it has not been given.
+
+Knowledge and sources to provide or open:
+- NEXTio_Execution_Source_Pack_ALL_PROMPTS.xlsx, especially Artifact Specs, Source Rules and P1 Prompt Pack.
+- The source evidence named for this task: Outlook, Teams, OneDrive, HubSpot, Monday.com, contracts or deal docs if provided.
+- The approved evidence table from Prompt 1.
+- Any approved NEXT.io owner boundaries or decision rights notes.
+
+Connected sources named by the execution source pack:
+Outlook, Teams, OneDrive, HubSpot, Monday.com, contracts or deal docs if provided
+
+Task:
+Classify each commercial decision by type: product, pricing, discount above 15 percent, discount within policy, bundling, GTM, sales strategy, marketing strategy, media product, strategic partnership deliverable or CRM architecture. Separate Stuart approval from function-owner execution. Identify owner recommendation, evidence needed and follow-up owner.
+
+Expected output:
+Decision classification table.
+
+Output format:
+Return only:
+1. A classification table.
+2. Items that are clear enough to use.
+3. Items that need Stuart or function-owner approval.
+4. Items marked unknown because evidence is missing.
+5. A copy/export block ready for the core output prompt.
+
+Human review gate:
+Stuart approves decision categories.
+
+Copy/export target:
+Copy categories into log fields.
+
+Success test:
+Only true Stuart decisions come to Stuart.
+
+Rules:
+- Do not infer from memory. Use evidence or mark unknown.
+- Do not assume live sync.
+- Do not write back to Outlook, Teams, Monday.com, HubSpot, OneDrive, GA4 or website systems.
+- Do not make automatic owner changes, commercial approvals, CRM edits or escalations.
+- Separate owner execution from Stuart decision rights.
+- Summarise sensitive data. Do not expose HR, PIP, compensation, banking, subscriber-level or private personal data.
+- Version one uses local state, manual review, human approval and copy/export.
+- If source access fails, state the source gap clearly and ask Stuart for an export or pasted evidence.
+
+Stage note:
+Do not make the decision.
+
+Do not give generic strategy. Do not add new features. Do not expand scope. Complete this stage only.
 ```
 
-## Prompt 4: Create the Claude Artifact build prompt
+## Prompt 3: Create core output
+
+**Use this model or tool:** Claude Opus or ChatGPT Project
+
+**Why this model or tool:** Good for structuring decisions into a durable record.
+
+**Connected sources:** Outlook, Teams, OneDrive, HubSpot, Monday.com, contracts or deal docs if provided
+
+**Expected output:** Decision log template and summary format.
+
+**Human review gate:** Stuart approves final decision wording.
+
+**Copy/export target:** Export to markdown, CSV or artifact seed.
+
+**Success test:** No one searches email to confirm what Stuart approved.
+
+**Before you run this prompt, provide/open:**
+- NEXTio_Execution_Source_Pack_ALL_PROMPTS.xlsx, especially Artifact Specs, Source Rules and P1 Prompt Pack.
+- The source evidence named for this task: Outlook, Teams, OneDrive, HubSpot, Monday.com, contracts or deal docs if provided.
+- The approved classification or diagnosis from Prompt 2.
+- The artifact source spec from the workbook.
 
 ```text
-Using this v1 artifact spec:
-[paste Prompt 3 output]
+Context:
+I am Stuart Crowley, Commercial Director at NEXT.io. I am building the live artifact: Commercial decision log.
 
-Write a build prompt for Claude Artifacts.
+Goal of this artifact:
+Capture commercial decisions so they do not live in email or memory.
 
-The prompt must ask Claude to build a simple interactive HTML artifact with:
-1. clear fields
-2. simple buttons
-3. views and filters
-4. local storage
-5. copy/export functions
-6. visible evidence and approval fields
-7. no backend
-8. no automatic source sync
-9. no source writeback
-10. no sensitive raw data storage
-11. mobile-readable layout
-12. visible success test
+Problem solved:
+Prevents repeat questions about pricing, GTM, products, bundling, discounts, and deliverables.
 
-Also include what Claude must not build:
-No automatic approvals, contract edits, CRM edits, source sync, or notifications.
+This is stage 3: Create core output.
 
-Do not build the artifact in this response. Only write the build prompt.
-```
+Use this model/tool:
+Claude Opus or ChatGPT Project
 
-## Prompt 5: Manual test script
+Why this tool:
+Good for structuring decisions into a durable record.
 
-```text
-Using the artifact spec below:
-[paste Prompt 3 output]
+How to use the tool:
+Use when you provide the workbook, evidence exports, copied tables or previous prompt outputs. ChatGPT should reason and structure, not pretend it can see connected sources it has not been given.
 
-Create a manual test script for: Commercial decision log.
+Knowledge and sources to provide or open:
+- NEXTio_Execution_Source_Pack_ALL_PROMPTS.xlsx, especially Artifact Specs, Source Rules and P1 Prompt Pack.
+- The source evidence named for this task: Outlook, Teams, OneDrive, HubSpot, Monday.com, contracts or deal docs if provided.
+- The approved classification or diagnosis from Prompt 2.
+- The artifact source spec from the workbook.
 
-First manual test from the execution source pack:
-Log five recent decisions and send the summary back to the owners.
+Connected sources named by the execution source pack:
+Outlook, Teams, OneDrive, HubSpot, Monday.com, contracts or deal docs if provided
 
-Give me:
-1. test setup
-2. test data to enter
-3. exact steps
-4. what should happen
-5. what would make the artifact fail
-6. what to record in Friday Review
-7. whether this should be repeated, parked, killed, or considered for automation later
+Task:
+Create a commercial decision log entry format. Fields: decision ID, date, decision type, project, owner recommendation, options, approved decision, conditions, affected teams, evidence, follow-up owner and review date. Include a short decision-summary template owners can paste into Teams or email after Stuart approves.
 
-Keep it practical. The test should take under 30 minutes.
-```
+Expected output:
+Decision log template and summary format.
 
-## Prompt 6: Review and feed forward
+Output format:
+Return only:
+1. The draft Commercial decision log core table or template.
+2. Source-backed rules.
+3. Unresolved items.
+4. Human approval questions.
+5. A clean copy/export block for artifact build.
 
-```text
-Here is what happened after testing Commercial decision log:
-[paste test notes]
+Human review gate:
+Stuart approves final decision wording.
 
-Review against this success test:
+Copy/export target:
+Export to markdown, CSV or artifact seed.
+
+Success test:
 No one searches email to confirm what Stuart approved.
 
-Answer:
-1. complete, repeat, park, or kill?
-2. what changed in the real world?
-3. what should be simplified?
-4. what should feed the roadmap?
-5. is this a scheduled task, Claude Cowork workflow, live artifact, automation candidate, or kill item?
-6. what is the next action?
+Rules:
+- Do not infer from memory. Use evidence or mark unknown.
+- Do not assume live sync.
+- Do not write back to Outlook, Teams, Monday.com, HubSpot, OneDrive, GA4 or website systems.
+- Do not make automatic owner changes, commercial approvals, CRM edits or escalations.
+- Separate owner execution from Stuart decision rights.
+- Summarise sensitive data. Do not expose HR, PIP, compensation, banking, subscriber-level or private personal data.
+- Version one uses local state, manual review, human approval and copy/export.
+- If source access fails, state the source gap clearly and ask Stuart for an export or pasted evidence.
+
+Stage note:
+No automatic approvals.
+
+Do not give generic strategy. Do not add new features. Do not expand scope. Complete this stage only.
+```
+
+## Prompt 4: Extract reusable outputs
+
+**Use this model or tool:** ChatGPT Project or Claude Opus
+
+**Why this model or tool:** Best for reusable decision summaries and owner action extraction.
+
+**Connected sources:** Outlook, Teams, OneDrive, HubSpot, Monday.com, contracts or deal docs if provided
+
+**Expected output:** Reusable decision summaries and action lists.
+
+**Human review gate:** Stuart validates final decisions.
+
+**Copy/export target:** Copy summary to Teams, Monday.com, email or OneDrive.
+
+**Success test:** Owners stop reopening settled decisions.
+
+**Before you run this prompt, provide/open:**
+- NEXTio_Execution_Source_Pack_ALL_PROMPTS.xlsx, especially Artifact Specs, Source Rules and P1 Prompt Pack.
+- The source evidence named for this task: Outlook, Teams, OneDrive, HubSpot, Monday.com, contracts or deal docs if provided.
+- The approved core output from Prompt 3.
+- Your preferred tone and any examples of acceptable internal wording.
+
+```text
+Context:
+I am Stuart Crowley, Commercial Director at NEXT.io. I am building the live artifact: Commercial decision log.
+
+Goal of this artifact:
+Capture commercial decisions so they do not live in email or memory.
+
+Problem solved:
+Prevents repeat questions about pricing, GTM, products, bundling, discounts, and deliverables.
+
+This is stage 4: Extract reusable outputs.
+
+Use this model/tool:
+ChatGPT Project or Claude Opus
+
+Why this tool:
+Best for reusable decision summaries and owner action extraction.
+
+How to use the tool:
+Use when you provide the workbook, evidence exports, copied tables or previous prompt outputs. ChatGPT should reason and structure, not pretend it can see connected sources it has not been given.
+
+Knowledge and sources to provide or open:
+- NEXTio_Execution_Source_Pack_ALL_PROMPTS.xlsx, especially Artifact Specs, Source Rules and P1 Prompt Pack.
+- The source evidence named for this task: Outlook, Teams, OneDrive, HubSpot, Monday.com, contracts or deal docs if provided.
+- The approved core output from Prompt 3.
+- Your preferred tone and any examples of acceptable internal wording.
+
+Connected sources named by the execution source pack:
+Outlook, Teams, OneDrive, HubSpot, Monday.com, contracts or deal docs if provided
+
+Task:
+From each approved decision record, extract reusable outputs: decision summary, owner actions, affected teams, approval conditions, expiry or review date and what not to reopen. Keep the wording short and operational. Make it clear whether the item is final, conditional or pending.
+
+Expected output:
+Reusable decision summaries and action lists.
+
+Output format:
+Return only:
+1. Reusable scripts, labels, checklists or rule blocks.
+2. A safe version for internal sharing.
+3. Edge cases.
+4. What Stuart must approve before use.
+5. A copy/export block for the artifact or source pack.
+
+Human review gate:
+Stuart validates final decisions.
+
+Copy/export target:
+Copy summary to Teams, Monday.com, email or OneDrive.
+
+Success test:
+Owners stop reopening settled decisions.
 
 Rules:
-- No automation unless the manual workflow worked.
-- No backend unless the manual workflow proves it is needed.
-- No new artifact until this one passes or is parked.
+- Do not infer from memory. Use evidence or mark unknown.
+- Do not assume live sync.
+- Do not write back to Outlook, Teams, Monday.com, HubSpot, OneDrive, GA4 or website systems.
+- Do not make automatic owner changes, commercial approvals, CRM edits or escalations.
+- Separate owner execution from Stuart decision rights.
+- Summarise sensitive data. Do not expose HR, PIP, compensation, banking, subscriber-level or private personal data.
+- Version one uses local state, manual review, human approval and copy/export.
+- If source access fails, state the source gap clearly and ask Stuart for an export or pasted evidence.
 
-Keep it under 180 words.
+Stage note:
+Do not rewrite commercial strategy.
+
+Do not give generic strategy. Do not add new features. Do not expand scope. Complete this stage only.
+```
+
+## Prompt 5: Build or test artifact
+
+**Use this model or tool:** Claude Artifacts with a coding-capable model
+
+**Why this model or tool:** Correct tool for local log, filters and export without system writeback.
+
+**Connected sources:** Outlook, Teams, OneDrive, HubSpot, Monday.com, contracts or deal docs if provided
+
+**Expected output:** Working decision log artifact.
+
+**Human review gate:** Stuart approves any decision before it is marked final.
+
+**Copy/export target:** Export summary to Teams, Monday.com, OneDrive or email.
+
+**Success test:** Five decisions are logged and retrievable.
+
+**Before you run this prompt, provide/open:**
+- NEXTio_Execution_Source_Pack_ALL_PROMPTS.xlsx, especially Artifact Specs, Source Rules and P1 Prompt Pack.
+- The source evidence named for this task: Outlook, Teams, OneDrive, HubSpot, Monday.com, contracts or deal docs if provided.
+- The approved core output from Prompt 3.
+- The reusable outputs from Prompt 4.
+- Artifact source spec: fields, buttons, views, version-one rule and what not to build.
+
+```text
+Context:
+I am Stuart Crowley, Commercial Director at NEXT.io. I am building the live artifact: Commercial decision log.
+
+Goal of this artifact:
+Capture commercial decisions so they do not live in email or memory.
+
+Problem solved:
+Prevents repeat questions about pricing, GTM, products, bundling, discounts, and deliverables.
+
+This is stage 5: Build or test artifact.
+
+Use this model/tool:
+Claude Artifacts with a coding-capable model
+
+Why this tool:
+Correct tool for local log, filters and export without system writeback.
+
+How to use the tool:
+Use after the evidence and core output are approved. Paste the approved seed data from earlier prompts. Do not ask it to scan sources or make live decisions.
+
+Knowledge and sources to provide or open:
+- NEXTio_Execution_Source_Pack_ALL_PROMPTS.xlsx, especially Artifact Specs, Source Rules and P1 Prompt Pack.
+- The source evidence named for this task: Outlook, Teams, OneDrive, HubSpot, Monday.com, contracts or deal docs if provided.
+- The approved core output from Prompt 3.
+- The reusable outputs from Prompt 4.
+- Artifact source spec: fields, buttons, views, version-one rule and what not to build.
+
+Connected sources named by the execution source pack:
+Outlook, Teams, OneDrive, HubSpot, Monday.com, contracts or deal docs if provided
+
+Task:
+Build a simple Claude Artifact for the commercial decision log. No backend. Use local storage and copy/export. Fields: decision ID, date, decision type, project, owner recommendation, options, approved decision, conditions, affected teams, evidence, follow-up owner and review date. Buttons: new decision, request clarification, mark approved, copy summary, export CSV and export markdown. Views: pending Stuart approval, approved, by project, by owner and by decision type.
+
+Expected output:
+Working decision log artifact.
+
+Output format:
+Return:
+1. A working v1 artifact or a build-ready artifact spec if the tool cannot build directly.
+2. Fields, buttons and views.
+3. Local storage behaviour.
+4. Copy/export behaviour.
+5. Manual test script.
+6. What not to build.
+
+Human review gate:
+Stuart approves any decision before it is marked final.
+
+Copy/export target:
+Export summary to Teams, Monday.com, OneDrive or email.
+
+Success test:
+Five decisions are logged and retrievable.
+
+Rules:
+- Do not infer from memory. Use evidence or mark unknown.
+- Do not assume live sync.
+- Do not write back to Outlook, Teams, Monday.com, HubSpot, OneDrive, GA4 or website systems.
+- Do not make automatic owner changes, commercial approvals, CRM edits or escalations.
+- Separate owner execution from Stuart decision rights.
+- Summarise sensitive data. Do not expose HR, PIP, compensation, banking, subscriber-level or private personal data.
+- Version one uses local state, manual review, human approval and copy/export.
+- If source access fails, state the source gap clearly and ask Stuart for an export or pasted evidence.
+
+Stage note:
+No CRM, contract or source edits.
+
+Do not give generic strategy. Do not add new features. Do not expand scope. Complete this stage only.
+```
+
+## Prompt 6: Friday review and feed forward
+
+**Use this model or tool:** Claude Opus with connected sources, or ChatGPT Project with decision export
+
+**Why this model or tool:** Use sources to find reopened decisions. Use ChatGPT only with exported evidence.
+
+**Connected sources:** Outlook, Teams, OneDrive, HubSpot, Monday.com, contracts or deal docs if provided
+
+**Expected output:** Weekly decision log review.
+
+**Human review gate:** Stuart approves rule changes.
+
+**Copy/export target:** Copy changes into Build Queue, Roadmap Feed or artifact.
+
+**Success test:** Fewer repeat questions reach Stuart.
+
+**Before you run this prompt, provide/open:**
+- NEXTio_Execution_Source_Pack_ALL_PROMPTS.xlsx, especially Artifact Specs, Source Rules and P1 Prompt Pack.
+- The source evidence named for this task: Outlook, Teams, OneDrive, HubSpot, Monday.com, contracts or deal docs if provided.
+- This week's usage examples, exported artifact state, or pasted evidence.
+- Notes on what Stuart redirected, approved, parked or killed.
+
+```text
+Context:
+I am Stuart Crowley, Commercial Director at NEXT.io. I am building the live artifact: Commercial decision log.
+
+Goal of this artifact:
+Capture commercial decisions so they do not live in email or memory.
+
+Problem solved:
+Prevents repeat questions about pricing, GTM, products, bundling, discounts, and deliverables.
+
+This is stage 6: Friday review and feed forward.
+
+Use this model/tool:
+Claude Opus with connected sources, or ChatGPT Project with decision export
+
+Why this tool:
+Use sources to find reopened decisions. Use ChatGPT only with exported evidence.
+
+How to use the tool:
+Use when Claude can access Microsoft 365, Monday.com, HubSpot or uploaded source files. It should scan evidence first and show source gaps before recommending anything.
+
+Knowledge and sources to provide or open:
+- NEXTio_Execution_Source_Pack_ALL_PROMPTS.xlsx, especially Artifact Specs, Source Rules and P1 Prompt Pack.
+- The source evidence named for this task: Outlook, Teams, OneDrive, HubSpot, Monday.com, contracts or deal docs if provided.
+- This week's usage examples, exported artifact state, or pasted evidence.
+- Notes on what Stuart redirected, approved, parked or killed.
+
+Connected sources named by the execution source pack:
+Outlook, Teams, OneDrive, HubSpot, Monday.com, contracts or deal docs if provided
+
+Task:
+Review this week’s commercial decision log. Find pending decisions, repeated questions, decisions being reopened and owner actions not completed. Separate items Stuart must decide from owner follow-up. Recommend one rule to add to the pricing card or routing map if the same issue repeated.
+
+Expected output:
+Weekly decision log review.
+
+Output format:
+Return only:
+1. What worked.
+2. What failed.
+3. Evidence-backed changes.
+4. What should stay unchanged.
+5. What to update in the artifact.
+6. What to feed into the next roadmap task.
+7. One next action for Stuart.
+
+Human review gate:
+Stuart approves rule changes.
+
+Copy/export target:
+Copy changes into Build Queue, Roadmap Feed or artifact.
+
+Success test:
+Fewer repeat questions reach Stuart.
+
+Rules:
+- Do not infer from memory. Use evidence or mark unknown.
+- Do not assume live sync.
+- Do not write back to Outlook, Teams, Monday.com, HubSpot, OneDrive, GA4 or website systems.
+- Do not make automatic owner changes, commercial approvals, CRM edits or escalations.
+- Separate owner execution from Stuart decision rights.
+- Summarise sensitive data. Do not expose HR, PIP, compensation, banking, subscriber-level or private personal data.
+- Version one uses local state, manual review, human approval and copy/export.
+- If source access fails, state the source gap clearly and ask Stuart for an export or pasted evidence.
+
+Stage note:
+Do not expand scope into general project management.
+
+Do not give generic strategy. Do not add new features. Do not expand scope. Complete this stage only.
 ```

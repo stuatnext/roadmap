@@ -1,205 +1,591 @@
-# Build Product, pricing, and discount rule card v1
+# Product, pricing, and discount rule card v1 build prompts
 
-Run one prompt at a time. Do not paste this whole file unless you want a task brief.
+This is a consolidated prompt sequence for building the NEXT.io live artifact: **Product, pricing, and discount rule card**.
 
-**Best model/tool:** Claude Artifacts for the interactive v1. Use Claude Cowork only for source evidence scans. Use ChatGPT Project for structure and quality control.
+It combines the execution workbook prompts with the roadmap build rules. Do not paste the whole file into an LLM. Run one prompt at a time.
 
-**Source pack:** NEXT.io Live Artifact Specs Execution Source Pack
+## What this artifact must achieve
 
-## Source spec
-- **Problem solved:** Stops routine pricing questions and makes the 15 percent discount rule enforceable.
 - **Purpose:** Give sales and marketing one approved reference for products, pricing, bundles, and discount rules.
-- **User:** Stuart, Will, sales team, James, marketing team, project owners.
-- **Inputs:** Approved products, list prices, bundle rules, discount thresholds, exception rules, effective dates, source docs.
-- **Fields:** Product, event, list price, package, discount limit, bundle rule, approval owner, exception path, effective date, source evidence.
-- **Buttons:** Add rule, update rule, flag exception, copy rule, export PDF, export CSV.
-- **Views:** Current rules, by product, by event, discount exceptions, changes since last approval.
-- **Connected sources:** OneDrive pricing docs, HubSpot deal context, Outlook, Teams, Monday.com.
-- **Claude Cowork role:** Check proposed pricing questions against approved rules and draft exception summaries.
-- **Human approval gate:** Stuart approves rule changes, new products, bundles, and discounts above 15 percent.
-- **Local storage needs:** Current rule card, draft edits, change notes, last approval date.
+- **Problem solved:** Stops routine pricing questions and makes the 15 percent discount rule enforceable.
+- **Primary user:** Stuart, Will, sales team, James, marketing team, project owners.
+- **Roadmap trigger:** Use the next discount, bundle, or package question.
+- **Success test:** Discounts above 15 percent go to Stuart. Everything else follows the rule card.
+
+## Version 1 boundaries
+
+- **Backend:** No. Local storage, Claude evidence scan, and copy/export first.
 - **Version 1 rule:** Local state, manual source review, human approval, copy/export.
-- **Copy/export needs:** Copy rule into proposals. Export PDF or CSV for sales enablement.
+- **Copy/export:** Copy rule into proposals. Export PDF or CSV for sales enablement.
+- **Human approval gate:** Stuart approves rule changes, new products, bundles, and discounts above 15 percent.
 - **What not to build:** No quote generation, contract generation, automatic approvals, or live CRM edits.
 - **First manual test:** Test five deal scenarios and confirm each routes correctly.
-- **Success test:** Discounts above 15 percent go to Stuart. Everything else follows the rule card.
-- **Roadmap trigger:** Use the next discount, bundle, or package question.
-- **Notes:** This is a rule card, not a quoting tool.
 
-## Source rules that matter
-- **Source scan first:** Start every refresh by scanning the named connected sources before updating the artifact.
-- **Evidence before recommendation:** Show the evidence summary before recommending an action or owner change.
-- **Freshness rule:** Use the freshness rule in the artifact. Mark unknown where source access fails.
-- **No raw sensitive data:** Summarise sensitive evidence. Do not expose compensation, private HR notes, PIP content, banking details, or subscriber-level data.
-- **No source writeback:** Version one should not write back to HubSpot, Monday, Outlook, Teams, OneDrive, GA4, or website systems.
-- **Decision rights filter:** Separate owner execution from Stuart decision rights in every output.
-- **No backend by default:** Use Claude source scan, local storage, and export unless shared permissions or audit trail becomes unavoidable.
-- **Manual proof gate:** Only move an artifact toward automation after the manual workflow works for at least four cycles.
-- **No automatic decisions:** Claude, workflows, and artifacts prepare evidence. They do not approve pricing, discounts, products, GTM, or owner changes.
-- **No automatic source writeback:** Version one must not write back to HubSpot, Monday, Outlook, Teams, OneDrive, website, GA4, or CRM.
+## How to use this file
 
-## Prompt 1: Capture the real workflow
+1. Start with Prompt 1.
+2. Save the output.
+3. Review it manually.
+4. Paste the approved output into the next prompt.
+5. Do not skip to the artifact build until evidence, classifications and core output are approved.
 
-```text
-I am building the NEXT.io live artifact: Product, pricing, and discount rule card.
+## Source discipline
 
-Do not build yet.
-
-Capture the real workflow first.
-
-Use this trigger:
-Use the next discount, bundle, or package question.
-
-Here is my real or anonymised example:
-[paste example]
-
-Output only:
-1. trigger
-2. user
-3. correct owner
-4. input needed
-5. output needed
-6. decision or handoff created
-7. evidence needed
-8. risk if this artifact does not exist
-9. what must not be automated
-10. missing information
-
-Do not give strategy. Do not add new features.
-```
-
-## Prompt 2: Classify source needs and evidence rules
-
-```text
-Using the captured workflow below:
-[paste Prompt 1 output]
-
-Classify the source needs for this artifact.
-
-Connected sources from the execution source pack:
-OneDrive pricing docs, HubSpot deal context, Outlook, Teams, Monday.com.
-
-For each source, say:
-1. why it might be useful
-2. what evidence Claude Cowork should look for
-3. what Stuart or the named owner must manually review
-4. what must not be stored in the artifact
-5. what can be copied or exported safely
-
-Rules:
-- Claude prepares evidence summaries. It does not decide or act.
-- No automatic source sync in v1.
+- Evidence first.
+- No live sync.
 - No source writeback.
-- No sensitive raw data stored locally.
-- Mark unknown where source access fails.
-```
+- No automatic decisions.
+- Use copy/export and human approval.
+- If the model lacks source access, paste/export the relevant evidence manually.
 
-## Prompt 3: Build the v1 artifact spec
 
-```text
-Using the workflow and source needs below:
-[paste Prompt 1 and Prompt 2 outputs]
+## Prompt 1: Capture raw situation
 
-Create the v1 artifact spec for: Product, pricing, and discount rule card.
+**Use this model or tool:** Claude Opus with connected sources
 
-Use the execution source pack constraints:
-Fields: Product, event, list price, package, discount limit, bundle rule, approval owner, exception path, effective date, source evidence.
-Buttons: Add rule, update rule, flag exception, copy rule, export PDF, export CSV.
-Views: Current rules, by product, by event, discount exceptions, changes since last approval.
-Local storage needs: Current rule card, draft edits, change notes, last approval date.
-Copy/export needs: Copy rule into proposals. Export PDF or CSV for sales enablement.
-Human approval gate: Stuart approves rule changes, new products, bundles, and discounts above 15 percent.
-What not to build: No quote generation, contract generation, automatic approvals, or live CRM edits.
+**Why this model or tool:** Best for scanning pricing questions and source documents before rules are written.
 
-Output:
-1. purpose
-2. user
-3. fields
-4. buttons
-5. views
-6. local storage needs
-7. copy/export needs
-8. human approval gate
-9. what not to build
-10. success test
-11. first manual test
-12. kill rule
+**Connected sources:** OneDrive pricing docs, HubSpot deals, Outlook, Teams, sales collateral, user-provided pricing files
 
-Keep it simple. No backend unless proven necessary.
-```
+**Expected output:** Evidence list of pricing and discount questions.
 
-## Prompt 4: Create the Claude Artifact build prompt
+**Human review gate:** Stuart confirms approved sources.
+
+**Copy/export target:** Copy evidence into rule card draft.
+
+**Success test:** Five real scenarios are captured.
+
+**Before you run this prompt, provide/open:**
+- NEXTio_Execution_Source_Pack_ALL_PROMPTS.xlsx, especially Artifact Specs, Source Rules and P1 Prompt Pack.
+- The source evidence named for this task: OneDrive pricing docs, HubSpot deals, Outlook, Teams, sales collateral, user-provided pricing files.
+- A 14-day date window or clear instruction to use the last 14 days.
+- Any existing Execution Register export if available.
 
 ```text
-Using this v1 artifact spec:
-[paste Prompt 3 output]
+Context:
+I am Stuart Crowley, Commercial Director at NEXT.io. I am building the live artifact: Product, pricing, and discount rule card.
 
-Write a build prompt for Claude Artifacts.
+Goal of this artifact:
+Give sales and marketing one approved reference for products, pricing, bundles, and discount rules.
 
-The prompt must ask Claude to build a simple interactive HTML artifact with:
-1. clear fields
-2. simple buttons
-3. views and filters
-4. local storage
-5. copy/export functions
-6. visible evidence and approval fields
-7. no backend
-8. no automatic source sync
-9. no source writeback
-10. no sensitive raw data storage
-11. mobile-readable layout
-12. visible success test
+Problem solved:
+Stops routine pricing questions and makes the 15 percent discount rule enforceable.
 
-Also include what Claude must not build:
-No quote generation, contract generation, automatic approvals, or live CRM edits.
+This is stage 1: Capture raw situation.
 
-Do not build the artifact in this response. Only write the build prompt.
-```
+Use this model/tool:
+Claude Opus with connected sources
 
-## Prompt 5: Manual test script
+Why this tool:
+Best for scanning pricing questions and source documents before rules are written.
 
-```text
-Using the artifact spec below:
-[paste Prompt 3 output]
+How to use the tool:
+Use when Claude can access Microsoft 365, Monday.com, HubSpot or uploaded source files. It should scan evidence first and show source gaps before recommending anything.
 
-Create a manual test script for: Product, pricing, and discount rule card.
+Knowledge and sources to provide or open:
+- NEXTio_Execution_Source_Pack_ALL_PROMPTS.xlsx, especially Artifact Specs, Source Rules and P1 Prompt Pack.
+- The source evidence named for this task: OneDrive pricing docs, HubSpot deals, Outlook, Teams, sales collateral, user-provided pricing files.
+- A 14-day date window or clear instruction to use the last 14 days.
+- Any existing Execution Register export if available.
 
-First manual test from the execution source pack:
-Test five deal scenarios and confirm each routes correctly.
+Connected sources named by the execution source pack:
+OneDrive pricing docs, HubSpot deals, Outlook, Teams, sales collateral, user-provided pricing files
 
-Give me:
-1. test setup
-2. test data to enter
-3. exact steps
-4. what should happen
-5. what would make the artifact fail
-6. what to record in Friday Review
-7. whether this should be repeated, parked, killed, or considered for automation later
+Task:
+Scan OneDrive pricing docs, HubSpot deals, Outlook and Teams for recent product, pricing, discount, bundle or package questions. Return evidence only: source, date, product or event, question, current rule if visible, requester, deal impact and whether Stuart approval was needed. Mark missing source documents rather than guessing.
 
-Keep it practical. The test should take under 30 minutes.
-```
+Expected output:
+Evidence list of pricing and discount questions.
 
-## Prompt 6: Review and feed forward
+Output format:
+Return only:
+1. A Markdown evidence table with columns: source, date, sender or item owner, request, visible owner, Stuart involvement, source gap, sensitivity risk.
+2. A short source-gap list.
+3. A human-review checklist for Stuart.
+4. A copy/export block ready to paste into the next prompt.
+Do not recommend owners yet.
 
-```text
-Here is what happened after testing Product, pricing, and discount rule card:
-[paste test notes]
+Human review gate:
+Stuart confirms approved sources.
 
-Review against this success test:
-Discounts above 15 percent go to Stuart. Everything else follows the rule card.
+Copy/export target:
+Copy evidence into rule card draft.
 
-Answer:
-1. complete, repeat, park, or kill?
-2. what changed in the real world?
-3. what should be simplified?
-4. what should feed the roadmap?
-5. is this a scheduled task, Claude Cowork workflow, live artifact, automation candidate, or kill item?
-6. what is the next action?
+Success test:
+Five real scenarios are captured.
 
 Rules:
-- No automation unless the manual workflow worked.
-- No backend unless the manual workflow proves it is needed.
-- No new artifact until this one passes or is parked.
+- Do not infer from memory. Use evidence or mark unknown.
+- Do not assume live sync.
+- Do not write back to Outlook, Teams, Monday.com, HubSpot, OneDrive, GA4 or website systems.
+- Do not make automatic owner changes, commercial approvals, CRM edits or escalations.
+- Separate owner execution from Stuart decision rights.
+- Summarise sensitive data. Do not expose HR, PIP, compensation, banking, subscriber-level or private personal data.
+- Version one uses local state, manual review, human approval and copy/export.
+- If source access fails, state the source gap clearly and ask Stuart for an export or pasted evidence.
 
-Keep it under 180 words.
+Stage note:
+No quoting or deal commitments.
+
+Do not give generic strategy. Do not add new features. Do not expand scope. Complete this stage only.
+```
+
+## Prompt 2: Classify rule and exception
+
+**Use this model or tool:** Claude Opus or ChatGPT Project with pricing evidence attached
+
+**Why this model or tool:** Best for separating rules, exceptions and approval rights.
+
+**Connected sources:** OneDrive pricing docs, HubSpot deals, Outlook, Teams, sales collateral, user-provided pricing files
+
+**Expected output:** Rule and exception classification.
+
+**Human review gate:** Stuart approves the classifications before use.
+
+**Copy/export target:** Copy into pricing rule card.
+
+**Success test:** Each scenario has a clear route.
+
+**Before you run this prompt, provide/open:**
+- NEXTio_Execution_Source_Pack_ALL_PROMPTS.xlsx, especially Artifact Specs, Source Rules and P1 Prompt Pack.
+- The source evidence named for this task: OneDrive pricing docs, HubSpot deals, Outlook, Teams, sales collateral, user-provided pricing files.
+- The approved evidence table from Prompt 1.
+- Any approved NEXT.io owner boundaries or decision rights notes.
+
+```text
+Context:
+I am Stuart Crowley, Commercial Director at NEXT.io. I am building the live artifact: Product, pricing, and discount rule card.
+
+Goal of this artifact:
+Give sales and marketing one approved reference for products, pricing, bundles, and discount rules.
+
+Problem solved:
+Stops routine pricing questions and makes the 15 percent discount rule enforceable.
+
+This is stage 2: Classify rule and exception.
+
+Use this model/tool:
+Claude Opus or ChatGPT Project with pricing evidence attached
+
+Why this tool:
+Best for separating rules, exceptions and approval rights.
+
+How to use the tool:
+Use when you provide the workbook, evidence exports, copied tables or previous prompt outputs. ChatGPT should reason and structure, not pretend it can see connected sources it has not been given.
+
+Knowledge and sources to provide or open:
+- NEXTio_Execution_Source_Pack_ALL_PROMPTS.xlsx, especially Artifact Specs, Source Rules and P1 Prompt Pack.
+- The source evidence named for this task: OneDrive pricing docs, HubSpot deals, Outlook, Teams, sales collateral, user-provided pricing files.
+- The approved evidence table from Prompt 1.
+- Any approved NEXT.io owner boundaries or decision rights notes.
+
+Connected sources named by the execution source pack:
+OneDrive pricing docs, HubSpot deals, Outlook, Teams, sales collateral, user-provided pricing files
+
+Task:
+Classify each pricing scenario as approved product, list price, package rule, bundle rule, discount within policy, discount above 15 percent, new product, strategic exception or unclear. Stuart approves new products, pricing, bundling and discounts above 15 percent. Will manages sales usage inside approved rules. Output classification, owner, approval path and missing evidence.
+
+Expected output:
+Rule and exception classification.
+
+Output format:
+Return only:
+1. A classification table.
+2. Items that are clear enough to use.
+3. Items that need Stuart or function-owner approval.
+4. Items marked unknown because evidence is missing.
+5. A copy/export block ready for the core output prompt.
+
+Human review gate:
+Stuart approves the classifications before use.
+
+Copy/export target:
+Copy into pricing rule card.
+
+Success test:
+Each scenario has a clear route.
+
+Rules:
+- Do not infer from memory. Use evidence or mark unknown.
+- Do not assume live sync.
+- Do not write back to Outlook, Teams, Monday.com, HubSpot, OneDrive, GA4 or website systems.
+- Do not make automatic owner changes, commercial approvals, CRM edits or escalations.
+- Separate owner execution from Stuart decision rights.
+- Summarise sensitive data. Do not expose HR, PIP, compensation, banking, subscriber-level or private personal data.
+- Version one uses local state, manual review, human approval and copy/export.
+- If source access fails, state the source gap clearly and ask Stuart for an export or pasted evidence.
+
+Stage note:
+Do not invent prices.
+
+Do not give generic strategy. Do not add new features. Do not expand scope. Complete this stage only.
+```
+
+## Prompt 3: Create core output
+
+**Use this model or tool:** Claude Opus or ChatGPT Project
+
+**Why this model or tool:** Best for creating a sales-friendly rule card after evidence is set.
+
+**Connected sources:** OneDrive pricing docs, HubSpot deals, Outlook, Teams, sales collateral, user-provided pricing files
+
+**Expected output:** Rule card and sales version.
+
+**Human review gate:** Stuart signs off the first version.
+
+**Copy/export target:** Export PDF, markdown or CSV for sales use.
+
+**Success test:** Routine pricing questions reduce after rollout.
+
+**Before you run this prompt, provide/open:**
+- NEXTio_Execution_Source_Pack_ALL_PROMPTS.xlsx, especially Artifact Specs, Source Rules and P1 Prompt Pack.
+- The source evidence named for this task: OneDrive pricing docs, HubSpot deals, Outlook, Teams, sales collateral, user-provided pricing files.
+- The approved classification or diagnosis from Prompt 2.
+- The artifact source spec from the workbook.
+
+```text
+Context:
+I am Stuart Crowley, Commercial Director at NEXT.io. I am building the live artifact: Product, pricing, and discount rule card.
+
+Goal of this artifact:
+Give sales and marketing one approved reference for products, pricing, bundles, and discount rules.
+
+Problem solved:
+Stops routine pricing questions and makes the 15 percent discount rule enforceable.
+
+This is stage 3: Create core output.
+
+Use this model/tool:
+Claude Opus or ChatGPT Project
+
+Why this tool:
+Best for creating a sales-friendly rule card after evidence is set.
+
+How to use the tool:
+Use when you provide the workbook, evidence exports, copied tables or previous prompt outputs. ChatGPT should reason and structure, not pretend it can see connected sources it has not been given.
+
+Knowledge and sources to provide or open:
+- NEXTio_Execution_Source_Pack_ALL_PROMPTS.xlsx, especially Artifact Specs, Source Rules and P1 Prompt Pack.
+- The source evidence named for this task: OneDrive pricing docs, HubSpot deals, Outlook, Teams, sales collateral, user-provided pricing files.
+- The approved classification or diagnosis from Prompt 2.
+- The artifact source spec from the workbook.
+
+Connected sources named by the execution source pack:
+OneDrive pricing docs, HubSpot deals, Outlook, Teams, sales collateral, user-provided pricing files
+
+Task:
+Create a product, pricing and discount rule card. Fields: product, event, list price, package, discount limit, bundle rule, approval owner, exception path, effective date and source evidence. Include a plain-English sales version and a Stuart approval version. Make clear that discounts above 15 percent require Stuart approval.
+
+Expected output:
+Rule card and sales version.
+
+Output format:
+Return only:
+1. The draft Product, pricing, and discount rule card core table or template.
+2. Source-backed rules.
+3. Unresolved items.
+4. Human approval questions.
+5. A clean copy/export block for artifact build.
+
+Human review gate:
+Stuart signs off the first version.
+
+Copy/export target:
+Export PDF, markdown or CSV for sales use.
+
+Success test:
+Routine pricing questions reduce after rollout.
+
+Rules:
+- Do not infer from memory. Use evidence or mark unknown.
+- Do not assume live sync.
+- Do not write back to Outlook, Teams, Monday.com, HubSpot, OneDrive, GA4 or website systems.
+- Do not make automatic owner changes, commercial approvals, CRM edits or escalations.
+- Separate owner execution from Stuart decision rights.
+- Summarise sensitive data. Do not expose HR, PIP, compensation, banking, subscriber-level or private personal data.
+- Version one uses local state, manual review, human approval and copy/export.
+- If source access fails, state the source gap clearly and ask Stuart for an export or pasted evidence.
+
+Stage note:
+This is not a quoting tool.
+
+Do not give generic strategy. Do not add new features. Do not expand scope. Complete this stage only.
+```
+
+## Prompt 4: Extract reusable outputs
+
+**Use this model or tool:** ChatGPT Project or Claude Opus
+
+**Why this model or tool:** Best for turning rules into sales enablement copy.
+
+**Connected sources:** OneDrive pricing docs, HubSpot deals, Outlook, Teams, sales collateral, user-provided pricing files
+
+**Expected output:** Sales wording and exception scripts.
+
+**Human review gate:** Stuart approves all rule language.
+
+**Copy/export target:** Copy into sales collateral, Teams or OneDrive.
+
+**Success test:** Will can answer routine questions without Stuart.
+
+**Before you run this prompt, provide/open:**
+- NEXTio_Execution_Source_Pack_ALL_PROMPTS.xlsx, especially Artifact Specs, Source Rules and P1 Prompt Pack.
+- The source evidence named for this task: OneDrive pricing docs, HubSpot deals, Outlook, Teams, sales collateral, user-provided pricing files.
+- The approved core output from Prompt 3.
+- Your preferred tone and any examples of acceptable internal wording.
+
+```text
+Context:
+I am Stuart Crowley, Commercial Director at NEXT.io. I am building the live artifact: Product, pricing, and discount rule card.
+
+Goal of this artifact:
+Give sales and marketing one approved reference for products, pricing, bundles, and discount rules.
+
+Problem solved:
+Stops routine pricing questions and makes the 15 percent discount rule enforceable.
+
+This is stage 4: Extract reusable outputs.
+
+Use this model/tool:
+ChatGPT Project or Claude Opus
+
+Why this tool:
+Best for turning rules into sales enablement copy.
+
+How to use the tool:
+Use when you provide the workbook, evidence exports, copied tables or previous prompt outputs. ChatGPT should reason and structure, not pretend it can see connected sources it has not been given.
+
+Knowledge and sources to provide or open:
+- NEXTio_Execution_Source_Pack_ALL_PROMPTS.xlsx, especially Artifact Specs, Source Rules and P1 Prompt Pack.
+- The source evidence named for this task: OneDrive pricing docs, HubSpot deals, Outlook, Teams, sales collateral, user-provided pricing files.
+- The approved core output from Prompt 3.
+- Your preferred tone and any examples of acceptable internal wording.
+
+Connected sources named by the execution source pack:
+OneDrive pricing docs, HubSpot deals, Outlook, Teams, sales collateral, user-provided pricing files
+
+Task:
+Extract reusable outputs from the approved rule card: sales-safe wording, exception request format, discount approval message, bundle approval checklist and what not to promise. Keep the copy direct. Make it clear when Will can proceed and when Stuart must approve.
+
+Expected output:
+Sales wording and exception scripts.
+
+Output format:
+Return only:
+1. Reusable scripts, labels, checklists or rule blocks.
+2. A safe version for internal sharing.
+3. Edge cases.
+4. What Stuart must approve before use.
+5. A copy/export block for the artifact or source pack.
+
+Human review gate:
+Stuart approves all rule language.
+
+Copy/export target:
+Copy into sales collateral, Teams or OneDrive.
+
+Success test:
+Will can answer routine questions without Stuart.
+
+Rules:
+- Do not infer from memory. Use evidence or mark unknown.
+- Do not assume live sync.
+- Do not write back to Outlook, Teams, Monday.com, HubSpot, OneDrive, GA4 or website systems.
+- Do not make automatic owner changes, commercial approvals, CRM edits or escalations.
+- Separate owner execution from Stuart decision rights.
+- Summarise sensitive data. Do not expose HR, PIP, compensation, banking, subscriber-level or private personal data.
+- Version one uses local state, manual review, human approval and copy/export.
+- If source access fails, state the source gap clearly and ask Stuart for an export or pasted evidence.
+
+Stage note:
+Do not create negotiation scripts that change the rules.
+
+Do not give generic strategy. Do not add new features. Do not expand scope. Complete this stage only.
+```
+
+## Prompt 5: Build or test artifact
+
+**Use this model or tool:** Claude Artifacts with a coding-capable model
+
+**Why this model or tool:** Correct tool for a searchable local rule card with exports.
+
+**Connected sources:** OneDrive pricing docs, HubSpot deals, Outlook, Teams, sales collateral, user-provided pricing files
+
+**Expected output:** Working rule card artifact.
+
+**Human review gate:** Stuart approves changes before they become active.
+
+**Copy/export target:** Export to sales team, Teams or OneDrive.
+
+**Success test:** Five test deal scenarios route correctly.
+
+**Before you run this prompt, provide/open:**
+- NEXTio_Execution_Source_Pack_ALL_PROMPTS.xlsx, especially Artifact Specs, Source Rules and P1 Prompt Pack.
+- The source evidence named for this task: OneDrive pricing docs, HubSpot deals, Outlook, Teams, sales collateral, user-provided pricing files.
+- The approved core output from Prompt 3.
+- The reusable outputs from Prompt 4.
+- Artifact source spec: fields, buttons, views, version-one rule and what not to build.
+
+```text
+Context:
+I am Stuart Crowley, Commercial Director at NEXT.io. I am building the live artifact: Product, pricing, and discount rule card.
+
+Goal of this artifact:
+Give sales and marketing one approved reference for products, pricing, bundles, and discount rules.
+
+Problem solved:
+Stops routine pricing questions and makes the 15 percent discount rule enforceable.
+
+This is stage 5: Build or test artifact.
+
+Use this model/tool:
+Claude Artifacts with a coding-capable model
+
+Why this tool:
+Correct tool for a searchable local rule card with exports.
+
+How to use the tool:
+Use after the evidence and core output are approved. Paste the approved seed data from earlier prompts. Do not ask it to scan sources or make live decisions.
+
+Knowledge and sources to provide or open:
+- NEXTio_Execution_Source_Pack_ALL_PROMPTS.xlsx, especially Artifact Specs, Source Rules and P1 Prompt Pack.
+- The source evidence named for this task: OneDrive pricing docs, HubSpot deals, Outlook, Teams, sales collateral, user-provided pricing files.
+- The approved core output from Prompt 3.
+- The reusable outputs from Prompt 4.
+- Artifact source spec: fields, buttons, views, version-one rule and what not to build.
+
+Connected sources named by the execution source pack:
+OneDrive pricing docs, HubSpot deals, Outlook, Teams, sales collateral, user-provided pricing files
+
+Task:
+Build a simple Claude Artifact for the product, pricing and discount rule card. No backend. Use local storage and copy/export. Fields: product, event, list price, package, discount limit, bundle rule, approval owner, exception path, effective date and source evidence. Buttons: add rule, update rule, flag exception, copy rule, export PDF-style markdown and export CSV. Views: current rules, by product, by event, discount exceptions and changes since approval.
+
+Expected output:
+Working rule card artifact.
+
+Output format:
+Return:
+1. A working v1 artifact or a build-ready artifact spec if the tool cannot build directly.
+2. Fields, buttons and views.
+3. Local storage behaviour.
+4. Copy/export behaviour.
+5. Manual test script.
+6. What not to build.
+
+Human review gate:
+Stuart approves changes before they become active.
+
+Copy/export target:
+Export to sales team, Teams or OneDrive.
+
+Success test:
+Five test deal scenarios route correctly.
+
+Rules:
+- Do not infer from memory. Use evidence or mark unknown.
+- Do not assume live sync.
+- Do not write back to Outlook, Teams, Monday.com, HubSpot, OneDrive, GA4 or website systems.
+- Do not make automatic owner changes, commercial approvals, CRM edits or escalations.
+- Separate owner execution from Stuart decision rights.
+- Summarise sensitive data. Do not expose HR, PIP, compensation, banking, subscriber-level or private personal data.
+- Version one uses local state, manual review, human approval and copy/export.
+- If source access fails, state the source gap clearly and ask Stuart for an export or pasted evidence.
+
+Stage note:
+No live HubSpot edits or quote generation.
+
+Do not give generic strategy. Do not add new features. Do not expand scope. Complete this stage only.
+```
+
+## Prompt 6: Friday review and feed forward
+
+**Use this model or tool:** Claude Opus with connected sources, or ChatGPT Project with pricing examples
+
+**Why this model or tool:** Use connected sources for live questions. Use ChatGPT only with pasted examples.
+
+**Connected sources:** OneDrive pricing docs, HubSpot deals, Outlook, Teams, sales collateral, user-provided pricing files
+
+**Expected output:** Weekly rule-card review.
+
+**Human review gate:** Stuart approves all rule updates.
+
+**Copy/export target:** Copy approved updates into artifact and sales docs.
+
+**Success test:** Fewer pricing questions require Stuart.
+
+**Before you run this prompt, provide/open:**
+- NEXTio_Execution_Source_Pack_ALL_PROMPTS.xlsx, especially Artifact Specs, Source Rules and P1 Prompt Pack.
+- The source evidence named for this task: OneDrive pricing docs, HubSpot deals, Outlook, Teams, sales collateral, user-provided pricing files.
+- This week's usage examples, exported artifact state, or pasted evidence.
+- Notes on what Stuart redirected, approved, parked or killed.
+
+```text
+Context:
+I am Stuart Crowley, Commercial Director at NEXT.io. I am building the live artifact: Product, pricing, and discount rule card.
+
+Goal of this artifact:
+Give sales and marketing one approved reference for products, pricing, bundles, and discount rules.
+
+Problem solved:
+Stops routine pricing questions and makes the 15 percent discount rule enforceable.
+
+This is stage 6: Friday review and feed forward.
+
+Use this model/tool:
+Claude Opus with connected sources, or ChatGPT Project with pricing examples
+
+Why this tool:
+Use connected sources for live questions. Use ChatGPT only with pasted examples.
+
+How to use the tool:
+Use when Claude can access Microsoft 365, Monday.com, HubSpot or uploaded source files. It should scan evidence first and show source gaps before recommending anything.
+
+Knowledge and sources to provide or open:
+- NEXTio_Execution_Source_Pack_ALL_PROMPTS.xlsx, especially Artifact Specs, Source Rules and P1 Prompt Pack.
+- The source evidence named for this task: OneDrive pricing docs, HubSpot deals, Outlook, Teams, sales collateral, user-provided pricing files.
+- This week's usage examples, exported artifact state, or pasted evidence.
+- Notes on what Stuart redirected, approved, parked or killed.
+
+Connected sources named by the execution source pack:
+OneDrive pricing docs, HubSpot deals, Outlook, Teams, sales collateral, user-provided pricing files
+
+Task:
+Review this week’s pricing and discount questions. Identify which were answered by the rule card, which needed Stuart, which were unclear and which rule needs updating. Keep discounts above 15 percent and new product questions separate. Recommend one rule-card improvement only if there is repeated evidence.
+
+Expected output:
+Weekly rule-card review.
+
+Output format:
+Return only:
+1. What worked.
+2. What failed.
+3. Evidence-backed changes.
+4. What should stay unchanged.
+5. What to update in the artifact.
+6. What to feed into the next roadmap task.
+7. One next action for Stuart.
+
+Human review gate:
+Stuart approves all rule updates.
+
+Copy/export target:
+Copy approved updates into artifact and sales docs.
+
+Success test:
+Fewer pricing questions require Stuart.
+
+Rules:
+- Do not infer from memory. Use evidence or mark unknown.
+- Do not assume live sync.
+- Do not write back to Outlook, Teams, Monday.com, HubSpot, OneDrive, GA4 or website systems.
+- Do not make automatic owner changes, commercial approvals, CRM edits or escalations.
+- Separate owner execution from Stuart decision rights.
+- Summarise sensitive data. Do not expose HR, PIP, compensation, banking, subscriber-level or private personal data.
+- Version one uses local state, manual review, human approval and copy/export.
+- If source access fails, state the source gap clearly and ask Stuart for an export or pasted evidence.
+
+Stage note:
+No automatic approvals.
+
+Do not give generic strategy. Do not add new features. Do not expand scope. Complete this stage only.
 ```
