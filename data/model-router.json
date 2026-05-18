@@ -97,6 +97,22 @@
     "notes": "Anthropic positions Cowork as agentic knowledge work, not normal chat."
   },
   {
+    "id": "claude-scheduled-tasks",
+    "tool": "Claude Scheduled Tasks",
+    "best_for": "Recurring Claude Cowork scans that produce reports, evidence summaries, import blocks and reviews on Hourly, Daily, Weekdays or Weekly cadence.",
+    "use_when": "Use for live artifact source scans, recurring NEXT.io checks, weekly reviews, GTM readiness scans and inbox/source sweeps where Claude has the required connectors or files.",
+    "avoid": "Do not use for source writeback, automatic approvals, automatic messages, CRM edits, owner changes or any task that needs custom cadence outside Hourly, Daily, Weekdays or Weekly.",
+    "last_verified": "2026-05-18",
+    "category": "Recurring Claude Cowork",
+    "fallback": "Claude Cowork manually or ChatGPT Tasks for simple reminders.",
+    "confidence": "High, subject to Claude Desktop/Cowork access and connected-source permissions.",
+    "review_interval_days": 60,
+    "source_urls": [
+      "https://support.claude.com/en/articles/13854387-schedule-recurring-tasks-in-claude-cowork"
+    ],
+    "notes": "Scheduled tasks run as Cowork sessions. Use supported cadence only: Hourly, Daily, Weekdays, Weekly, or manual/on demand where available."
+  },
+  {
     "id": "claude-artifacts",
     "tool": "Claude Artifacts",
     "category": "Interactive prototypes",

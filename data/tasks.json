@@ -98,26 +98,26 @@
     "sprint": "s1",
     "lane": "NEXT.io Control",
     "priority": "Must",
-    "title": "Build Owner-to-Owner Routing Map v1",
+    "title": "Build Owner-to-Owner Routing Copilot v1",
     "problem": "Stops chasing, forwarding, and unclear ownership loops.",
     "cause": "Start with 10 recent owner-chase or middleman examples. Without a simple v1 artifact, the work falls back to memory, email, chat or Stuart.",
     "why_from_answers": "You said you get pulled into middleman communication and chasing colleagues. You also said you want to stop being the go-to person for executional tasks and become the go-to person for commercial strategy, business growth, change management and operational efficiency.",
-    "why_it_matters": "This is a P1 build from the cleaned execution source pack. It should change behaviour before it becomes a bigger system. Version one must follow the source rules: local state, manual source review, human approval, copy/export, no backend and no source writeback.",
-    "minimum_version": "Build the smallest usable version using these core fields: Request type, correct owner, backup owner, Stuart decision right, escalation path, evidence, redirect script, last validated, notes.. Test it against this trigger: Start with 10 recent owner-chase or middleman examples..",
-    "full_version": "Artifact v1. Fields: Request type, correct owner, backup owner, Stuart decision right, escalation path, evidence, redirect script, last validated, notes.. Buttons: Add route, search route, copy soft redirect, copy direct redirect, export map, flag unclear owner.. Views: By function, by project, by owner, unclear ownership, Stuart decision rights.. Keep it local with copy/export. Do not add backend, permissions, automatic sync or automatic decisions.",
+    "why_it_matters": "This is a guided build for a Claude Live Artifact plus a Claude Scheduled Task. The live artifact is the persistent review UI. The scheduled task is the recurring source scan. Automation stays parked until the workflow proves itself for at least four cycles.",
+    "minimum_version": "Create a working Live Artifact with the core fields, views and buttons from the workbook, plus a Weekdays Claude Scheduled Task prompt that outputs an import block. Test with one real or anonymised example.",
+    "full_version": "A working Claude Live Artifact with connected-source refresh where available, manual import fallback, persistent state, copy/export, human approval gates, and a scheduled task that feeds review items. No source writeback, backend, automatic messages, automatic approvals or owner changes.",
     "best_model": "claude-artifacts",
-    "fallback_model": "chatgpt-project + claude-cowork",
+    "fallback_model": "chatgpt-project",
     "model_confidence": "Medium high",
     "asset_id": "nextio-live-artifact-specs",
     "asset_name": "NEXT.io Live Artifact Specs Execution Source Pack",
     "use_asset_reason": "Use the cleaned execution source pack, not the older raw workbook. Import only the five P1 artifact tasks into the active queue.",
     "prompt_file": "prompts/live-artifacts/s1-a1-build-owner-to-owner-routing-map-v1.md",
     "prompt_folder": "live-artifacts",
-    "human_first_action": "Before using AI, capture the source trigger: Start with 10 recent owner-chase or middleman examples.. Write the owner, input, output, evidence and decision needed.",
-    "do_not_ask_ai_until": "Write the raw human example first and identify the owner, trigger, input, output and decision needed. Then use AI to structure the artifact.",
-    "output": "Route work to the correct owner before Stuart becomes the middleman.",
-    "success_test": "Repeated asks reach the correct owner without Stuart forwarding them.",
-    "kill_rule": "Kill, simplify or park if there is no repeated use, unclear owner, no manual workflow, or no measurable reclaim after two tests. What not to build: No automatic reassignment, source writeback, auto-escalation, or live sync.",
+    "human_first_action": "Gather only the relevant source pack: the Owner-to-owner routing map row from Artifact Specs, Source Rules, P1 Prompt Pack rows for this artifact, the listed project files, and one real or anonymised source example. Do not upload every ZIP file.",
+    "do_not_ask_ai_until": "Confirm which sources Claude can access, which files are relevant, and what data must be anonymised. Then run the prompts one by one.",
+    "output": "Working Owner-to-owner routing map Live Artifact v1, a Weekdays Claude Scheduled Task setup, manual test notes and a parked automation-readiness spec.",
+    "success_test": "Repeated asks reach the correct owner without Stuart forwarding them. The scheduled task also produces usable review/import output without changing any source system.",
+    "kill_rule": "Kill, revise or park if the artifact does not save time after two tests, if the scheduled task produces noisy output, or if it requires unsafe source writeback. What not to build: No automatic reassignment, source writeback, auto-escalation, or live sync.",
     "friday_review_question": "Did Owner-to-owner routing map change a real behaviour, reduce a repeated ask, or make ownership/decision-making clearer? What should repeat, simplify, park or feed forward?",
     "privacy_warning": "Use anonymised examples. Do not paste confidential personal data, client data, employee performance details, compensation data, raw emails, CRM exports or sensitive commercial information into any external tool unless approved and safe. For Claude connected-source work, ask for evidence summaries and human approval before action.",
     "time": "45 min",
@@ -127,16 +127,20 @@
     "original_action": "Build live artifact v1 from the workbook spec: Owner-to-owner routing map.",
     "downstream_outputs": [
       {
-        "name": "Live artifact v1 spec",
-        "use": "Feeds Claude Artifacts or a simple HTML build."
+        "name": "Live Artifact v1",
+        "use": "Persistent review UI with fields, views, buttons, status and copy/export."
       },
       {
-        "name": "Manual test notes",
-        "use": "Feeds Friday Review and decides whether to repeat, park, kill or automate later."
+        "name": "Claude Scheduled Task",
+        "use": "Recurring source scan that outputs evidence and import block for the artifact."
       },
       {
-        "name": "Exportable operating asset",
-        "use": "Can be copied into Teams, Monday.com, OneDrive, project docs, or leadership notes."
+        "name": "Manual Test Report",
+        "use": "Decides whether to keep, revise, park or kill the artifact."
+      },
+      {
+        "name": "Parked Automation Spec",
+        "use": "Only created after proof. It is not a build-now automation."
       }
     ],
     "feeds_into": [
@@ -152,11 +156,11 @@
       }
     ],
     "future_build_rules": [
-      "Use Claude Cowork only for evidence summaries and source scans. It does not decide, approve, edit live systems or change owners.",
-      "Use Claude Artifacts for a local interactive v1 with copy/export only.",
-      "No backend, source sync, automatic approvals, CRM writes, website edits, GA4 changes, owner reassignment or notifications in v1.",
-      "Manual proof comes first. Consider automation only after the workflow works across at least four cycles.",
-      "Keep P1 constrained to these five artifacts until one proves behaviour change."
+      "Live Artifact is the review UI and state layer.",
+      "Claude Scheduled Task is the recurring source scan and import-output layer.",
+      "Use only Hourly, Daily, Weekdays or Weekly cadence for Claude Scheduled Tasks.",
+      "No automation until the workflow has worked manually or through scheduled tasks for at least four cycles.",
+      "No source writeback, external messages, CRM edits, owner reassignment, pricing approval, GTM approval or escalation without human approval."
     ],
     "capture_template": "source-packs/nextio-live-artifacts-summary.md",
     "artifact_source": {
@@ -182,7 +186,11 @@
       "first_manual_test": "Classify 10 recent asks, validate owners, use redirects for one week.",
       "prompt_sequence_needed": "P1 capture request examples; P2 classify owner and Stuart decision right; P3 create routing map; P4 extract redirect scripts; P5 test with 10 requests; P6 Friday review.",
       "roadmap_trigger": "Start with 10 recent owner-chase or middleman examples.",
-      "notes": "This is the first build because it changes behaviour fastest."
+      "notes": "This is the first build because it changes behaviour fastest.",
+      "scheduled_task_cadence": "Weekdays",
+      "scheduled_task_title": "Weekday Owner Routing Scan",
+      "scheduled_task_prompt": "Scan Outlook, Teams, Monday.com, HubSpot, OneDrive and the execution register since the last run for requests sent to Stuart where owner, decision right or next action is unclear. Return: evidence table, source gaps, sensitivity warnings, and JSON import block for the Owner-to-Owner Routing Map. Do not write back, message people, reassign owners or escalate. Show evidence first.",
+      "automation_hint": "Possible later automation: owner-routing exception roll-up or message draft routing. Not automation-ready until the routing map works for four cycles and routes are stable."
     },
     "source_rules_summary": [
       "Source scan first: Start every refresh by scanning the named connected sources before updating the artifact.",
@@ -202,26 +210,26 @@
     "sprint": "s1",
     "lane": "NEXT.io Control",
     "priority": "Must",
-    "title": "Build Work Intake Brief Template v1",
+    "title": "Build Work Intake Brief Copilot v1",
     "problem": "Stops Stuart rewriting vague briefs and extracting missing context.",
     "cause": "Use the next vague request that lacks owner, output, or decision path. Without a simple v1 artifact, the work falls back to memory, email, chat or Stuart.",
     "why_from_answers": "You said you get pulled into creating collateral, fixing things and extracting context from other people. You also said strategies are not committed to and teams are reactive, which means vague requests keep landing back on you.",
-    "why_it_matters": "This is a P1 build from the cleaned execution source pack. It should change behaviour before it becomes a bigger system. Version one must follow the source rules: local state, manual source review, human approval, copy/export, no backend and no source writeback.",
-    "minimum_version": "Build the smallest usable version using these core fields: Brief ID, requester, owner, objective, audience, source links, decision needed, deadline, definition of done, risk, approval path.. Test it against this trigger: Use the next vague request that lacks owner, output, or decision path..",
-    "full_version": "Artifact v1. Fields: Brief ID, requester, owner, objective, audience, source links, decision needed, deadline, definition of done, risk, approval path.. Buttons: New brief, check completeness, copy brief, return for resubmission, export markdown.. Views: Drafts, ready for Stuart, returned for resubmission, by owner, by project.. Keep it local with copy/export. Do not add backend, permissions, automatic sync or automatic decisions.",
+    "why_it_matters": "This is a guided build for a Claude Live Artifact plus a Claude Scheduled Task. The live artifact is the persistent review UI. The scheduled task is the recurring source scan. Automation stays parked until the workflow proves itself for at least four cycles.",
+    "minimum_version": "Create a working Live Artifact with the core fields, views and buttons from the workbook, plus a Weekdays Claude Scheduled Task prompt that outputs an import block. Test with one real or anonymised example.",
+    "full_version": "A working Claude Live Artifact with connected-source refresh where available, manual import fallback, persistent state, copy/export, human approval gates, and a scheduled task that feeds review items. No source writeback, backend, automatic messages, automatic approvals or owner changes.",
     "best_model": "claude-artifacts",
-    "fallback_model": "chatgpt-project + claude-cowork",
+    "fallback_model": "chatgpt-project",
     "model_confidence": "Medium high",
     "asset_id": "nextio-live-artifact-specs",
     "asset_name": "NEXT.io Live Artifact Specs Execution Source Pack",
     "use_asset_reason": "Use the cleaned execution source pack, not the older raw workbook. Import only the five P1 artifact tasks into the active queue.",
     "prompt_file": "prompts/live-artifacts/s1-a2-build-work-intake-brief-template-v1.md",
     "prompt_folder": "live-artifacts",
-    "human_first_action": "Before using AI, capture the source trigger: Use the next vague request that lacks owner, output, or decision path.. Write the owner, input, output, evidence and decision needed.",
-    "do_not_ask_ai_until": "Write the raw human example first and identify the owner, trigger, input, output and decision needed. Then use AI to structure the artifact.",
-    "output": "Make every request decision-ready before it reaches Stuart.",
-    "success_test": "Incomplete briefs are returned by standard, not rewritten by Stuart.",
-    "kill_rule": "Kill, simplify or park if there is no repeated use, unclear owner, no manual workflow, or no measurable reclaim after two tests. What not to build: No auto-task creation, owner reassignment, or automatic approvals.",
+    "human_first_action": "Gather only the relevant source pack: the Work intake brief template row from Artifact Specs, Source Rules, P1 Prompt Pack rows for this artifact, the listed project files, and one real or anonymised source example. Do not upload every ZIP file.",
+    "do_not_ask_ai_until": "Confirm which sources Claude can access, which files are relevant, and what data must be anonymised. Then run the prompts one by one.",
+    "output": "Working Work intake brief template Live Artifact v1, a Weekdays Claude Scheduled Task setup, manual test notes and a parked automation-readiness spec.",
+    "success_test": "Incomplete briefs are returned by standard, not rewritten by Stuart. The scheduled task also produces usable review/import output without changing any source system.",
+    "kill_rule": "Kill, revise or park if the artifact does not save time after two tests, if the scheduled task produces noisy output, or if it requires unsafe source writeback. What not to build: No auto-task creation, owner reassignment, or automatic approvals.",
     "friday_review_question": "Did Work intake brief template change a real behaviour, reduce a repeated ask, or make ownership/decision-making clearer? What should repeat, simplify, park or feed forward?",
     "privacy_warning": "Use anonymised examples. Do not paste confidential personal data, client data, employee performance details, compensation data, raw emails, CRM exports or sensitive commercial information into any external tool unless approved and safe. For Claude connected-source work, ask for evidence summaries and human approval before action.",
     "time": "45 min",
@@ -231,16 +239,20 @@
     "original_action": "Build live artifact v1 from the workbook spec: Work intake brief template.",
     "downstream_outputs": [
       {
-        "name": "Live artifact v1 spec",
-        "use": "Feeds Claude Artifacts or a simple HTML build."
+        "name": "Live Artifact v1",
+        "use": "Persistent review UI with fields, views, buttons, status and copy/export."
       },
       {
-        "name": "Manual test notes",
-        "use": "Feeds Friday Review and decides whether to repeat, park, kill or automate later."
+        "name": "Claude Scheduled Task",
+        "use": "Recurring source scan that outputs evidence and import block for the artifact."
       },
       {
-        "name": "Exportable operating asset",
-        "use": "Can be copied into Teams, Monday.com, OneDrive, project docs, or leadership notes."
+        "name": "Manual Test Report",
+        "use": "Decides whether to keep, revise, park or kill the artifact."
+      },
+      {
+        "name": "Parked Automation Spec",
+        "use": "Only created after proof. It is not a build-now automation."
       }
     ],
     "feeds_into": [
@@ -256,11 +268,11 @@
       }
     ],
     "future_build_rules": [
-      "Use Claude Cowork only for evidence summaries and source scans. It does not decide, approve, edit live systems or change owners.",
-      "Use Claude Artifacts for a local interactive v1 with copy/export only.",
-      "No backend, source sync, automatic approvals, CRM writes, website edits, GA4 changes, owner reassignment or notifications in v1.",
-      "Manual proof comes first. Consider automation only after the workflow works across at least four cycles.",
-      "Keep P1 constrained to these five artifacts until one proves behaviour change."
+      "Live Artifact is the review UI and state layer.",
+      "Claude Scheduled Task is the recurring source scan and import-output layer.",
+      "Use only Hourly, Daily, Weekdays or Weekly cadence for Claude Scheduled Tasks.",
+      "No automation until the workflow has worked manually or through scheduled tasks for at least four cycles.",
+      "No source writeback, external messages, CRM edits, owner reassignment, pricing approval, GTM approval or escalation without human approval."
     ],
     "capture_template": "source-packs/nextio-live-artifacts-summary.md",
     "artifact_source": {
@@ -286,7 +298,11 @@
       "first_manual_test": "Run three live requests through the template and return one incomplete brief.",
       "prompt_sequence_needed": "P1 capture vague work request; P2 diagnose missing fields; P3 create complete brief; P4 extract reusable checklist; P5 test with one owner; P6 Friday review.",
       "roadmap_trigger": "Use the next vague request that lacks owner, output, or decision path.",
-      "notes": "This creates the input standard for the other builds."
+      "notes": "This creates the input standard for the other builds.",
+      "scheduled_task_cadence": "Weekdays",
+      "scheduled_task_title": "Weekday Incomplete Brief Scan",
+      "scheduled_task_prompt": "Scan Outlook, Teams, Monday.com, OneDrive and HubSpot where relevant since the last run for requests to Stuart that lack owner, objective, deadline, source evidence, definition of done or decision path. Return: incomplete request table, missing fields, safe return-to-sender draft, and JSON import block for the Work Intake Brief Template. No source writeback or automatic approvals.",
+      "automation_hint": "Possible later automation: return incomplete brief drafts to requester. Not automation-ready until the intake template is accepted and used manually for four cycles."
     },
     "source_rules_summary": [
       "Source scan first: Start every refresh by scanning the named connected sources before updating the artifact.",
@@ -306,26 +322,26 @@
     "sprint": "s1",
     "lane": "NEXT.io Control",
     "priority": "Must",
-    "title": "Build Commercial Decision Log v1",
+    "title": "Build Commercial Decision Log Copilot v1",
     "problem": "Prevents repeat questions about pricing, GTM, products, bundling, discounts, and deliverables.",
     "cause": "Use the next product, pricing, GTM, discount, bundle, or deliverables approval. Without a simple v1 artifact, the work falls back to memory, email, chat or Stuart.",
     "why_from_answers": "You said pricing, GTM, product decisions, deliverables and revenue targets rely too much on memory, gut feel or unsupported feedback. You need decisions captured with evidence, owner, risk and follow-up.",
-    "why_it_matters": "This is a P1 build from the cleaned execution source pack. It should change behaviour before it becomes a bigger system. Version one must follow the source rules: local state, manual source review, human approval, copy/export, no backend and no source writeback.",
-    "minimum_version": "Build the smallest usable version using these core fields: Decision ID, date, decision type, project, owner recommendation, options, approved decision, conditions, affected teams, evidence, follow-up.. Test it against this trigger: Use the next product, pricing, GTM, discount, bundle, or deliverables approval..",
-    "full_version": "Artifact v1. Fields: Decision ID, date, decision type, project, owner recommendation, options, approved decision, conditions, affected teams, evidence, follow-up.. Buttons: New decision, request clarification, mark approved, copy summary, export CSV, export markdown.. Views: Pending Stuart approval, approved decisions, by project, by owner, by decision type, recent changes.. Keep it local with copy/export. Do not add backend, permissions, automatic sync or automatic decisions.",
+    "why_it_matters": "This is a guided build for a Claude Live Artifact plus a Claude Scheduled Task. The live artifact is the persistent review UI. The scheduled task is the recurring source scan. Automation stays parked until the workflow proves itself for at least four cycles.",
+    "minimum_version": "Create a working Live Artifact with the core fields, views and buttons from the workbook, plus a Weekdays Claude Scheduled Task prompt that outputs an import block. Test with one real or anonymised example.",
+    "full_version": "A working Claude Live Artifact with connected-source refresh where available, manual import fallback, persistent state, copy/export, human approval gates, and a scheduled task that feeds review items. No source writeback, backend, automatic messages, automatic approvals or owner changes.",
     "best_model": "claude-artifacts",
-    "fallback_model": "chatgpt-project + claude-cowork",
+    "fallback_model": "chatgpt-project",
     "model_confidence": "Medium high",
     "asset_id": "nextio-live-artifact-specs",
     "asset_name": "NEXT.io Live Artifact Specs Execution Source Pack",
     "use_asset_reason": "Use the cleaned execution source pack, not the older raw workbook. Import only the five P1 artifact tasks into the active queue.",
     "prompt_file": "prompts/live-artifacts/s1-a3-build-commercial-decision-log-v1.md",
     "prompt_folder": "live-artifacts",
-    "human_first_action": "Before using AI, capture the source trigger: Use the next product, pricing, GTM, discount, bundle, or deliverables approval.. Write the owner, input, output, evidence and decision needed.",
-    "do_not_ask_ai_until": "Write the raw human example first and identify the owner, trigger, input, output and decision needed. Then use AI to structure the artifact.",
-    "output": "Capture commercial decisions so they do not live in email or memory.",
-    "success_test": "No one searches email to confirm what Stuart approved.",
-    "kill_rule": "Kill, simplify or park if there is no repeated use, unclear owner, no manual workflow, or no measurable reclaim after two tests. What not to build: No automatic approvals, contract edits, CRM edits, source sync, or notifications.",
+    "human_first_action": "Gather only the relevant source pack: the Commercial decision log row from Artifact Specs, Source Rules, P1 Prompt Pack rows for this artifact, the listed project files, and one real or anonymised source example. Do not upload every ZIP file.",
+    "do_not_ask_ai_until": "Confirm which sources Claude can access, which files are relevant, and what data must be anonymised. Then run the prompts one by one.",
+    "output": "Working Commercial decision log Live Artifact v1, a Weekdays Claude Scheduled Task setup, manual test notes and a parked automation-readiness spec.",
+    "success_test": "No one searches email to confirm what Stuart approved. The scheduled task also produces usable review/import output without changing any source system.",
+    "kill_rule": "Kill, revise or park if the artifact does not save time after two tests, if the scheduled task produces noisy output, or if it requires unsafe source writeback. What not to build: No automatic approvals, contract edits, CRM edits, source sync, or notifications.",
     "friday_review_question": "Did Commercial decision log change a real behaviour, reduce a repeated ask, or make ownership/decision-making clearer? What should repeat, simplify, park or feed forward?",
     "privacy_warning": "Use anonymised examples. Do not paste confidential personal data, client data, employee performance details, compensation data, raw emails, CRM exports or sensitive commercial information into any external tool unless approved and safe. For Claude connected-source work, ask for evidence summaries and human approval before action.",
     "time": "45 min",
@@ -335,16 +351,20 @@
     "original_action": "Build live artifact v1 from the workbook spec: Commercial decision log.",
     "downstream_outputs": [
       {
-        "name": "Live artifact v1 spec",
-        "use": "Feeds Claude Artifacts or a simple HTML build."
+        "name": "Live Artifact v1",
+        "use": "Persistent review UI with fields, views, buttons, status and copy/export."
       },
       {
-        "name": "Manual test notes",
-        "use": "Feeds Friday Review and decides whether to repeat, park, kill or automate later."
+        "name": "Claude Scheduled Task",
+        "use": "Recurring source scan that outputs evidence and import block for the artifact."
       },
       {
-        "name": "Exportable operating asset",
-        "use": "Can be copied into Teams, Monday.com, OneDrive, project docs, or leadership notes."
+        "name": "Manual Test Report",
+        "use": "Decides whether to keep, revise, park or kill the artifact."
+      },
+      {
+        "name": "Parked Automation Spec",
+        "use": "Only created after proof. It is not a build-now automation."
       }
     ],
     "feeds_into": [
@@ -360,11 +380,11 @@
       }
     ],
     "future_build_rules": [
-      "Use Claude Cowork only for evidence summaries and source scans. It does not decide, approve, edit live systems or change owners.",
-      "Use Claude Artifacts for a local interactive v1 with copy/export only.",
-      "No backend, source sync, automatic approvals, CRM writes, website edits, GA4 changes, owner reassignment or notifications in v1.",
-      "Manual proof comes first. Consider automation only after the workflow works across at least four cycles.",
-      "Keep P1 constrained to these five artifacts until one proves behaviour change."
+      "Live Artifact is the review UI and state layer.",
+      "Claude Scheduled Task is the recurring source scan and import-output layer.",
+      "Use only Hourly, Daily, Weekdays or Weekly cadence for Claude Scheduled Tasks.",
+      "No automation until the workflow has worked manually or through scheduled tasks for at least four cycles.",
+      "No source writeback, external messages, CRM edits, owner reassignment, pricing approval, GTM approval or escalation without human approval."
     ],
     "capture_template": "source-packs/nextio-live-artifacts-summary.md",
     "artifact_source": {
@@ -390,7 +410,11 @@
       "first_manual_test": "Log five recent decisions and send the summary back to the owners.",
       "prompt_sequence_needed": "P1 capture decision context; P2 classify decision type and owner; P3 create decision record; P4 extract actions and owners; P5 test log entry; P6 Friday review.",
       "roadmap_trigger": "Use the next product, pricing, GTM, discount, bundle, or deliverables approval.",
-      "notes": "This protects Stuart's authority while reducing repeat clarification."
+      "notes": "This protects Stuart's authority while reducing repeat clarification.",
+      "scheduled_task_cadence": "Weekdays",
+      "scheduled_task_title": "Weekday Commercial Decision Capture",
+      "scheduled_task_prompt": "Scan Outlook, Teams, OneDrive, Monday.com and HubSpot since the last run for commercial decisions or approval requests about pricing, GTM, products, bundles, discounts or deliverables. Return: evidence table, draft decision-log entries, source gaps, decision-right flag, and JSON import block for the Commercial Decision Log. Do not approve, send, edit CRM or change source systems.",
+      "automation_hint": "Possible later automation: decision memo drafter. Not automation-ready until decision types, fields and approval gates are stable for four cycles."
     },
     "source_rules_summary": [
       "Source scan first: Start every refresh by scanning the named connected sources before updating the artifact.",
@@ -410,26 +434,26 @@
     "sprint": "s1",
     "lane": "Commercial Confidence",
     "priority": "Must",
-    "title": "Build Product, Pricing and Discount Rule Card v1",
+    "title": "Build Product, Pricing and Discount Rule Copilot v1",
     "problem": "Stops routine pricing questions and makes the 15 percent discount rule enforceable.",
     "cause": "Use the next discount, bundle, or package question. Without a simple v1 artifact, the work falls back to memory, email, chat or Stuart.",
     "why_from_answers": "You said pricing, product strategy, discounting and revenue targets are your biggest confidence gaps. You also said Pierre can be too generous and the business lacks deal desk discipline.",
-    "why_it_matters": "This is a P1 build from the cleaned execution source pack. It should change behaviour before it becomes a bigger system. Version one must follow the source rules: local state, manual source review, human approval, copy/export, no backend and no source writeback.",
-    "minimum_version": "Build the smallest usable version using these core fields: Product, event, list price, package, discount limit, bundle rule, approval owner, exception path, effective date, source evidence.. Test it against this trigger: Use the next discount, bundle, or package question..",
-    "full_version": "Artifact v1. Fields: Product, event, list price, package, discount limit, bundle rule, approval owner, exception path, effective date, source evidence.. Buttons: Add rule, update rule, flag exception, copy rule, export PDF, export CSV.. Views: Current rules, by product, by event, discount exceptions, changes since last approval.. Keep it local with copy/export. Do not add backend, permissions, automatic sync or automatic decisions.",
+    "why_it_matters": "This is a guided build for a Claude Live Artifact plus a Claude Scheduled Task. The live artifact is the persistent review UI. The scheduled task is the recurring source scan. Automation stays parked until the workflow proves itself for at least four cycles.",
+    "minimum_version": "Create a working Live Artifact with the core fields, views and buttons from the workbook, plus a Weekdays Claude Scheduled Task prompt that outputs an import block. Test with one real or anonymised example.",
+    "full_version": "A working Claude Live Artifact with connected-source refresh where available, manual import fallback, persistent state, copy/export, human approval gates, and a scheduled task that feeds review items. No source writeback, backend, automatic messages, automatic approvals or owner changes.",
     "best_model": "claude-artifacts",
-    "fallback_model": "chatgpt-project + claude-cowork",
+    "fallback_model": "chatgpt-project",
     "model_confidence": "Medium high",
     "asset_id": "nextio-live-artifact-specs",
     "asset_name": "NEXT.io Live Artifact Specs Execution Source Pack",
     "use_asset_reason": "Use the cleaned execution source pack, not the older raw workbook. Import only the five P1 artifact tasks into the active queue.",
     "prompt_file": "prompts/live-artifacts/s1-a4-build-product-pricing-and-discount-rule-card-v1.md",
     "prompt_folder": "live-artifacts",
-    "human_first_action": "Before using AI, capture the source trigger: Use the next discount, bundle, or package question.. Write the owner, input, output, evidence and decision needed.",
-    "do_not_ask_ai_until": "Write the raw human example first and identify the owner, trigger, input, output and decision needed. Then use AI to structure the artifact.",
-    "output": "Give sales and marketing one approved reference for products, pricing, bundles, and discount rules.",
-    "success_test": "Discounts above 15 percent go to Stuart. Everything else follows the rule card.",
-    "kill_rule": "Kill, simplify or park if there is no repeated use, unclear owner, no manual workflow, or no measurable reclaim after two tests. What not to build: No quote generation, contract generation, automatic approvals, or live CRM edits.",
+    "human_first_action": "Gather only the relevant source pack: the Product, pricing, and discount rule card row from Artifact Specs, Source Rules, P1 Prompt Pack rows for this artifact, the listed project files, and one real or anonymised source example. Do not upload every ZIP file.",
+    "do_not_ask_ai_until": "Confirm which sources Claude can access, which files are relevant, and what data must be anonymised. Then run the prompts one by one.",
+    "output": "Working Product, pricing, and discount rule card Live Artifact v1, a Weekdays Claude Scheduled Task setup, manual test notes and a parked automation-readiness spec.",
+    "success_test": "Discounts above 15 percent go to Stuart. Everything else follows the rule card. The scheduled task also produces usable review/import output without changing any source system.",
+    "kill_rule": "Kill, revise or park if the artifact does not save time after two tests, if the scheduled task produces noisy output, or if it requires unsafe source writeback. What not to build: No quote generation, contract generation, automatic approvals, or live CRM edits.",
     "friday_review_question": "Did Product, pricing, and discount rule card change a real behaviour, reduce a repeated ask, or make ownership/decision-making clearer? What should repeat, simplify, park or feed forward?",
     "privacy_warning": "Use anonymised examples. Do not paste confidential personal data, client data, employee performance details, compensation data, raw emails, CRM exports or sensitive commercial information into any external tool unless approved and safe. For Claude connected-source work, ask for evidence summaries and human approval before action.",
     "time": "45 min",
@@ -439,16 +463,20 @@
     "original_action": "Build live artifact v1 from the workbook spec: Product, pricing, and discount rule card.",
     "downstream_outputs": [
       {
-        "name": "Live artifact v1 spec",
-        "use": "Feeds Claude Artifacts or a simple HTML build."
+        "name": "Live Artifact v1",
+        "use": "Persistent review UI with fields, views, buttons, status and copy/export."
       },
       {
-        "name": "Manual test notes",
-        "use": "Feeds Friday Review and decides whether to repeat, park, kill or automate later."
+        "name": "Claude Scheduled Task",
+        "use": "Recurring source scan that outputs evidence and import block for the artifact."
       },
       {
-        "name": "Exportable operating asset",
-        "use": "Can be copied into Teams, Monday.com, OneDrive, project docs, or leadership notes."
+        "name": "Manual Test Report",
+        "use": "Decides whether to keep, revise, park or kill the artifact."
+      },
+      {
+        "name": "Parked Automation Spec",
+        "use": "Only created after proof. It is not a build-now automation."
       }
     ],
     "feeds_into": [
@@ -464,11 +492,11 @@
       }
     ],
     "future_build_rules": [
-      "Use Claude Cowork only for evidence summaries and source scans. It does not decide, approve, edit live systems or change owners.",
-      "Use Claude Artifacts for a local interactive v1 with copy/export only.",
-      "No backend, source sync, automatic approvals, CRM writes, website edits, GA4 changes, owner reassignment or notifications in v1.",
-      "Manual proof comes first. Consider automation only after the workflow works across at least four cycles.",
-      "Keep P1 constrained to these five artifacts until one proves behaviour change."
+      "Live Artifact is the review UI and state layer.",
+      "Claude Scheduled Task is the recurring source scan and import-output layer.",
+      "Use only Hourly, Daily, Weekdays or Weekly cadence for Claude Scheduled Tasks.",
+      "No automation until the workflow has worked manually or through scheduled tasks for at least four cycles.",
+      "No source writeback, external messages, CRM edits, owner reassignment, pricing approval, GTM approval or escalation without human approval."
     ],
     "capture_template": "source-packs/nextio-live-artifacts-summary.md",
     "artifact_source": {
@@ -494,7 +522,11 @@
       "first_manual_test": "Test five deal scenarios and confirm each routes correctly.",
       "prompt_sequence_needed": "P1 capture product and pricing source; P2 classify rule and exception; P3 create rule card; P4 extract sales version; P5 test discount example; P6 Friday review.",
       "roadmap_trigger": "Use the next discount, bundle, or package question.",
-      "notes": "This is a rule card, not a quoting tool."
+      "notes": "This is a rule card, not a quoting tool.",
+      "scheduled_task_cadence": "Weekdays",
+      "scheduled_task_title": "Weekday Pricing and Discount Exception Scan",
+      "scheduled_task_prompt": "Scan OneDrive pricing docs, HubSpot deal context, Outlook, Teams and Monday.com since the last run for pricing questions, bundle exceptions, discount requests and rule gaps. Return: evidence table, exception summary, decision needed, source gap, and JSON import block for the Pricing and Discount Rule Card. Do not approve discounts, edit deals, create quotes or message externally.",
+      "automation_hint": "Possible later automation: discount approval routing. Not automation-ready until the 15 percent threshold, exception path and manual approval workflow have worked for four cycles."
     },
     "source_rules_summary": [
       "Source scan first: Start every refresh by scanning the named connected sources before updating the artifact.",
@@ -514,26 +546,26 @@
     "sprint": "s1",
     "lane": "Commercial Confidence",
     "priority": "Must",
-    "title": "Build GTM Readiness Gate v1",
+    "title": "Build GTM Readiness Gate Copilot v1",
     "problem": "Turns GTM readiness into a decision gate instead of a Stuart chase loop.",
     "cause": "Use the next project launch or commercial readiness review. Without a simple v1 artifact, the work falls back to memory, email, chat or Stuart.",
     "why_from_answers": "You said a good NEXT.io week means people aligned and delivering on a critical path, but critical paths rarely exist. You also said launches miss venue, production, sales, ticketing, CRM, web, GA4 and owner information.",
-    "why_it_matters": "This is a P1 build from the cleaned execution source pack. It should change behaviour before it becomes a bigger system. Version one must follow the source rules: local state, manual source review, human approval, copy/export, no backend and no source writeback.",
-    "minimum_version": "Build the smallest usable version using these core fields: Project, gate date, product/pricing status, sales status, marketing status, CRM status, web/GA4 status, owner, risk, decision needed, go/no-go.. Test it against this trigger: Use the next project launch or commercial readiness review..",
-    "full_version": "Artifact v1. Fields: Project, gate date, product/pricing status, sales status, marketing status, CRM status, web/GA4 status, owner, risk, decision needed, go/no-go.. Buttons: New gate, mark ready, flag blocker, copy blocker list, export summary.. Views: By project, by owner, blockers, decisions for Stuart, ready to launch, not ready.. Keep it local with copy/export. Do not add backend, permissions, automatic sync or automatic decisions.",
+    "why_it_matters": "This is a guided build for a Claude Live Artifact plus a Claude Scheduled Task. The live artifact is the persistent review UI. The scheduled task is the recurring source scan. Automation stays parked until the workflow proves itself for at least four cycles.",
+    "minimum_version": "Create a working Live Artifact with the core fields, views and buttons from the workbook, plus a Weekly Claude Scheduled Task prompt that outputs an import block. Test with one real or anonymised example.",
+    "full_version": "A working Claude Live Artifact with connected-source refresh where available, manual import fallback, persistent state, copy/export, human approval gates, and a scheduled task that feeds review items. No source writeback, backend, automatic messages, automatic approvals or owner changes.",
     "best_model": "claude-artifacts",
-    "fallback_model": "chatgpt-project + claude-cowork",
+    "fallback_model": "chatgpt-project",
     "model_confidence": "Medium high",
     "asset_id": "nextio-live-artifact-specs",
     "asset_name": "NEXT.io Live Artifact Specs Execution Source Pack",
     "use_asset_reason": "Use the cleaned execution source pack, not the older raw workbook. Import only the five P1 artifact tasks into the active queue.",
     "prompt_file": "prompts/live-artifacts/s1-a5-build-gtm-readiness-gate-v1.md",
     "prompt_folder": "live-artifacts",
-    "human_first_action": "Before using AI, capture the source trigger: Use the next project launch or commercial readiness review.. Write the owner, input, output, evidence and decision needed.",
-    "do_not_ask_ai_until": "Write the raw human example first and identify the owner, trigger, input, output and decision needed. Then use AI to structure the artifact.",
-    "output": "Stop launches moving forward with missing owners, weak collateral, or unclear measurement.",
-    "success_test": "At least one launch risk is caught before execution starts.",
-    "kill_rule": "Kill, simplify or park if there is no repeated use, unclear owner, no manual workflow, or no measurable reclaim after two tests. What not to build: No automatic launch approval, owner reassignment, GA4 changes, website edits, or CRM edits.",
+    "human_first_action": "Gather only the relevant source pack: the GTM readiness gate row from Artifact Specs, Source Rules, P1 Prompt Pack rows for this artifact, the listed project files, and one real or anonymised source example. Do not upload every ZIP file.",
+    "do_not_ask_ai_until": "Confirm which sources Claude can access, which files are relevant, and what data must be anonymised. Then run the prompts one by one.",
+    "output": "Working GTM readiness gate Live Artifact v1, a Weekly Claude Scheduled Task setup, manual test notes and a parked automation-readiness spec.",
+    "success_test": "At least one launch risk is caught before execution starts. The scheduled task also produces usable review/import output without changing any source system.",
+    "kill_rule": "Kill, revise or park if the artifact does not save time after two tests, if the scheduled task produces noisy output, or if it requires unsafe source writeback. What not to build: No automatic launch approval, owner reassignment, GA4 changes, website edits, or CRM edits.",
     "friday_review_question": "Did GTM readiness gate change a real behaviour, reduce a repeated ask, or make ownership/decision-making clearer? What should repeat, simplify, park or feed forward?",
     "privacy_warning": "Use anonymised examples. Do not paste confidential personal data, client data, employee performance details, compensation data, raw emails, CRM exports or sensitive commercial information into any external tool unless approved and safe. For Claude connected-source work, ask for evidence summaries and human approval before action.",
     "time": "45 min",
@@ -543,16 +575,20 @@
     "original_action": "Build live artifact v1 from the workbook spec: GTM readiness gate.",
     "downstream_outputs": [
       {
-        "name": "Live artifact v1 spec",
-        "use": "Feeds Claude Artifacts or a simple HTML build."
+        "name": "Live Artifact v1",
+        "use": "Persistent review UI with fields, views, buttons, status and copy/export."
       },
       {
-        "name": "Manual test notes",
-        "use": "Feeds Friday Review and decides whether to repeat, park, kill or automate later."
+        "name": "Claude Scheduled Task",
+        "use": "Recurring source scan that outputs evidence and import block for the artifact."
       },
       {
-        "name": "Exportable operating asset",
-        "use": "Can be copied into Teams, Monday.com, OneDrive, project docs, or leadership notes."
+        "name": "Manual Test Report",
+        "use": "Decides whether to keep, revise, park or kill the artifact."
+      },
+      {
+        "name": "Parked Automation Spec",
+        "use": "Only created after proof. It is not a build-now automation."
       }
     ],
     "feeds_into": [
@@ -568,11 +604,11 @@
       }
     ],
     "future_build_rules": [
-      "Use Claude Cowork only for evidence summaries and source scans. It does not decide, approve, edit live systems or change owners.",
-      "Use Claude Artifacts for a local interactive v1 with copy/export only.",
-      "No backend, source sync, automatic approvals, CRM writes, website edits, GA4 changes, owner reassignment or notifications in v1.",
-      "Manual proof comes first. Consider automation only after the workflow works across at least four cycles.",
-      "Keep P1 constrained to these five artifacts until one proves behaviour change."
+      "Live Artifact is the review UI and state layer.",
+      "Claude Scheduled Task is the recurring source scan and import-output layer.",
+      "Use only Hourly, Daily, Weekdays or Weekly cadence for Claude Scheduled Tasks.",
+      "No automation until the workflow has worked manually or through scheduled tasks for at least four cycles.",
+      "No source writeback, external messages, CRM edits, owner reassignment, pricing approval, GTM approval or escalation without human approval."
     ],
     "capture_template": "source-packs/nextio-live-artifacts-summary.md",
     "artifact_source": {
@@ -598,7 +634,11 @@
       "first_manual_test": "Run one active project through the gate before a readiness meeting.",
       "prompt_sequence_needed": "P1 capture project status; P2 diagnose missing owners and risks; P3 create go/no-go checklist; P4 extract blockers; P5 test on one project; P6 Friday review.",
       "roadmap_trigger": "Use the next project launch or commercial readiness review.",
-      "notes": "Maria or the project owner runs the package. Stuart reviews decision points only."
+      "notes": "Maria or the project owner runs the package. Stuart reviews decision points only.",
+      "scheduled_task_cadence": "Weekly",
+      "scheduled_task_title": "Weekly GTM Readiness Scan",
+      "scheduled_task_prompt": "Scan Monday.com, OneDrive, HubSpot, Outlook, Teams and Media-supplied web or GA4 evidence for active launches. Return: readiness evidence, blockers, owner actions, Stuart decisions needed, source gaps, and JSON import block for the GTM Readiness Gate. Do not approve launches, edit source systems, change GA4, update CRM or reassign owners.",
+      "automation_hint": "Possible later automation: weekly GTM readiness scan or commercial exceptions roll-up. Not automation-ready until the gate catches real launch risk across four cycles."
     },
     "source_rules_summary": [
       "Source scan first: Start every refresh by scanning the named connected sources before updating the artifact.",
